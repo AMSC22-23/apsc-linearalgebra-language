@@ -1,6 +1,8 @@
 #ifndef ASSERT_HPP
 #define ASSERT_HPP
 
+#include <iostream>
+
 #define ASSERT(condition, message)                                       \
   do {                                                                   \
     if (!(condition)) {                                                  \
