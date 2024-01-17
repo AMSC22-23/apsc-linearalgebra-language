@@ -12,7 +12,7 @@ SET(EIGEN3_DIR_LOCAL $ENV{EIGEN3_INCLUDE_DIR})        #local installation
 SET(EIGEN3_DIR_PCAFRICA $ENV{mkEigenInc})             #pcafrica/mk module
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/AMSC-CodeExamples/Examples/src/
-  ${CMAKE_CURRENT_SOURCE_DIR}/shared/ ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/
+  ${CMAKE_CURRENT_SOURCE_DIR}/shared/ ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/ ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/spai/
   ${EIGEN3_DIR_LOCAL} ${EIGEN3_DIR_PCAFRICA})
 include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 

@@ -52,7 +52,7 @@ void default_spd_fill(Mat &m) {
 template <typename Vector>
 double vector_norm_2(Vector v) {
   double norm = 0.0;
-  for (int i=0; i<v.size(); i++) {
+  for (int i = 0; i < v.size(); i++) {
     norm += v[i] * v[i];
   }
   return std::sqrt(norm);

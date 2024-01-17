@@ -22,7 +22,8 @@
  * @tparam Scalar The scalar type
  * @tparam MappedMatrix The custom matrix type who owns the data buffer
  */
-template <typename EigenStructure, typename Scalar, typename MappedMatrix>
+template <typename EigenStructure, typename Scalar,
+          typename MappedMatrix = Scalar *>
 class EigenStructureMap {
  public:
   // TODO: consider using cpp concempts for MappedMatrix type
@@ -47,15 +48,16 @@ class EigenStructureMap {
                                                                    cols);
   }
 
-  auto structure() { return structure_map; }
-
- protected:
   EigenStructureMap(Scalar *data, const std::size_t size)
       : structure_map(data, size) {}
 
   EigenStructureMap(Scalar *data, const std::size_t rows,
                     const std::size_t cols)
       : structure_map(data, rows, cols) {}
+
+  auto structure() { return structure_map; }
+
+ protected:
   Eigen::Map<EigenStructure> structure_map;
 };
 

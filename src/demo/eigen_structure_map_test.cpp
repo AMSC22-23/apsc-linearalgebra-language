@@ -1,9 +1,12 @@
+#include "assert.hpp"
 #include <EigenStructureMap.hpp>
 #include <MatrixWithVecSupport.hpp>
 #include <Vector.hpp>
 #include <cmath>
 #include <iostream>
 #include <string>
+#include <Eigen/Sparse>
+#include <Eigen/Dense>
 
 using std::cout;
 using std::endl;
@@ -37,6 +40,36 @@ int main(int argc, char *argv[]) {
   cout << "Modifying..." << endl;
   cout << "Original vector" << endl << b << endl;
   cout << "Mapped vector" << endl << mapped_b.structure() << endl;
+
+  //test sparse matrix
+  {
+    double values[] = {1.0, 2.0, 3.0};
+    int innerIndices[] = {0, 1, 2};
+    int outerIndices[] = {0, 1, 2, 3};
+    // Number of rows and columns
+    int rows = 3;
+    int cols = 3;
+
+    auto sparse_map = Eigen::Map<Eigen::SparseMatrix<double>>(rows, cols, 3, outerIndices, innerIndices, values);
+    std::cout << "Sparse matrix map:" << std::endl << sparse_map << std::endl;
+  }
+
+  //test inverse matrix;
+  {
+    int n = 2;
+    double values[] = {2.0, 0.0, 0.0, 2.0};
+    auto eigen_m = EigenStructureMap<Eigen::MatrixXd, double>(values, n, n).structure();
+    std::cout << "Eigen full matrix" << std::endl << eigen_m << std::endl;
+    Eigen::MatrixXd inverse_m = eigen_m.inverse();
+    ASSERT(inverse_m.allFinite(), "Failed to invert");
+    std::cout << "Eigen inverse matrix" << std::endl << inverse_m << std::endl;
+    double* inverse_data = inverse_m.data();
+    std::cout << "inverse buffer:";
+    for (int i=0; i<n*n; i++) {
+      std::cout << inverse_data[i] << " ";
+    }
+    std::cout << std::endl;
+  }
 
   return 0;
 }
