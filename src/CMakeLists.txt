@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.12.0)
-project(MatVetCgShared LANGUAGES CXX C)
+# Enable this to compile with debug flags
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3")
+project(AMSC-matvet-iterative-solvers-MPI LANGUAGES CXX C)
 
 include(./cmake_shared/cmake-common.cmake)
 
