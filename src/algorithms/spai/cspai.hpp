@@ -12,10 +12,10 @@
 #include "least_sqaure_solver.hpp"
 #include "update_qr.hpp"
 
-template <typename Scalar, typename FullMatrix>
-struct CSC<Scalar> SPAI(struct CSC<Scalar>* A, Scalar tolerance,
+template <typename Scalar, typename FullMatrix, int DEBUG_MODE = 0>
+struct CSC<Scalar> CSPAI(struct CSC<Scalar>* A, Scalar tolerance,
                         int maxIteration, int s) {
-  printf("------SEQUENTIAL SPAI------\n");
+  printf("------------------------------ SEQUENTIAL SPAI (C) --------------------------\n");
   printf("running with parameters: tolerance = %f, maxIteration = %d, s = %d\n",
          tolerance, maxIteration, s);
 
@@ -389,7 +389,9 @@ struct CSC<Scalar> SPAI(struct CSC<Scalar>* A, Scalar tolerance,
     // 16) Set m_k(J) = mHat_k
     // Update kth column of M
     M.update_kth_column(mHat_k, k, sortedJ, n2);
-    printf("SPAI: updated %d column\n", k);
+    if constexpr (DEBUG_MODE) {
+      printf("SPAI: updated %d column\n", k);
+    }
 
     // Free memory
     free(I);
