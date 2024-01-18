@@ -15,7 +15,7 @@ namespace LinearAlgebra {
 namespace Preconditioner {
 
 template <typename Scalar, typename SparseMatrix, typename FullMatrix,
-          typename Vector>
+          typename Vector, int DEBUG_MODE = 0>
 class SPAI {
  public:
   SPAI() {}
@@ -25,6 +25,8 @@ class SPAI {
   SparseMatrix &get_m() { return M; }
 
   void init(SparseMatrix &A) {
+    std::cout << "------------------------------ SEQUENTIAL SPAI (C++) --------------------------" << std::endl;
+    std::cout <<  "running with parameters: tolerance = " << tollerance << ", maxIteration = " << max_iter << ", s = " << s << std::endl;
     ASSERT(A.rows() == A.cols(), "A must be a square matrix");
     M.resize(A.rows(), A.cols());
 
@@ -36,12 +38,6 @@ class SPAI {
                                     SparseMatrix>) {
       M.makeCompressed();
     }
-
-    // auto db_vec = [](std::vector<int>& v, std::string s) {
-    //   std::cout << s << std::endl;
-    //   for (auto n : v) std::cout << n << " ";
-    //   std::cout << std::endl;
-    // };
 
     // index of the column
     int k = 0;
@@ -61,7 +57,7 @@ class SPAI {
 
       // define vector J
       n2 = M.outerIndexPtr()[k + 1] - M.outerIndexPtr()[k];
-      J = std::vector<int>(n2);
+      J.resize(n2);
       int h = 0;
       for (int i = M.outerIndexPtr()[k]; i < M.outerIndexPtr()[k + 1]; i++) {
         J[h] = M.innerIndexPtr()[i];
@@ -112,6 +108,9 @@ class SPAI {
 
       // 4-5) solve least square problem of AHat
       solve_least_square(AHat, mHat_k, e_k, Q, R);
+
+      //Overwrite AHat
+      sparse_to_dense_mat(A, AHat, I, J, n1, n2);
 
       // 6) compute residual = A * mHat_k - e_k
       // create A dense
@@ -245,40 +244,41 @@ class SPAI {
 
         // TODO:
         //  10) Find the s indeces of the column with the smallest rhoSq
-        //  int newN2Tilde = std::min(s, n2Tilde);
-        //  smallestIndices.resize(newN2Tilde);
-        //  std::fill(smallestIndices.begin(), smallestIndices.end(), -1);
-        //  // We iterate through rhoSq and find the smallest indeces.
-        //  // First, we set the first s indeces to the first s indeces of
-        //  JTilde
-        //  // then if we find a smaller rhoSq, we shift the indeces to the
-        //  right
-        //  // we insert the index of JTilde with the rhoSq smaller than the
-        //  current smallest elements
-        //  // smallestIndices then contain the indeces of JTIlde corresponding
-        //  to the smallest values of rhoSq for (int i=0; i<n2Tilde; i++) {
-        //    for (int j=0; j<newN2Tilde; j++) {
-        //      if (smallestIndices[j] == -1) {
-        //        smallestIndices[j] = i;
-        //        break;
-        //      } else if (rhoSq[i] < rhoSq[smallestIndices[j]]) {
-        //        for (int h=newN2Tilde-1; h>j; h--) {
-        //          smallestIndices[h] = smallestIndices[h - 1];
-        //        }
-        //        smallestIndices[j] = i;
-        //        break;
-        //      }
-        //    }
-        //  }
-        //  smallestJTilde.resize(newN2Tilde);
-        //  for (int i = 0; i < newN2Tilde; i++) {
-        //    smallestJTilde[i] = JTilde[smallestIndices[i]];
-        //  }
-        //  JTilde.resize(newN2Tilde);
-        //  for (int i=0; i<newN2Tilde; i++) {
-        //    JTilde[i] = smallestJTilde[i];
-        //  }
-        //  n2Tilde = newN2Tilde;
+        int newN2Tilde = std::min(s, n2Tilde);
+        smallestIndices.resize(newN2Tilde);
+        std::fill(smallestIndices.begin(), smallestIndices.end(), -1);
+        // We iterate through rhoSq and find the smallest indeces.
+        // First, we set the first s indeces to the first s indeces of
+        // JTilde
+        // then if we find a smaller rhoSq, we shift the indeces to the
+        // right
+        // we insert the index of JTilde with the rhoSq smaller than the
+        // current smallest elements
+        // smallestIndices then contain the indeces of JTIlde corresponding
+        // to the smallest values of rhoSq
+        for (int i=0; i<n2Tilde; i++) {
+         for (int j=0; j<newN2Tilde; j++) {
+           if (smallestIndices[j] == -1) {
+             smallestIndices[j] = i;
+             break;
+           } else if (rhoSq[i] < rhoSq[smallestIndices[j]]) {
+             for (int h=newN2Tilde-1; h>j; h--) {
+               smallestIndices[h] = smallestIndices[h - 1];
+             }
+             smallestIndices[j] = i;
+             break;
+           }
+         }
+       }
+       smallestJTilde.resize(newN2Tilde);
+       for (int i = 0; i < newN2Tilde; i++) {
+         smallestJTilde[i] = JTilde[smallestIndices[i]];
+       }
+       JTilde.resize(newN2Tilde);
+       for (int i=0; i<newN2Tilde; i++) {
+         JTilde[i] = smallestJTilde[i];
+       }
+       n2Tilde = newN2Tilde;
 
         // 11) Determine the new indices Î
         // Denote by ITilde the new rows, which corresponds to the nonzero rows
@@ -333,6 +333,9 @@ class SPAI {
       for (int i = 0; i < M.rows(); i++) {
         M.coeffRef(i, k) = mHat_k[i];
       }
+      if constexpr (DEBUG_MODE) {
+        std::cout << "SPAI: updated " << k << " column" << std::endl; 
+      } 
     }
   }
 
@@ -344,8 +347,8 @@ class SPAI {
 
  protected:
   SparseMatrix M;
-  double tollerance = 1e-2;
-  std::size_t max_iter = 30;
+  double tollerance = 1e-3;
+  std::size_t max_iter = 100;
   int s = 1;
 
   void sparse_to_dense_mat(SparseMatrix &m, FullMatrix &dest,
@@ -375,6 +378,8 @@ class SPAI {
     FullMatrix invR = R.block(0, 0, row_size, row_size);
     // TODO: use a liner solver
     invR = invR.inverse();
+    ASSERT(invR.allFinite(), "Failed to invert R" << std::endl
+        << invR << std::endl);
 
     // 5.3) Compute x = R^-1 * cHat
     x = invR * t;
@@ -608,13 +613,6 @@ class SPAI {
         sortedJ[i] += static_cast<int>(Pc(i, j)) * JUnion[j];
       }
     }
-    // create dense A
-    //  std::vector<int> IDense(A.rows());
-    //  std::iota(IDense.begin(), IDense.end(), 0);
-    //  std::vector<int> JDense(A.cols());
-    //  std::iota(JDense.begin(), JDense.end(), 0);
-    //  FullMatrix ADense;
-    //  sparse_to_dense_mat(A, ADense, IDense, JDense, A.rows(), A.cols());
 
     // compute residual = (AHat * m_kOut) - e_k
     residual.resize(A.rows());
