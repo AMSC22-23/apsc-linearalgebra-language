@@ -78,3 +78,7 @@ In order to maintain back compability with the `Eigen` version inside the offica
 supported docker image (`pcafrica/mk`), `Eigen 3.4` or above features must not
 be used.
 
+## Valgrind
+```
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt [your_executable]
+```
