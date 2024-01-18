@@ -17,6 +17,7 @@ namespace Preconditioner {
 template <typename Scalar, typename SparseMatrix, typename FullMatrix,
           typename Vector, int DEBUG_MODE = 0>
 class SPAI {
+#warning "This SPAI implementation does not reproduce a correct result, please use the cspai.hpp version"
  public:
   SPAI() {}
 
