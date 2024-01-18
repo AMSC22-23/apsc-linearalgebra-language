@@ -58,6 +58,27 @@ double vector_norm_2(Vector v) {
   return std::sqrt(norm);
 }
 
+template <typename SparseMatrix>
+void print_matlab_matrix(SparseMatrix m, std::string file_name) {
+  std::ofstream out_file(file_name);
+  if (!out_file.is_open()) {
+    std::cerr << "Error opening the output" << std::endl;
+    return;
+  }
+  out_file << "[" << std::endl;
+  for (int i=0; i<m.rows(); ++i) {
+    for (int j=0; j<m.cols(); ++j) {
+      out_file << m.coeffRef(i, j);
+      if (j < m.cols() - 1)
+        out_file << ",";
+      else if (j == m.cols() - 1 && i < m.rows() - 1)
+        out_file << ";";
+    }
+  }
+  out_file << "]" << std::endl;
+  out_file.close();
+}
+
 namespace EigenUtils {
 template <typename Matrix, typename Scalar>
 void load_sparse_matrix(const std::string file_name, Matrix &mat) {
