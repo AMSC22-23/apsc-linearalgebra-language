@@ -10,11 +10,13 @@
 
 #include <mpi.h>
 
+#include <MPIContext.hpp>
 #include <assert.hpp>
 #include <cassert>
 #include <cg_mpi.hpp>
 #include <chrono>
 #include <fstream>
+#include <gmres.hpp>
 #include <iostream>
 #include <objective_context.hpp>
 #include <string>
@@ -27,6 +29,9 @@ using std::endl;
 #define PRODUCE_OUT_FILE 1
 #define CG_MAX_ITER(i) (20 * i)
 #define CG_TOL 1e-8;
+
+#define GMRES_MAX_ITER(i) (20 * i)
+#define GMRES_TOL 1e-8;
 
 namespace apsc::LinearAlgebra {
 namespace Utils {
@@ -105,7 +110,77 @@ void MPI_matrix_show(MPIMatrix MPIMat, Matrix Mat, const int mpi_rank,
   }
 }
 
-namespace conjugate_gradient {
+namespace GMRES {
+template <typename MPILhs, typename Rhs, typename Scalar, typename ExactSol,
+          typename... Preconditioner>
+int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
+              objective_context obj_ctx, Preconditioner... P) {
+#warning "Current implementation does not exploit MPI"
+  constexpr std::size_t P_size = sizeof...(P);
+  static_assert(P_size < 2, "Please specify max 1 preconditioner");
+
+#if PRODUCE_OUT_FILE == 0
+  (void)obj_ctx;
+#endif
+
+  const int size = b.size();
+
+  Rhs x;
+  x.resize(size);
+  x.fill(0.0);
+  int max_iter = GMRES_MAX_ITER(size);
+  Scalar tol = GMRES_TOL;
+
+  if constexpr (P_size == 0) {
+    std::cout << "Calling GMRES..." << std::endl;
+    auto id = Eigen::IdentityPreconditioner();
+    int restart = max_iter;
+    std::chrono::high_resolution_clock::time_point begin =
+        std::chrono::high_resolution_clock::now();
+    auto result =
+        ::LinearAlgebra::LinearSolvers::GMRES::GMRES<MPILhs, Rhs, decltype(id)>(
+            A, x, b, id, restart, max_iter, tol);
+    std::chrono::high_resolution_clock::time_point end =
+        std::chrono::high_resolution_clock::now();
+    long long diff =
+        std::chrono::duration_cast<std::chrono::microseconds>(end - begin)
+            .count();
+    decltype(diff) diff_sum = 0;
+
+    MPI_Reduce(&diff, &diff_sum, 1, MPI_LONG_LONG, MPI_SUM, 0,
+               mpi_ctx.mpi_comm());
+
+    std::cout << "GMRES res code = " << result << std::endl;
+    if (mpi_ctx.mpi_rank() == 0) {
+      cout << "(Time spent by all processes: " << diff_sum
+           << ", total processes: " << mpi_ctx.mpi_size() << ")" << std::endl
+           << std::endl;
+      cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[µs]"
+           << endl;
+      cout << "Solution with Conjugate Gradient:" << endl;
+      cout << "iterations performed:                      " << max_iter << endl;
+      cout << "tolerance achieved:                        " << tol << endl;
+      cout << "Error norm:                                " << (x - e).norm()
+           << std::endl;
+#if PRODUCE_OUT_FILE == 1
+      {
+        obj_ctx.write(static_cast<long long>(size), ',',
+                      static_cast<long long>(diff_sum / mpi_ctx.mpi_size()),
+                      ',', static_cast<long long>(result));
+      }
+#endif
+#if DEBUG == 1
+      cout << "Result vector:                             " << x << std::endl;
+#endif
+    }
+    return result;
+  } else {
+    // TODO
+  }
+}
+}  // namespace GMRES
+
+namespace ConjugateGradient {
 template <typename MPILhs, typename Rhs, typename Scalar, typename ExactSol,
           typename... Preconditioner>
 int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
@@ -128,8 +203,9 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
   if constexpr (P_size == 0) {
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    auto result = ::LinearAlgebra::CG_no_precon<MPILhs, Rhs, Scalar>(
-        A, x, b, max_iter, tol, mpi_ctx, MPI_DOUBLE);
+    auto result =
+        ::LinearAlgebra::LinearSolvers::ConjugateGradient::MPI::CG_no_precon<
+            MPILhs, Rhs, Scalar>(A, x, b, max_iter, tol, mpi_ctx, MPI_DOUBLE);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
     long long diff =
@@ -167,7 +243,7 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
     // TODO
   }
 }
-}  // namespace conjugate_gradient
+}  // namespace ConjugateGradient
 }  // namespace Utils
 }  // namespace apsc::LinearAlgebra
 

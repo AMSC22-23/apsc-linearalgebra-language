@@ -28,6 +28,8 @@
 #include "MatrixWithVecSupport.hpp"
 #include "Vector.hpp"
 namespace LinearAlgebra {
+namespace LinearSolvers {
+namespace ConjugateGradient {
 template <class Matrix, class Vector, class Preconditioner, typename Scalar>
 int CG(const Matrix &A, Vector &x, const Vector &b, const Preconditioner &M,
        int &max_iter, typename Vector::Scalar &tol) {
@@ -91,5 +93,7 @@ int CG(const Matrix &A, Vector &x, const Vector &b, const Preconditioner &M,
   tol = resid;
   return 1;
 }
+}  // namespace ConjugateGradient
+}  // namespace LinearSolvers
 }  // namespace LinearAlgebra
 #endif

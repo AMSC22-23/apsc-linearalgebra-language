@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
 #endif
 
 #if USE_PRECONDITIONER == 0
-  auto r = apsc::LinearAlgebra::Utils::conjugate_gradient::solve_MPI<
+  auto r = apsc::LinearAlgebra::Utils::ConjugateGradient::solve_MPI<
       decltype(PA), decltype(b), double, decltype(e)>(
       PA, b, e, MPIContext(mpi_comm, mpi_rank, mpi_size),
       objective_context(objective_id, mpi_size,

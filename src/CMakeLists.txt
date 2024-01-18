@@ -14,7 +14,10 @@ SET(EIGEN3_DIR_LOCAL $ENV{EIGEN3_INCLUDE_DIR})        #local installation
 SET(EIGEN3_DIR_PCAFRICA $ENV{mkEigenInc})             #pcafrica/mk module
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/AMSC-CodeExamples/Examples/src/
-  ${CMAKE_CURRENT_SOURCE_DIR}/shared/ ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/ ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/spai/
+  ${CMAKE_CURRENT_SOURCE_DIR}/shared/ ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/
+  ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/cg/
+  ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/gmres/
+  ${CMAKE_CURRENT_SOURCE_DIR}/preconditioners/parallel/spai/
   ${EIGEN3_DIR_LOCAL} ${EIGEN3_DIR_PCAFRICA})
 include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
@@ -35,3 +38,5 @@ add_executable(eigen_structure_map_test demo/eigen_structure_map_test.cpp)
 add_executable(matrix_with_vec_support_ls_test demo/matrix_with_vec_support_ls_test.cpp)
 add_executable(spai_test demo/spai_test.cpp)
 target_link_libraries(spai_test MPI::MPI_CXX)
+add_executable(gmres_test demo/gmres_test.cpp)
+target_link_libraries(gmres_test MPI::MPI_CXX)

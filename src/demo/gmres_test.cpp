@@ -67,8 +67,9 @@ int main(int argc, char *argv[]) {
          "The provided matrix is not square" << std::endl);
 #endif
 #endif
-  std::cout << "Launching CG with a sparse MPI matrix with size: " << A.rows()
-            << "x" << A.cols() << ", non zero: " << A.nonZeros() << std::endl;
+  std::cout << "Launching GMRES with a sparse MPI matrix with size: "
+            << A.rows() << "x" << A.cols() << ", non zero: " << A.nonZeros()
+            << std::endl;
 
   A.makeCompressed();
 
@@ -87,25 +88,20 @@ int main(int argc, char *argv[]) {
   // Initialise processes b vector
   MPI_Bcast(b.data(), b.size(), MPI_DOUBLE, 0, mpi_comm);
 
-  apsc::MPISparseMatrix<decltype(A), decltype(e),
-                        decltype(A)::IsRowMajor
-                            ? apsc::ORDERINGTYPE::ROWWISE
-                            : apsc::ORDERINGTYPE::COLUMNWISE>
-      PA;
-  PA.setup(A, mpi_comm);
 #if (DEBUG == 1)
   apsc::LinearAlgebra::Utils::MPI_matrix_show(PA, A, mpi_rank, mpi_size,
                                               mpi_comm);
 #endif
 
 #if USE_PRECONDITIONER == 0
-  auto r = apsc::LinearAlgebra::Utils::ConjugateGradient::solve_MPI<
-      decltype(PA), decltype(b), double, decltype(e)>(
-      PA, b, e, MPIContext(mpi_comm, mpi_rank, mpi_size),
-      objective_context(objective_id, mpi_size,
-                        "objective" + std::to_string(objective_id) +
-                            "_MPISIZE" + std::to_string(mpi_size) + ".log",
-                        std::string(argv[1])));
+  auto r =
+      apsc::LinearAlgebra::Utils::GMRES::solve_MPI<decltype(A), decltype(b),
+                                                   double, decltype(e)>(
+          A, b, e, MPIContext(mpi_comm, mpi_rank, mpi_size),
+          objective_context(objective_id, mpi_size,
+                            "test_gmres" + std::to_string(objective_id) +
+                                "_MPISIZE" + std::to_string(mpi_size) + ".log",
+                            std::string(argv[1])));
 #else
   // Setup the preconditioner, all the processes for now..
   // TODO

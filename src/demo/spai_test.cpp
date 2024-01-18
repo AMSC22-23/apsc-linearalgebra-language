@@ -1,20 +1,19 @@
+#include <mpi.h>
+#include <stdlib.h>
+
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
+#include <csc.hpp>
+#include <cspai.hpp>
 #include <iostream>
-#include <mpi.h>
 #include <set>
-#include <spai/spai.hpp>
-#include <stdlib.h>
-#include "Eigen/src/Core/Matrix.h"
-#include <spai/csc.hpp>
-#include "spai/cspai.hpp"
-#include "utils.hpp"
+#include <spai.hpp>
+#include <utils.hpp>
 
-using SpMat=Eigen::SparseMatrix<double, Eigen::ColMajor>;
-using SpVec=Eigen::VectorXd;
+using SpMat = Eigen::SparseMatrix<double, Eigen::ColMajor>;
+using SpVec = Eigen::VectorXd;
 
-
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   MPI_Init(&argc, &argv);
   int mpi_size;
   MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
@@ -35,13 +34,14 @@ int main(int argc, char *argv[]) {
     max_iter = atoi(argv[3]);
   }
   if (mpi_rank == 0) {
-    std::cout << "=========================== Problem size = " << size << " ===========================" <<  std::endl;
+    std::cout << "=========================== Problem size = " << size
+              << " ===========================" << std::endl;
   }
 
-  //cpp implementation
+  // cpp implementation
   SpMat A;
   A.resize(size, size);
-  //Create tridiagonal
+  // Create tridiagonal
   for (int i = 0; i < size; i++) {
     A.insert(i, i) = 2.0;
     if (i > 0) {
@@ -61,9 +61,8 @@ int main(int argc, char *argv[]) {
     // if (eigensolver_A.info() != Eigen::Success) abort();
     // // std::cout << "K(A) = " << cond(eigensolver_A) << std::endl;
 
-    // LinearAlgebra::Preconditioner::SPAI<double, decltype(A), Eigen::MatrixXd, Eigen::VectorXd> M;
-    // M.set_tollerance(tol);
-    // M.set_max_inter(max_iter);
+    // LinearAlgebra::Preconditioner::SPAI<double, decltype(A), Eigen::MatrixXd,
+    // Eigen::VectorXd> M; M.set_tollerance(tol); M.set_max_inter(max_iter);
     // std::chrono::high_resolution_clock::time_point begin =
     //     std::chrono::high_resolution_clock::now();
     // M.init(A);
@@ -73,20 +72,26 @@ int main(int argc, char *argv[]) {
     //     std::chrono::duration_cast<std::chrono::microseconds>(end - begin)
     //         .count();
     // std::cout << "Time spent: " << diff << " ms" << std::endl;
-    // // std::cout << "Approximate inverse" << std::endl << M.get_m() << std::endl;
-    // // std::cout << "Eigen A's inverse" << std::endl << full_A.inverse() << std::endl;
-    // SpMat M_x_A = M.get_m() * A;
+    // // std::cout << "Approximate inverse" << std::endl << M.get_m() <<
+    // std::endl;
+    // // std::cout << "Eigen A's inverse" << std::endl << full_A.inverse() <<
+    // std::endl; SpMat M_x_A = M.get_m() * A;
     // // std::cout << "M @ A:" << std::endl << M_x_A << std::endl;
-    // apsc::LinearAlgebra::Utils::print_matlab_matrix(Eigen::SparseMatrix<double>(M_x_A), "M_x_A_cpp.txt"); //this method takes an object with coeffRef method available and the Product type of Eigen does not have it
-    // std::cout << "Verifying (M * A) Frobenius norm: " << M_x_A.norm() << std::endl;
-    // std::cout << "Verifying identity Frobenius norm: " << I.norm() << std::endl;
+    // apsc::LinearAlgebra::Utils::print_matlab_matrix(Eigen::SparseMatrix<double>(M_x_A),
+    // "M_x_A_cpp.txt"); //this method takes an object with coeffRef method
+    // available and the Product type of Eigen does not have it std::cout <<
+    // "Verifying (M * A) Frobenius norm: " << M_x_A.norm() << std::endl;
+    // std::cout << "Verifying identity Frobenius norm: " << I.norm() <<
+    // std::endl;
   }
 
-  //C implementation
+  // C implementation
   {
     CSC<double> CSC_A;
     // CSC_A.create_diagonal(size, size, 2.0);
-    CSC_A.map_external_buffer(A.outerIndexPtr(), A.valuePtr(), A.innerIndexPtr(), A.rows(), A.cols(), A.nonZeros());
+    CSC_A.map_external_buffer(A.outerIndexPtr(), A.valuePtr(),
+                              A.innerIndexPtr(), A.rows(), A.cols(),
+                              A.nonZeros());
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
     CSC<double> M = CSPAI<double, Eigen::MatrixXd, 1>(&CSC_A, tol, max_iter, 1);
@@ -98,7 +103,8 @@ int main(int argc, char *argv[]) {
             .count();
     // M.print();
     // std::cout << "M non zero: " << M.countNonZero << std::endl;
-    auto eigen_M = Eigen::Map<Eigen::SparseMatrix<double>>(size, size, M.countNonZero, M.offset, M.flatRowIndex, M.flatData);
+    auto eigen_M = Eigen::Map<Eigen::SparseMatrix<double>>(
+        size, size, M.countNonZero, M.offset, M.flatRowIndex, M.flatData);
     if (mpi_rank == 0) {
       std::cout << eigen_M << std::endl;
     }
@@ -107,13 +113,20 @@ int main(int argc, char *argv[]) {
     }
     auto& M_x_A = eigen_M * A;
     // std::cout << "M x A =" << std::endl << M_x_A << std::endl;
-    apsc::LinearAlgebra::Utils::print_matlab_matrix(Eigen::SparseMatrix<double>(M_x_A), "M_x_A_c.txt"); //this method takes an object with coeffRef method available and the Product type of Eigen does not have it
-    
-    // std::cout << "Identity size = " << I.rows() << " x " << I.cols() << std::endl;
-    // std::cout << "M_x_A size = " << M_x_A.rows() << " x " << M_x_A.cols() << std::endl;
+    apsc::LinearAlgebra::Utils::print_matlab_matrix(
+        Eigen::SparseMatrix<double>(M_x_A),
+        "M_x_A_c.txt");  // this method takes an object with coeffRef method
+                         // available and the Product type of Eigen does not
+                         // have it
+
+    // std::cout << "Identity size = " << I.rows() << " x " << I.cols() <<
+    // std::endl; std::cout << "M_x_A size = " << M_x_A.rows() << " x " <<
+    // M_x_A.cols() << std::endl;
     if (mpi_rank == 0) {
-      std::cout << "Verifying (M * A) Frobenius norm: " << M_x_A.norm() << std::endl;
-      std::cout << "Verifying identity Frobenius norm: " << I.norm() << std::endl;
+      std::cout << "Verifying (M * A) Frobenius norm: " << M_x_A.norm()
+                << std::endl;
+      std::cout << "Verifying identity Frobenius norm: " << I.norm()
+                << std::endl;
     }
 
     CSC_A.destoy();
