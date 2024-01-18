@@ -2,11 +2,13 @@
 #define CSPAI_H
 
 #include <stdlib.h>
+#include <mpi.h>
 
 #include <Eigen/Dense>
 #include <cmath>
 #include <cstdio>
 
+#include "Parallel/Utilities/mpi_utils.hpp"
 #include "assert.hpp"
 #include "csc.hpp"
 #include "least_sqaure_solver.hpp"
@@ -15,9 +17,17 @@
 template <typename Scalar, typename FullMatrix, int DEBUG_MODE = 0>
 struct CSC<Scalar> CSPAI(struct CSC<Scalar>* A, Scalar tolerance,
                         int maxIteration, int s) {
-  printf("------------------------------ SEQUENTIAL SPAI (C) --------------------------\n");
-  printf("running with parameters: tolerance = %f, maxIteration = %d, s = %d\n",
-         tolerance, maxIteration, s);
+
+  int mpi_size;
+  MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
+  int mpi_rank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
+
+  if (mpi_rank == 0) {
+    printf("------------------------------ SEQUENTIAL SPAI (C) --------------------------\n");
+    printf("running with parameters: tolerance = %f, maxIteration = %d, s = %d\n",
+           tolerance, maxIteration, s);
+  }
 
   // Initialize M and set to diagonal
   ASSERT(A->initialised, "Input matrix not initialised");
@@ -25,7 +35,7 @@ struct CSC<Scalar> CSPAI(struct CSC<Scalar>* A, Scalar tolerance,
   M.create_diagonal(A->m, A->n, static_cast<Scalar>(1));
 
   // m_k = column in M
-  for (int k = 0; k < M.n; k++) {
+  for (int k = mpi_rank; k < M.n; k+=mpi_size) {
     // variables
     int n1 = 0;
     int n2 = 0;
@@ -387,10 +397,36 @@ struct CSC<Scalar> CSPAI(struct CSC<Scalar>* A, Scalar tolerance,
     }
 
     // 16) Set m_k(J) = mHat_k
-    // Update kth column of M
-    M.update_kth_column(mHat_k, k, sortedJ, n2);
-    if constexpr (DEBUG_MODE) {
-      printf("SPAI: updated %d column\n", k);
+    // Update kth column of M and columns computed by siblings
+    if (mpi_rank == 0) {
+      M.update_kth_column(mHat_k, k, sortedJ, n2);
+      if constexpr (DEBUG_MODE) {
+        printf("SPAI: updated %d column\n", k);
+      }
+      for (int i=1; i<mpi_size; i++) {
+        int recv_col = k+i;
+        if (recv_col >= A->n) {
+          break;
+        }
+        //receive mHat_k
+        MPI_Status status;
+        MPI_Probe(i, (100 * i), MPI_COMM_WORLD, &status);
+        int recv_n2;
+        MPI_Get_count(&status, MPI_DOUBLE, &recv_n2);
+        Scalar* recv_mHat_k = (Scalar*)calloc(recv_n2, sizeof(Scalar));
+        int* recv_sortedJ = (int*)calloc(recv_n2, sizeof(int));
+        MPI_Recv(recv_mHat_k, recv_n2, mpi_typeof(Scalar{}), status.MPI_SOURCE, (100 * i), MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(recv_sortedJ, recv_n2, MPI_INT, status.MPI_SOURCE, (101 * i), MPI_COMM_WORLD, MPI_STATUS_IGNORE); 
+        M.update_kth_column(recv_mHat_k, recv_col, recv_sortedJ, recv_n2);
+        if constexpr (DEBUG_MODE) {
+          printf("SPAI: updated %d column\n", recv_col);
+        }
+        free(recv_mHat_k);
+        free(recv_sortedJ);
+      }
+    } else {
+      MPI_Send(mHat_k, n2, MPI_DOUBLE, 0, 100 * mpi_rank, MPI_COMM_WORLD);
+      MPI_Send(sortedJ, n2, MPI_INT, 0, 101 * mpi_rank, MPI_COMM_WORLD);
     }
 
     // Free memory
