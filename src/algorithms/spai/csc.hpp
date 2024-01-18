@@ -48,6 +48,7 @@ struct CSC {
     external_buffer = 0;
   }
 
+  //remember to use a column major ordering matrix!
   template <typename IndexType>
   void map_external_buffer(IndexType* offset_in, Scalar* flat_data_in,
                            IndexType* flat_row_index_in, int m_in,
@@ -182,7 +183,7 @@ struct CSC {
 
     // insert the new values into the flatData and flatRowIndex from k
     int index = 0;
-    for (int i = 0; i < n2 + 1; i++) {
+    for (int i = 0; i < n2; i++) {
       if (newVaules[i] != 0.0) {
         newA.flatData[offset[k] + index] = newVaules[i];
         newA.flatRowIndex[offset[k] + index] = J[i];

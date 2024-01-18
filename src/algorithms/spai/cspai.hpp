@@ -389,6 +389,7 @@ struct CSC<Scalar> SPAI(struct CSC<Scalar>* A, Scalar tolerance,
     // 16) Set m_k(J) = mHat_k
     // Update kth column of M
     M.update_kth_column(mHat_k, k, sortedJ, n2);
+    printf("SPAI: updated %d column\n", k);
 
     // Free memory
     free(I);
@@ -400,6 +401,8 @@ struct CSC<Scalar> SPAI(struct CSC<Scalar>* A, Scalar tolerance,
     free(mHat_k);
     free(residual);
     free(ADense);
+    free(IDense);
+    free(JDense);
   }
 
   return M;
