@@ -1,8 +1,8 @@
 #ifndef CSPAI_H
 #define CSPAI_H
 
-#include <stdlib.h>
 #include <mpi.h>
+#include <stdlib.h>
 
 #include <Eigen/Dense>
 #include <cmath>
@@ -16,17 +16,19 @@
 
 template <typename Scalar, typename FullMatrix, int DEBUG_MODE = 0>
 struct CSC<Scalar> CSPAI(struct CSC<Scalar>* A, Scalar tolerance,
-                        int maxIteration, int s) {
-
+                         int maxIteration, int s) {
   int mpi_size;
   MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
   int mpi_rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
 
   if (mpi_rank == 0) {
-    printf("------------------------------ SEQUENTIAL SPAI (C) --------------------------\n");
-    printf("running with parameters: tolerance = %f, maxIteration = %d, s = %d\n",
-           tolerance, maxIteration, s);
+    printf(
+        "------------------------------ SEQUENTIAL SPAI (C) "
+        "--------------------------\n");
+    printf(
+        "running with parameters: tolerance = %f, maxIteration = %d, s = %d\n",
+        tolerance, maxIteration, s);
   }
 
   // Initialize M and set to diagonal
@@ -35,7 +37,7 @@ struct CSC<Scalar> CSPAI(struct CSC<Scalar>* A, Scalar tolerance,
   M.create_diagonal(A->m, A->n, static_cast<Scalar>(1));
 
   // m_k = column in M
-  for (int k = mpi_rank; k < M.n; k+=mpi_size) {
+  for (int k = mpi_rank; k < M.n; k += mpi_size) {
     // variables
     int n1 = 0;
     int n2 = 0;
@@ -403,20 +405,22 @@ struct CSC<Scalar> CSPAI(struct CSC<Scalar>* A, Scalar tolerance,
       if constexpr (DEBUG_MODE) {
         printf("SPAI: updated %d column\n", k);
       }
-      for (int i=1; i<mpi_size; i++) {
-        int recv_col = k+i;
+      for (int i = 1; i < mpi_size; i++) {
+        int recv_col = k + i;
         if (recv_col >= A->n) {
           break;
         }
-        //receive mHat_k
+        // receive mHat_k
         MPI_Status status;
         MPI_Probe(i, (100 * i), MPI_COMM_WORLD, &status);
         int recv_n2;
         MPI_Get_count(&status, MPI_DOUBLE, &recv_n2);
         Scalar* recv_mHat_k = (Scalar*)calloc(recv_n2, sizeof(Scalar));
         int* recv_sortedJ = (int*)calloc(recv_n2, sizeof(int));
-        MPI_Recv(recv_mHat_k, recv_n2, mpi_typeof(Scalar{}), status.MPI_SOURCE, (100 * i), MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        MPI_Recv(recv_sortedJ, recv_n2, MPI_INT, status.MPI_SOURCE, (101 * i), MPI_COMM_WORLD, MPI_STATUS_IGNORE); 
+        MPI_Recv(recv_mHat_k, recv_n2, mpi_typeof(Scalar{}), status.MPI_SOURCE,
+                 (100 * i), MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(recv_sortedJ, recv_n2, MPI_INT, status.MPI_SOURCE, (101 * i),
+                 MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         M.update_kth_column(recv_mHat_k, recv_col, recv_sortedJ, recv_n2);
         if constexpr (DEBUG_MODE) {
           printf("SPAI: updated %d column\n", recv_col);

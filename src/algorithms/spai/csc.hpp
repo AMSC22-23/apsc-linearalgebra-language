@@ -48,7 +48,7 @@ struct CSC {
     external_buffer = 0;
   }
 
-  //remember to use a column major ordering matrix!
+  // remember to use a column major ordering matrix!
   template <typename IndexType>
   void map_external_buffer(IndexType* offset_in, Scalar* flat_data_in,
                            IndexType* flat_row_index_in, int m_in,

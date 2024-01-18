@@ -40,7 +40,7 @@ void solve_least_square(CSC<Scalar> *A, Scalar *Q, Scalar *R, Scalar **mHat_k,
   auto eigen_R = EigenStructureMap<FullMatrix, Scalar>(R, n2, n2).structure();
   FullMatrix eigen_R_inverse = eigen_R.inverse();
   ASSERT(eigen_R_inverse.allFinite(), "Failed to invert R" << std::endl
-                                                         << R << std::endl);
+                                                           << R << std::endl);
   // eigen_R_inverse will desctructor will be called
   memcpy(invR, eigen_R_inverse.data(), sizeof(Scalar) * n2 * n2);
 

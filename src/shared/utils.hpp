@@ -66,8 +66,8 @@ void print_matlab_matrix(SparseMatrix m, std::string file_name) {
     return;
   }
   out_file << "[" << std::endl;
-  for (int i=0; i<m.rows(); ++i) {
-    for (int j=0; j<m.cols(); ++j) {
+  for (int i = 0; i < m.rows(); ++i) {
+    for (int j = 0; j < m.cols(); ++j) {
       out_file << m.coeffRef(i, j);
       if (j < m.cols() - 1)
         out_file << ",";

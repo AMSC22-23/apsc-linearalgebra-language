@@ -17,7 +17,8 @@ namespace Preconditioner {
 template <typename Scalar, typename SparseMatrix, typename FullMatrix,
           typename Vector, int DEBUG_MODE = 0>
 class SPAI {
-#warning "This SPAI implementation does not reproduce a correct result, please use the cspai.hpp version"
+#warning \
+    "This SPAI implementation does not reproduce a correct result, please use the cspai.hpp version"
  public:
   SPAI() {}
 
@@ -26,8 +27,11 @@ class SPAI {
   SparseMatrix &get_m() { return M; }
 
   void init(SparseMatrix &A) {
-    std::cout << "------------------------------ SEQUENTIAL SPAI (C++) --------------------------" << std::endl;
-    std::cout <<  "running with parameters: tolerance = " << tollerance << ", maxIteration = " << max_iter << ", s = " << s << std::endl;
+    std::cout << "------------------------------ SEQUENTIAL SPAI (C++) "
+                 "--------------------------"
+              << std::endl;
+    std::cout << "running with parameters: tolerance = " << tollerance
+              << ", maxIteration = " << max_iter << ", s = " << s << std::endl;
     ASSERT(A.rows() == A.cols(), "A must be a square matrix");
     M.resize(A.rows(), A.cols());
 
@@ -110,7 +114,7 @@ class SPAI {
       // 4-5) solve least square problem of AHat
       solve_least_square(AHat, mHat_k, e_k, Q, R);
 
-      //Overwrite AHat
+      // Overwrite AHat
       sparse_to_dense_mat(A, AHat, I, J, n1, n2);
 
       // 6) compute residual = A * mHat_k - e_k
@@ -257,29 +261,29 @@ class SPAI {
         // current smallest elements
         // smallestIndices then contain the indeces of JTIlde corresponding
         // to the smallest values of rhoSq
-        for (int i=0; i<n2Tilde; i++) {
-         for (int j=0; j<newN2Tilde; j++) {
-           if (smallestIndices[j] == -1) {
-             smallestIndices[j] = i;
-             break;
-           } else if (rhoSq[i] < rhoSq[smallestIndices[j]]) {
-             for (int h=newN2Tilde-1; h>j; h--) {
-               smallestIndices[h] = smallestIndices[h - 1];
-             }
-             smallestIndices[j] = i;
-             break;
-           }
-         }
-       }
-       smallestJTilde.resize(newN2Tilde);
-       for (int i = 0; i < newN2Tilde; i++) {
-         smallestJTilde[i] = JTilde[smallestIndices[i]];
-       }
-       JTilde.resize(newN2Tilde);
-       for (int i=0; i<newN2Tilde; i++) {
-         JTilde[i] = smallestJTilde[i];
-       }
-       n2Tilde = newN2Tilde;
+        for (int i = 0; i < n2Tilde; i++) {
+          for (int j = 0; j < newN2Tilde; j++) {
+            if (smallestIndices[j] == -1) {
+              smallestIndices[j] = i;
+              break;
+            } else if (rhoSq[i] < rhoSq[smallestIndices[j]]) {
+              for (int h = newN2Tilde - 1; h > j; h--) {
+                smallestIndices[h] = smallestIndices[h - 1];
+              }
+              smallestIndices[j] = i;
+              break;
+            }
+          }
+        }
+        smallestJTilde.resize(newN2Tilde);
+        for (int i = 0; i < newN2Tilde; i++) {
+          smallestJTilde[i] = JTilde[smallestIndices[i]];
+        }
+        JTilde.resize(newN2Tilde);
+        for (int i = 0; i < newN2Tilde; i++) {
+          JTilde[i] = smallestJTilde[i];
+        }
+        n2Tilde = newN2Tilde;
 
         // 11) Determine the new indices Î
         // Denote by ITilde the new rows, which corresponds to the nonzero rows
@@ -335,8 +339,8 @@ class SPAI {
         M.coeffRef(i, k) = mHat_k[i];
       }
       if constexpr (DEBUG_MODE) {
-        std::cout << "SPAI: updated " << k << " column" << std::endl; 
-      } 
+        std::cout << "SPAI: updated " << k << " column" << std::endl;
+      }
     }
   }
 
@@ -380,7 +384,7 @@ class SPAI {
     // TODO: use a liner solver
     invR = invR.inverse();
     ASSERT(invR.allFinite(), "Failed to invert R" << std::endl
-        << invR << std::endl);
+                                                  << invR << std::endl);
 
     // 5.3) Compute x = R^-1 * cHat
     x = invR * t;
