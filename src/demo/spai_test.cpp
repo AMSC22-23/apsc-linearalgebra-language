@@ -10,6 +10,8 @@
 #include <spai.hpp>
 #include <utils.hpp>
 
+#include "EigenStructureMap.hpp"
+
 using SpMat = Eigen::SparseMatrix<double, Eigen::ColMajor>;
 using SpVec = Eigen::VectorXd;
 
@@ -94,7 +96,8 @@ int main(int argc, char* argv[]) {
                               A.nonZeros());
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    CSC<double> M = CSPAI<double, Eigen::MatrixXd, 1>(&CSC_A, tol, max_iter, 1);
+    CSC<double> M = LinearAlgebra::Preconditioners::ApproximateInverse::CSPAI<
+        double, Eigen::MatrixXd, 1>(&CSC_A, tol, max_iter, 1);
     MPI_Barrier(MPI_COMM_WORLD);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
@@ -103,10 +106,27 @@ int main(int argc, char* argv[]) {
             .count();
     // M.print();
     // std::cout << "M non zero: " << M.countNonZero << std::endl;
-    auto eigen_M = Eigen::Map<Eigen::SparseMatrix<double>>(
-        size, size, M.countNonZero, M.offset, M.flatRowIndex, M.flatData);
+    auto eigen_M =
+        EigenStructureMap<Eigen::SparseMatrix<double>, double,
+                          decltype(CSC_A)>::create_map(size, size,
+                                                       M.countNonZero, M.offset,
+                                                       M.flatRowIndex,
+                                                       M.flatData)
+            .structure();
+
     if (mpi_rank == 0) {
-      std::cout << eigen_M << std::endl;
+      std::cout << "Approximate inverse matrix: " << std::endl;
+      std::cout << "[" << std::endl;
+      for (int i = 0; i < eigen_M.rows(); ++i) {
+        for (int j = 0; j < eigen_M.cols(); ++j) {
+          std::cout << eigen_M.coeffRef(i, j);
+          if (j < eigen_M.cols() - 1)
+            std::cout << ",";
+          else if (j == eigen_M.cols() - 1 && i < eigen_M.rows() - 1)
+            std::cout << ";";
+        }
+      }
+      std::cout << "]" << std::endl;
     }
     if (mpi_rank == 0) {
       std::cout << "Time spent: " << diff << " ms" << std::endl;
