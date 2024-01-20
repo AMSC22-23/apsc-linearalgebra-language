@@ -13,13 +13,6 @@
 #include "EigenStructureMap.hpp"
 #include "assert.hpp"
 
-// A struct representing a sparse matrix
-// int m;
-// int n;
-// int countNonZero;
-// int* offset;
-// Scalar* flatData;
-// int* flatRowIndex;
 template <typename Scalar>
 struct CSC {
   int m = 0;
@@ -342,33 +335,5 @@ struct CSC {
     printf("\n");
   }
 };
-
-// // Function for creating a random CSC with specified sparsit
-// // m = number of rows
-// // n = number of columns
-// // sparsity = The sparsity of the matrix. Should be a number between 0.0-1.0.
-// CSC* createRandomCSC(int m, int n, Scalar sparsity){
-//   Scalar* M = (Scalar*) malloc(sizeof(Scalar) * m * n);
-//
-//   time_t t;
-//   srand((unsigned) time(&t));
-//
-//   for (int i = 0; i < m; i++) {
-//     for (int j = 0; j < n; j++) {
-//       Scalar x = ((Scalar) rand() / (Scalar) (RAND_MAX));
-//       if (x < sparsity) {
-//         Scalar y = ((Scalar) rand() / (Scalar) (RAND_MAX)) * 100.0 + (Scalar)
-//         rand() / (Scalar) (RAND_MAX); M[i * n + j] = y;
-//       } else {
-//         M[i * n + j] = 0.0;
-//       }
-//     }
-//   }
-
-//   CSC* A = createCSC(M, m, n);
-//   free(M);
-//
-//   return A;
-// }
 
 #endif
