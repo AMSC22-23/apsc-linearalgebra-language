@@ -37,7 +37,6 @@ class objective_context {
       // std::cerr << "Failed to open output file" << std::endl;
       // return;
     }
-    std::cout << report_file_size << std::endl;
     m_report_file.open(m_report_file_name, std::ios::app);
     if (!m_report_file.is_open()) {
       std::cerr << "Failed to open output file" << std::endl;
