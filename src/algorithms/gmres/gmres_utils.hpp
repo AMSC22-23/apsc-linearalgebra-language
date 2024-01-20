@@ -8,7 +8,7 @@ namespace LinearAlgebra {
 namespace LinearSolvers {
 namespace GMRES {
 template <class Matrix, class Vector>
-void Update(Vector &x, int k, Matrix const &h, Vector const &s,
+void update(Vector &x, int k, Matrix const &h, Vector const &s,
             std::vector<Vector> const &v) {
   Vector y(s);
 
@@ -22,7 +22,7 @@ void Update(Vector &x, int k, Matrix const &h, Vector const &s,
 }
 
 template <class Real>
-void GeneratePlaneRotation(Real &dx, Real &dy, Real &cs, Real &sn) {
+void generate_plane_rotation(Real &dx, Real &dy, Real &cs, Real &sn) {
   if (dy == 0.0) {
     cs = 1.0;
     sn = 0.0;
@@ -38,7 +38,7 @@ void GeneratePlaneRotation(Real &dx, Real &dy, Real &cs, Real &sn) {
 }
 
 template <class Real>
-void ApplyPlaneRotation(Real &dx, Real &dy, Real &cs, Real &sn) {
+void apply_plane_rotation(Real &dx, Real &dy, Real &cs, Real &sn) {
   Real temp = cs * dx + sn * dy;
   dy = -sn * dx + cs * dy;
   dx = temp;

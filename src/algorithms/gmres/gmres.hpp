@@ -3,7 +3,9 @@
 
 #include <Eigen/Dense>
 #include <gmres_utils.hpp>
+#include <iostream>
 #include <memory>
+
 namespace LinearAlgebra {
 namespace LinearSolvers {
 namespace GMRES {
@@ -39,6 +41,7 @@ template <class SparseMatrix, class Vector, class Preconditioner>
 int GMRES(const SparseMatrix &A, Vector &x, const Vector &b,
           const Preconditioner &M, int &m, int &max_iter,
           typename Vector::Scalar &tol) {
+#warning "Current GMRES implementation does not exploit MPI"
   using Real = typename Vector::Scalar;
   Real resid;
   int i = 0;
@@ -68,7 +71,8 @@ int GMRES(const SparseMatrix &A, Vector &x, const Vector &b,
     s(0) = beta;
 
     for (i = 0; i < m && j <= max_iter; i++, j++) {
-      w = M.solve(A * v[i]);
+      Vector A_x_Vi = A * v[i];
+      w = M.solve(A_x_Vi);
       for (k = 0; k <= i; k++) {
         H(k, i) = w.dot(v[k]);
         w -= H(k, i) * v[k];
@@ -77,20 +81,20 @@ int GMRES(const SparseMatrix &A, Vector &x, const Vector &b,
       v[i + 1] = w * (1.0 / H(i + 1, i));
 
       for (k = 0; k < i; k++)
-        ApplyPlaneRotation(H(k, i), H(k + 1, i), cs(k), sn(k));
+        apply_plane_rotation(H(k, i), H(k + 1, i), cs(k), sn(k));
 
-      GeneratePlaneRotation(H(i, i), H(i + 1, i), cs(i), sn(i));
-      ApplyPlaneRotation(H(i, i), H(i + 1, i), cs(i), sn(i));
-      ApplyPlaneRotation(s(i), s(i + 1), cs(i), sn(i));
+      generate_plane_rotation(H(i, i), H(i + 1, i), cs(i), sn(i));
+      apply_plane_rotation(H(i, i), H(i + 1, i), cs(i), sn(i));
+      apply_plane_rotation(s(i), s(i + 1), cs(i), sn(i));
 
       if ((resid = std::abs(s(i + 1)) / normb) < tol) {
-        Update(x, i, H, s, v);
+        update(x, i, H, s, v);
         tol = resid;
         max_iter = j;
         return 0;
       }
     }
-    Update(x, m - 1, H, s, v);
+    update(x, m - 1, H, s, v);
     w = b - A * x;
     r = M.solve(w);
     beta = r.norm();
