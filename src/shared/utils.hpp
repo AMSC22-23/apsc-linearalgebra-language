@@ -67,10 +67,10 @@ template <typename SparseMatrix>
 void print_matlab_matrix(SparseMatrix m, std::string file_name) {
   std::ofstream out_file(file_name);
   if (!out_file.is_open()) {
-    std::cerr << "Error opening the output" << std::endl;
+    std::cerr << "Error opening the output" << endl;
     return;
   }
-  out_file << "[" << std::endl;
+  out_file << "[" << endl;
   for (int i = 0; i < m.rows(); ++i) {
     for (int j = 0; j < m.cols(); ++j) {
       out_file << m.coeffRef(i, j);
@@ -80,7 +80,7 @@ void print_matlab_matrix(SparseMatrix m, std::string file_name) {
         out_file << ";";
     }
   }
-  out_file << "]" << std::endl;
+  out_file << "]" << endl;
   out_file.close();
 }
 
@@ -102,7 +102,7 @@ void MPI_matrix_show(MPIMatrix MPIMat, Matrix Mat, const int mpi_rank,
   int rank = 0;
   while (rank < mpi_size) {
     if (mpi_rank == rank) {
-      std::cout << "Process rank=" << mpi_rank << " Local Matrix=" << std::endl;
+      std::cout << "Process rank=" << mpi_rank << " Local Matrix=" << endl;
       std::cout << MPIMat.getLocalMatrix();
     }
     rank++;
@@ -112,10 +112,10 @@ void MPI_matrix_show(MPIMatrix MPIMat, Matrix Mat, const int mpi_rank,
 
 namespace GMRES {
 template <typename MPILhs, typename Rhs, typename Scalar, typename ExactSol,
-          typename... Preconditioner>
-int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
-              objective_context obj_ctx, Preconditioner... P) {
-#warning "Current implementation does not exploit MPI"
+          int SHOW_ERROR_NORM = 1, typename... Preconditioner>
+int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
+              const MPIContext mpi_ctx, objective_context obj_ctx,
+              Preconditioner &...P) {
   constexpr std::size_t P_size = sizeof...(P);
   static_assert(P_size < 2, "Please specify max 1 preconditioner");
 
@@ -125,16 +125,13 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
 
   const int size = b.size();
 
-  Rhs x;
   x.resize(size);
   x.fill(0.0);
   int max_iter = GMRES_MAX_ITER(size);
   Scalar tol = GMRES_TOL;
 
   if constexpr (P_size == 0) {
-    std::cout << "Calling GMRES..." << std::endl;
     auto id = Eigen::IdentityPreconditioner();
-    int restart = max_iter;
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
     auto result =
@@ -150,18 +147,17 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
     MPI_Reduce(&diff, &diff_sum, 1, MPI_LONG_LONG, MPI_SUM, 0,
                mpi_ctx.mpi_comm());
 
-    std::cout << "GMRES res code = " << result << std::endl;
     if (mpi_ctx.mpi_rank() == 0) {
       cout << "(Time spent by all processes: " << diff_sum
-           << ", total processes: " << mpi_ctx.mpi_size() << ")" << std::endl
-           << std::endl;
+           << ", total processes: " << mpi_ctx.mpi_size() << ")" << endl;
       cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[µs]"
            << endl;
-      cout << "Solution with Conjugate Gradient:" << endl;
+      cout << "Solution with GMRES:" << endl;
       cout << "iterations performed:                      " << max_iter << endl;
       cout << "tolerance achieved:                        " << tol << endl;
-      cout << "Error norm:                                " << (x - e).norm()
-           << std::endl;
+      if constexpr (SHOW_ERROR_NORM)
+        cout << "Error norm:                                " << (x - e).norm()
+             << endl;
 #if PRODUCE_OUT_FILE == 1
       {
         obj_ctx.write(static_cast<long long>(size), ',',
@@ -170,12 +166,50 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
       }
 #endif
 #if DEBUG == 1
-      cout << "Result vector:                             " << x << std::endl;
+      cout << "Result vector:                             " << x << endl;
 #endif
     }
     return result;
   } else {
-    // TODO
+    std::chrono::high_resolution_clock::time_point begin =
+        std::chrono::high_resolution_clock::now();
+    auto result =
+        ::LinearAlgebra::LinearSolvers::GMRES::GMRES<MPILhs, Rhs,
+                                                     Preconditioner...>(
+            A, x, b, P..., restart, max_iter, tol);
+    std::chrono::high_resolution_clock::time_point end =
+        std::chrono::high_resolution_clock::now();
+    long long diff =
+        std::chrono::duration_cast<std::chrono::microseconds>(end - begin)
+            .count();
+    decltype(diff) diff_sum = 0;
+
+    MPI_Reduce(&diff, &diff_sum, 1, MPI_LONG_LONG, MPI_SUM, 0,
+               mpi_ctx.mpi_comm());
+
+    if (mpi_ctx.mpi_rank() == 0) {
+      cout << "(Time spent by all processes: " << diff_sum
+           << ", total processes: " << mpi_ctx.mpi_size() << ")" << endl;
+      cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[µs]"
+           << endl;
+      cout << "Solution with GMRES:" << endl;
+      cout << "iterations performed:                      " << max_iter << endl;
+      cout << "tolerance achieved:                        " << tol << endl;
+      if constexpr (SHOW_ERROR_NORM)
+        cout << "Error norm:                                " << (x - e).norm()
+             << endl;
+#if PRODUCE_OUT_FILE == 1
+      {
+        obj_ctx.write(static_cast<long long>(size), ',',
+                      static_cast<long long>(diff_sum / mpi_ctx.mpi_size()),
+                      ',', static_cast<long long>(result));
+      }
+#endif
+#if DEBUG == 1
+      cout << "Result vector:                             " << x << endl;
+#endif
+    }
+    return result;
   }
 }
 }  // namespace GMRES
@@ -218,15 +252,14 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
 
     if (mpi_ctx.mpi_rank() == 0) {
       cout << "(Time spent by all processes: " << diff_sum
-           << ", total processes: " << mpi_ctx.mpi_size() << ")" << std::endl
-           << std::endl;
+           << ", total processes: " << mpi_ctx.mpi_size() << ")" << endl;
       cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[µs]"
            << endl;
       cout << "Solution with Conjugate Gradient:" << endl;
       cout << "iterations performed:                      " << max_iter << endl;
       cout << "tolerance achieved:                        " << tol << endl;
       cout << "Error norm:                                " << (x - e).norm()
-           << std::endl;
+           << endl;
 #if PRODUCE_OUT_FILE == 1
       {
         obj_ctx.write(static_cast<long long>(size), ',',
@@ -235,7 +268,7 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
       }
 #endif
 #if DEBUG == 1
-      cout << "Result vector:                             " << x << std::endl;
+      cout << "Result vector:                             " << x << endl;
 #endif
     }
     return result;
