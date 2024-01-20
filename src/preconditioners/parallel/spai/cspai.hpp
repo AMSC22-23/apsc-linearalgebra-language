@@ -14,6 +14,9 @@
 #include "least_sqaure_solver.hpp"
 #include "update_qr.hpp"
 
+namespace LinearAlgebra {
+namespace Preconditioners {
+namespace ApproximateInverse {
 template <typename Scalar, typename FullMatrix, int DEBUG_MODE = 0>
 struct CSC<Scalar> CSPAI(struct CSC<Scalar>* A, Scalar tolerance,
                          int maxIteration, int s) {
@@ -22,13 +25,16 @@ struct CSC<Scalar> CSPAI(struct CSC<Scalar>* A, Scalar tolerance,
   int mpi_rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
 
-  if (mpi_rank == 0) {
-    printf(
-        "------------------------------ SEQUENTIAL SPAI (C) "
-        "--------------------------\n");
-    printf(
-        "running with parameters: tolerance = %f, maxIteration = %d, s = %d\n",
-        tolerance, maxIteration, s);
+  if constexpr (DEBUG_MODE) {
+    if (mpi_rank == 0) {
+      printf(
+          "------------------------------ SEQUENTIAL SPAI (C) "
+          "--------------------------\n");
+      printf(
+          "running with parameters: tolerance = %f, maxIteration = %d, s = "
+          "%d\n",
+          tolerance, maxIteration, s);
+    }
   }
 
   // Initialize M and set to diagonal
@@ -446,8 +452,10 @@ struct CSC<Scalar> CSPAI(struct CSC<Scalar>* A, Scalar tolerance,
     free(IDense);
     free(JDense);
   }
-
   return M;
 }
+}  // namespace ApproximateInverse
+}  // namespace Preconditioners
+}  // namespace LinearAlgebra
 
 #endif
