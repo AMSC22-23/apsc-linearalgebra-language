@@ -3,11 +3,14 @@
 
 #include <stdint.h>
 
+#include <Eigen/Sparse>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <ctime>
 
+#include "EigenStructureMap.hpp"
 #include "assert.hpp"
 
 // A struct representing a sparse matrix
@@ -46,6 +49,66 @@ struct CSC {
     n = 0;
     countNonZero = 0;
     external_buffer = 0;
+  }
+
+  template <typename Vector>
+  Vector solve(Vector& b) const {
+    int size = b.size();
+    ASSERT(size == n, "matvet multiplication size does not match, matrix col = "
+                          << n << ", vector size = " << size << std::endl);
+    using EigenVec = Eigen::Matrix<Scalar, Eigen::Dynamic, 1>;
+    EigenVec eigen_x;
+    // map this CSC matrix into an Eigen type to exploit Eigen iterative solvers
+    auto eigen_csc =
+        EigenStructureMap<Eigen::SparseMatrix<Scalar, Eigen::ColMajor>, Scalar,
+                          CSC<Scalar>>::create_map(m, n, countNonZero, offset,
+                                                   flatRowIndex, flatData)
+            .structure();
+    // map this b vector into an Eigen type to exploit Eigen iterative solvers
+    auto eigen_b =
+        EigenStructureMap<EigenVec, Scalar, Vector>::create_map(b, b.size())
+            .structure();
+    Eigen::BiCGSTAB<Eigen::SparseMatrix<Scalar>,
+                    Eigen::DiagonalPreconditioner<Scalar>>
+        solver;
+    solver.compute(eigen_csc);
+
+    // in order to maintain back compatibility map the eigen vector to template
+    // Vector type
+    eigen_x = solver.solve(eigen_b);
+    Vector x(size);
+    memcpy(x.data(), eigen_x.data(), sizeof(Scalar) * eigen_x.size());
+    return x;
+  }
+
+  template <typename Vector>
+  Vector solve(Vector& b) {
+    int size = b.size();
+    ASSERT(size == n, "matvet multiplication size does not match, matrix col = "
+                          << n << ", vector size = " << size << std::endl);
+    using EigenVec = Eigen::Matrix<Scalar, Eigen::Dynamic, 1>;
+    EigenVec eigen_x;
+    // map this CSC matrix into an Eigen type to exploit Eigen iterative solvers
+    auto eigen_csc =
+        EigenStructureMap<Eigen::SparseMatrix<Scalar, Eigen::ColMajor>, Scalar,
+                          CSC<Scalar>>::create_map(m, n, countNonZero, offset,
+                                                   flatRowIndex, flatData)
+            .structure();
+    // map this b vector into an Eigen type to exploit Eigen iterative solvers
+    auto eigen_b =
+        EigenStructureMap<EigenVec, Scalar, Vector>::create_map(b, b.size())
+            .structure();
+    Eigen::BiCGSTAB<Eigen::SparseMatrix<Scalar>,
+                    Eigen::DiagonalPreconditioner<Scalar>>
+        solver;
+    solver.compute(eigen_csc);
+
+    // in order to maintain back compatibility map the eigen vector to template
+    // Vector type
+    eigen_x = solver.solve(eigen_b);
+    Vector x(size);
+    memcpy(x.data(), eigen_x.data(), sizeof(Scalar) * eigen_x.size());
+    return x;
   }
 
   // remember to use a column major ordering matrix!
