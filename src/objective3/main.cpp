@@ -14,7 +14,7 @@
 
 #define DEBUG 0
 #define USE_PRECONDITIONER 0
-#define LOAD_MATRIX_FROM_FILE 0
+#define LOAD_MATRIX_FROM_FILE 1
 #define ACCEPT_ONLY_SQUARE_MATRIX 1
 
 using EigenVectord = Eigen::VectorXd;

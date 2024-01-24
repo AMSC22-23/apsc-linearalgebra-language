@@ -23,9 +23,7 @@ int cg_solve(Lhs &a, Rhs b, ExactSol &e) {
   }
 
   auto result =
-      LinearAlgebra::LinearSolvers::ConjugateGradient::CG<Lhs, Rhs, Lhs,
-                                                          Scalar>(
-          a, x, b, P, max_iter, tol);
+      LinearAlgebra::LinearSolvers::Sequential::CG<Lhs, Rhs, Lhs, Scalar>(a, x, b, P, max_iter, tol);
 
   cout << "Solution with Conjugate Gradient:" << endl;
   cout << "iterations performed:                      " << max_iter << endl;

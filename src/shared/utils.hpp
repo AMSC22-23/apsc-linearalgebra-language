@@ -35,8 +35,7 @@ using std::endl;
 
 namespace apsc::LinearAlgebra {
 namespace Utils {
-template <typename Mat, typename Scalar>
-void default_spd_fill(Mat &m) {
+template <typename Mat, typename Scalar> void default_spd_fill(Mat &m) {
   ASSERT((m.rows() == m.cols()), "The matrix must be squared!");
   const Scalar diagonal_value = static_cast<Scalar>(2.0);
   const Scalar upper_diagonal_value = static_cast<Scalar>(-1.0);
@@ -54,8 +53,7 @@ void default_spd_fill(Mat &m) {
   }
 }
 
-template <typename Vector>
-double vector_norm_2(Vector v) {
+template <typename Vector> double vector_norm_2(Vector v) {
   double norm = 0.0;
   for (int i = 0; i < v.size(); i++) {
     norm += v[i] * v[i];
@@ -94,7 +92,7 @@ void load_sparse_matrix(const std::string file_name, Matrix &mat) {
   ASSERT(Eigen::loadMarket(mat, file_name),
          "Failed to load matrix from " << file_name);
 }
-}  // namespace EigenUtils
+} // namespace EigenUtils
 
 template <typename MPIMatrix, typename Matrix>
 void MPI_matrix_show(MPIMatrix MPIMat, Matrix Mat, const int mpi_rank,
@@ -173,10 +171,8 @@ int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
   } else {
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    auto result =
-        ::LinearAlgebra::LinearSolvers::GMRES::GMRES<MPILhs, Rhs,
-                                                     Preconditioner...>(
-            A, x, b, P..., restart, max_iter, tol);
+    auto result = ::LinearAlgebra::LinearSolvers::GMRES::GMRES<
+        MPILhs, Rhs, Preconditioner...>(A, x, b, P..., restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
     long long diff =
@@ -212,7 +208,7 @@ int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
     return result;
   }
 }
-}  // namespace GMRES
+} // namespace GMRES
 
 namespace ConjugateGradient {
 template <typename MPILhs, typename Rhs, typename Scalar, typename ExactSol,
@@ -238,8 +234,8 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
     auto result =
-        ::LinearAlgebra::LinearSolvers::ConjugateGradient::MPI::CG_no_precon<
-            MPILhs, Rhs, Scalar>(A, x, b, max_iter, tol, mpi_ctx, MPI_DOUBLE);
+        ::LinearAlgebra::LinearSolvers::MPI::CG_no_precon<MPILhs, Rhs, Scalar>(
+            A, x, b, max_iter, tol, mpi_ctx, MPI_DOUBLE);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
     long long diff =
@@ -252,14 +248,14 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
 
     if (mpi_ctx.mpi_rank() == 0) {
       cout << "(Time spent by all processes: " << diff_sum
-           << ", total processes: " << mpi_ctx.mpi_size() << ")" << endl;
+           << ", total processes: " << mpi_ctx.mpi_size() << ")" << std::endl;
       cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[µs]"
            << endl;
       cout << "Solution with Conjugate Gradient:" << endl;
       cout << "iterations performed:                      " << max_iter << endl;
       cout << "tolerance achieved:                        " << tol << endl;
       cout << "Error norm:                                " << (x - e).norm()
-           << endl;
+           << std::endl;
 #if PRODUCE_OUT_FILE == 1
       {
         obj_ctx.write(static_cast<long long>(size), ',',
@@ -268,7 +264,7 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
       }
 #endif
 #if DEBUG == 1
-      cout << "Result vector:                             " << x << endl;
+      cout << "Result vector:                             " << x << std::endl;
 #endif
     }
     return result;
@@ -276,8 +272,9 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
     // TODO
   }
 }
-}  // namespace ConjugateGradient
-}  // namespace Utils
-}  // namespace apsc::LinearAlgebra
+} // namespace ConjugateGradient
+
+} // namespace Utils
+} // namespace apsc::LinearAlgebra
 
 #endif /*UTILS_HPP*/
