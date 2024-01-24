@@ -23,7 +23,9 @@ for p in process_num:
     for mat in mtx_files:
         for eps in epsilon:
             print(f'\nLaunching MPI with {p} process. Problem name: {mat}')
-            if os.system(f'cd {build_dir} && mpirun -n {p} gmres_test {mat} {epsilon} 500') != 0:
+            cmd = f'cd {build_dir} && mpirun -n {p} gmres_test {mat} {eps} 500'
+            print("command: ", cmd)
+            if os.system(cmd) != 0:
                 print(f'Failure: MPI with {p} process. Problem size: {mat}')
             else:
                 print(f'Success: MPI with {p} process. Problem name: {mat}\n')
