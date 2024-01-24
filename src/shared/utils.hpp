@@ -113,6 +113,105 @@ namespace Solvers
 namespace GMRES {
 template <typename MPILhs, typename Rhs, typename Scalar, typename ExactSol,
           int SHOW_ERROR_NORM = 1, typename... Preconditioner>
+int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
+              const MPIContext mpi_ctx, objective_context obj_ctx,
+              Preconditioner &...P) {
+  constexpr std::size_t P_size = sizeof...(P);
+  static_assert(P_size < 2, "Please specify max 1 preconditioner");
+
+#if PRODUCE_OUT_FILE == 0
+  (void)obj_ctx;
+#endif
+
+  const int size = b.size();
+
+  x.resize(size);
+  x.fill(0.0);
+  int max_iter = GMRES_MAX_ITER(size);
+  Scalar tol = GMRES_TOL;
+
+  if constexpr (P_size == 0) {
+    auto id = Eigen::IdentityPreconditioner();
+    std::chrono::high_resolution_clock::time_point begin =
+        std::chrono::high_resolution_clock::now();
+    auto result =
+        ::LinearAlgebra::LinearSolvers::Sequential::GMRES<MPILhs, Rhs, decltype(id)>(
+            A, x, b, id, restart, max_iter, tol);
+    std::chrono::high_resolution_clock::time_point end =
+        std::chrono::high_resolution_clock::now();
+    long long diff =
+        std::chrono::duration_cast<std::chrono::microseconds>(end - begin)
+            .count();
+    decltype(diff) diff_sum = 0;
+
+    MPI_Reduce(&diff, &diff_sum, 1, MPI_LONG_LONG, MPI_SUM, 0,
+               mpi_ctx.mpi_comm());
+
+    if (mpi_ctx.mpi_rank() == 0) {
+      cout << "(Time spent by all processes: " << diff_sum
+           << ", total processes: " << mpi_ctx.mpi_size() << ")" << endl;
+      cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[µs]"
+           << endl;
+      cout << "Solution with GMRES:" << endl;
+      cout << "iterations performed:                      " << max_iter << endl;
+      cout << "tolerance achieved:                        " << tol << endl;
+      if constexpr (SHOW_ERROR_NORM)
+        cout << "Error norm:                                " << (x - e).norm()
+             << endl;
+#if PRODUCE_OUT_FILE == 1
+      {
+        obj_ctx.write(static_cast<long long>(size), ',',
+                      static_cast<long long>(diff_sum / mpi_ctx.mpi_size()),
+                      ',', static_cast<long long>(result));
+      }
+#endif
+#if DEBUG == 1
+      cout << "Result vector:                             " << x << endl;
+#endif
+    }
+    return result;
+  } else {
+    std::chrono::high_resolution_clock::time_point begin =
+        std::chrono::high_resolution_clock::now();
+    auto result = ::LinearAlgebra::LinearSolvers::Sequential::GMRES<
+        MPILhs, Rhs, Preconditioner...>(A, x, b, P..., restart, max_iter, tol);
+    std::chrono::high_resolution_clock::time_point end =
+        std::chrono::high_resolution_clock::now();
+    long long diff =
+        std::chrono::duration_cast<std::chrono::microseconds>(end - begin)
+            .count();
+    decltype(diff) diff_sum = 0;
+
+    MPI_Reduce(&diff, &diff_sum, 1, MPI_LONG_LONG, MPI_SUM, 0,
+               mpi_ctx.mpi_comm());
+
+    if (mpi_ctx.mpi_rank() == 0) {
+      cout << "(Time spent by all processes: " << diff_sum
+           << ", total processes: " << mpi_ctx.mpi_size() << ")" << endl;
+      cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[µs]"
+           << endl;
+      cout << "Solution with GMRES:" << endl;
+      cout << "iterations performed:                      " << max_iter << endl;
+      cout << "tolerance achieved:                        " << tol << endl;
+      if constexpr (SHOW_ERROR_NORM)
+        cout << "Error norm:                                " << (x - e).norm()
+             << endl;
+#if PRODUCE_OUT_FILE == 1
+      {
+        obj_ctx.write(static_cast<long long>(size), ',',
+                      static_cast<long long>(diff_sum / mpi_ctx.mpi_size()),
+                      ',', static_cast<long long>(result));
+      }
+#endif
+#if DEBUG == 1
+      cout << "Result vector:                             " << x << endl;
+#endif
+    }
+    return result;
+  }
+}
+template <typename MPILhs, typename Rhs, typename Scalar, typename ExactSol,
+          int SHOW_ERROR_NORM = 1, typename... Preconditioner>
 int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
               const MPIContext mpi_ctx, objective_context obj_ctx,
               Preconditioner &...P) {
