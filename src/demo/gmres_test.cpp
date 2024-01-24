@@ -1,3 +1,4 @@
+#include <string>
 #include <mpi.h>
 #include <stdint.h>
 
@@ -70,6 +71,7 @@ int main(int argc, char *argv[]) {
   apsc::LinearAlgebra::Utils::EigenUtils::load_sparse_matrix<decltype(A),
                                                              double>(argv[1],
                                                                      A);
+
 #if ACCEPT_ONLY_SQUARE_MATRIX == 1
   ASSERT(A.rows() == A.cols(),
          "The provided matrix is not square" << std::endl);
@@ -121,8 +123,8 @@ int main(int argc, char *argv[]) {
   LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<
       double, Eigen::MatrixXd, 1>precond(&CSC_A, tol, max_iter, 1);
   auto& M = precond.get_M();
+  const Eigen::Map<Eigen::SparseMatrix<double>> eigen_M = M.to_eigen<Eigen::SparseMatrix<double>>(global_size);
 
-  const auto eigen_M = M.to_eigen<Eigen::SparseMatrix<double>>(global_size);
   Eigen::SparseMatrix<double> AM = A * eigen_M;
 
   // Testing sequential GMRES
@@ -152,7 +154,7 @@ int main(int argc, char *argv[]) {
           AM, b, y, e, GMRES_MAX_ITER(global_size),
           MPIContext(mpi_comm, mpi_rank, mpi_size),
           objective_context(0, mpi_size,
-                            std::string("sequential_gmres_with_precon_matrix_AM") +
+                            std::string("sequential_gmres_with_precon_matrix_AM") + std::string("_epsilon") + std::to_string(tol) +
                                 std::string("_MPISIZE") +
                                 std::to_string(mpi_size) + ".log",
                             std::string(argv[1])));
@@ -185,7 +187,7 @@ int main(int argc, char *argv[]) {
           A, b, x, e, GMRES_MAX_ITER(global_size),
           MPIContext(mpi_comm, mpi_rank, mpi_size),
           objective_context(0, mpi_size,
-                            std::string("sequential_gmres_with_no_precon_matrix_A") +
+                            std::string("sequential_gmres_with_no_precon_matrix_A") + std::string("_epsilon") + std::to_string(tol) +
                                 std::string("_MPISIZE") +
                                 std::to_string(mpi_size) + ".log",
                             std::string(argv[1])));
@@ -223,7 +225,7 @@ int main(int argc, char *argv[]) {
           PAM, b, y, e, GMRES_MAX_ITER(global_size),
           MPIContext(mpi_comm, mpi_rank, mpi_size),
           objective_context(0, mpi_size,
-                            std::string("parallel_gmres_with_precon_matrix_AM") +
+                            std::string("parallel_gmres_with_precon_matrix_AM") + std::string("_epsilon") + std::to_string(tol) +
                                 std::string("_MPISIZE") +
                                 std::to_string(mpi_size) + ".log",
                             std::string(argv[1])));
@@ -264,7 +266,7 @@ int main(int argc, char *argv[]) {
           PA, b, x, e, GMRES_MAX_ITER(global_size),
           MPIContext(mpi_comm, mpi_rank, mpi_size),
           objective_context(0, mpi_size,
-                            std::string("parallel_gmres_with_no_precon_matrix_A") +
+                            std::string("parallel_gmres_with_no_precon_matrix_A") + std::string("_epsilon") + std::to_string(tol) +
                                 std::string("_MPISIZE") +
                                 std::to_string(mpi_size) + ".log",
                             std::string(argv[1])));
