@@ -11,6 +11,14 @@
 #include "assert.hpp"
 #include "csc.hpp"
 
+namespace LinearAlgebra
+{
+namespace Preconditioners
+{
+namespace ApproximateInverse
+{
+namespace Utils
+{
 template <typename Scalar, typename FullMatrix>
 void solve_least_square(CSC<Scalar> *A, Scalar *Q, Scalar *R, Scalar **mHat_k,
                         Scalar *residual, int *I, int *J, int n1, int n2, int k,
@@ -56,6 +64,10 @@ void solve_least_square(CSC<Scalar> *A, Scalar *Q, Scalar *R, Scalar **mHat_k,
   free(e_k);
   free(cHat);
   free(invR);
+}
+}
+}
+}
 }
 
 #endif
