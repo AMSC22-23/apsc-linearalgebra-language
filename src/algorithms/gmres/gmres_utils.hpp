@@ -6,7 +6,7 @@
 
 namespace LinearAlgebra {
 namespace LinearSolvers {
-namespace GMRES {
+namespace GMRESUtils {
 template <class Matrix, class Vector>
 void update(Vector &x, int k, Matrix const &h, Vector const &s,
             std::vector<Vector> const &v) {

@@ -8,7 +8,8 @@
 
 namespace LinearAlgebra {
 namespace LinearSolvers {
-namespace GMRES {
+namespace MPI
+{
 //*****************************************************************
 // Iterative template routine -- GMRES
 //
@@ -81,20 +82,20 @@ int GMRES(const SparseMatrix &A, Vector &x, const Vector &b,
       v[i + 1] = w * (1.0 / H(i + 1, i));
 
       for (k = 0; k < i; k++)
-        apply_plane_rotation(H(k, i), H(k + 1, i), cs(k), sn(k));
+        LinearSolvers::GMRESUtils::apply_plane_rotation(H(k, i), H(k + 1, i), cs(k), sn(k));
 
-      generate_plane_rotation(H(i, i), H(i + 1, i), cs(i), sn(i));
-      apply_plane_rotation(H(i, i), H(i + 1, i), cs(i), sn(i));
-      apply_plane_rotation(s(i), s(i + 1), cs(i), sn(i));
+     LinearSolvers::GMRESUtils::generate_plane_rotation(H(i, i), H(i + 1, i), cs(i), sn(i));
+     LinearSolvers::GMRESUtils::apply_plane_rotation(H(i, i), H(i + 1, i), cs(i), sn(i));
+     LinearSolvers::GMRESUtils::apply_plane_rotation(s(i), s(i + 1), cs(i), sn(i));
 
       if ((resid = std::abs(s(i + 1)) / normb) < tol) {
-        update(x, i, H, s, v);
+        LinearSolvers::GMRESUtils::update(x, i, H, s, v);
         tol = resid;
         max_iter = j;
         return 0;
       }
     }
-    update(x, m - 1, H, s, v);
+    LinearSolvers::GMRESUtils::update(x, m - 1, H, s, v);
     w = b - A * x;
     r = M.solve(w);
     beta = r.norm();
@@ -103,7 +104,7 @@ int GMRES(const SparseMatrix &A, Vector &x, const Vector &b,
   tol = resid;
   return 1;
 }
-}  // namespace GMRES
+}
 }  // namespace LinearSolvers
 }  // namespace LinearAlgebra
 

@@ -136,7 +136,7 @@ int main(int argc, char *argv[]) {
 
   // retrive y, the unpreconditioned solver is called as the preconditioner is
   // embedded in the input matrix
-  r = apsc::LinearAlgebra::Utils::GMRES::solve_MPI<decltype(AM), decltype(b),
+  r = apsc::LinearAlgebra::Utils::Solvers::GMRES::solve_MPI<decltype(AM), decltype(b),
                                                    double, decltype(e), 0>(
       AM, b, y, e, GMRES_MAX_ITER(size),
       MPIContext(mpi_comm, mpi_rank, mpi_size),
@@ -166,7 +166,7 @@ int main(int argc, char *argv[]) {
               << std::endl;
   }
   x *= 0.0;
-  r = apsc::LinearAlgebra::Utils::GMRES::solve_MPI<decltype(A), decltype(b),
+  r = apsc::LinearAlgebra::Utils::Solvers::GMRES::solve_MPI<decltype(A), decltype(b),
                                                    double, decltype(e)>(
       A, b, x, e, GMRES_MAX_ITER(size),
       MPIContext(mpi_comm, mpi_rank, mpi_size),

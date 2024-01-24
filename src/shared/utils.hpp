@@ -108,6 +108,8 @@ void MPI_matrix_show(MPIMatrix MPIMat, Matrix Mat, const int mpi_rank,
   }
 }
 
+namespace Solvers
+{
 namespace GMRES {
 template <typename MPILhs, typename Rhs, typename Scalar, typename ExactSol,
           int SHOW_ERROR_NORM = 1, typename... Preconditioner>
@@ -133,7 +135,7 @@ int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
     auto result =
-        ::LinearAlgebra::LinearSolvers::GMRES::GMRES<MPILhs, Rhs, decltype(id)>(
+        ::LinearAlgebra::LinearSolvers::MPI::GMRES<MPILhs, Rhs, decltype(id)>(
             A, x, b, id, restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
@@ -171,7 +173,7 @@ int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
   } else {
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    auto result = ::LinearAlgebra::LinearSolvers::GMRES::GMRES<
+    auto result = ::LinearAlgebra::LinearSolvers::MPI::GMRES<
         MPILhs, Rhs, Preconditioner...>(A, x, b, P..., restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
@@ -273,7 +275,7 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
   }
 }
 } // namespace ConjugateGradient
-
+} // namespace Solvers
 } // namespace Utils
 } // namespace apsc::LinearAlgebra
 
