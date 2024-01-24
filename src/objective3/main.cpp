@@ -59,33 +59,42 @@ int main(int argc, char *argv[]) {
     MPI_Finalize();
     return 0;
   }
-  apsc::LinearAlgebra::Utils::EigenUtils::load_sparse_matrix<decltype(A),
-                                                             double>(argv[1],
-                                                                     A);
+  if (mpi_rank == 0) {
+    apsc::LinearAlgebra::Utils::EigenUtils::load_sparse_matrix<decltype(A),
+                                                               double>(argv[1],
+                                                                       A);
+  }
 #if ACCEPT_ONLY_SQUARE_MATRIX == 1
   ASSERT(A.rows() == A.cols(),
          "The provided matrix is not square" << std::endl);
 #endif
 #endif
-  std::cout << "Launching CG with a sparse MPI matrix with size: " << A.rows()
-            << "x" << A.cols() << ", non zero: " << A.nonZeros() << std::endl;
+  int global_rows = A.rows();
+  MPI_Bcast(&global_rows, 1, MPI_INT, 0, mpi_comm);
 
-  A.makeCompressed();
+  if (mpi_rank == 0) {
+  std::cout << "Launching CG with a sparse MPI matrix with size: " << global_rows
+            << "x" << global_rows << ", non zero: " << A.nonZeros() << std::endl;
+  }
+
+  // Make A as compressed storage mode
+  if (mpi_rank == 0) {
+    A.makeCompressed();
+  }
 
   // Maintain whole vectors in each processess
-  EigenVectord e;
-  EigenVectord b(A.rows());
-  if (!mpi_rank) {
-    e.resize(A.rows());
-    e.fill(1.0);
+  EigenVectord e(global_rows);
+  EigenVectord b(global_rows);
+  e.fill(1.0);
+  if (mpi_rank == 0) {
     b = A * e;
+  }
 #if DEBUG == 1
     std::cout << "e vector:" << std::endl << e << std::endl;
     std::cout << "b vector:" << std::endl << b << std::endl;
 #endif
-  }
   // Initialise processes b vector
-  MPI_Bcast(b.data(), b.size(), MPI_DOUBLE, 0, mpi_comm);
+  MPI_Bcast(b.data(), global_rows, MPI_DOUBLE, 0, mpi_comm);
 
   apsc::MPISparseMatrix<decltype(A), decltype(e),
                         decltype(A)::IsRowMajor

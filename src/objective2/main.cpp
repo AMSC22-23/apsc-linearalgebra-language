@@ -36,8 +36,9 @@ int main(int argc, char *argv[]) {
 
   MatrixWithVecSupport<double, Vector<double>,
                        apsc::LinearAlgebra::ORDERING::ROWMAJOR>
-      A(size, size);
+      A;
   if (mpi_rank == 0) {
+    A.resize(size, size);
     cout << "Launching CG with problem (SPD matrix) size of " << size << "x"
          << size << endl;
     Utils::default_spd_fill<
