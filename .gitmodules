@@ -1,0 +1,3 @@
+[submodule "src/AMSC-CodeExamples"]
+	path = src/AMSC-CodeExamples
+	url = https://github.com/mattteochen/AMSC-CodeExamples.git

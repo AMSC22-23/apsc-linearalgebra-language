@@ -1,0 +1,22 @@
+cmake_minimum_required(VERSION 3.12.0)
+project(MatVetCgShared LANGUAGES CXX C)
+
+include(./cmake_shared/cmake-common.cmake)
+
+SET(EIGEN3_INCLUDE_DIR "/usr/include/eigen3")  #Github actions server
+SET(MPI_INCLUDE_DIR "/usr/lib/x86_64-linux-gnu/openmpi/include")
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/AMSC-CodeExamples/Examples/src/
+  ${CMAKE_CURRENT_SOURCE_DIR}/shared/ ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/
+  ${EIGEN3_INCLUDE_DIR})
+include_directories(SYSTEM ${MPI_INCLUDE_DIR})
+
+#Define executables
+add_executable(objective1 objective1/main.cpp)
+# MPI still not resolved during linking on workflow
+#add_executable(objective2 objective2/main.cpp)
+add_executable(vector_test demo/vector_test.cpp)
+add_executable(eigen_structure_map_test demo/eigen_structure_map_test.cpp)
+add_executable(matrix_with_vec_support_ls_test demo/matrix_with_vec_support_ls_test.cpp)
+
+#target_link_libraries(objective2 "/usr/lib/x86_64-linux-gnu/libmpi.so")

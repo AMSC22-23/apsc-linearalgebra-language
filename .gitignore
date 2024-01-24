@@ -1,0 +1,15 @@
+**/.cache/**/*
+**/build*/*
+
+#clangd
+compile_commands.json
+
+#MacOS temp file
+**/.DS_Store
+
+#large files
+0_55fill_size36000.mtx
+0_17fill_size63838.mtx
+
+#python cache
+**/__pycache__/*

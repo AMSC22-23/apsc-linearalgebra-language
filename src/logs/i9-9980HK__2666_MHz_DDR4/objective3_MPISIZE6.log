@@ -1,0 +1,13 @@
+PROBLEM_NAME,SIZE,TIME(microseconds),FLAG
+../inputs/0_05fill_size9604.mtx,9604,4442,0
+../inputs/0_11fill_size23052.mtx,23052,1330839599,1
+../inputs/0_1fill_size20466.mtx,20466,370231,0
+../inputs/0_2fill_size1000.mtx,1000,8183,0
+../inputs/0_55fill_size36000.mtx,36000,38773018,0
+../inputs/0_64fill_size3562.mtx,3562,4832597,1
+../inputs/1_07fill_size2003.mtx,2003,1639024,1
+../inputs/1_0fill_size1806.mtx,1806,321468,0
+../inputs/1_15fill_size1440.mtx,1440,63271,0
+../inputs/2_03fill_size9000.mtx,9000,1879459,0
+../inputs/3_18fill_size588.mtx,588,133366,0
+../inputs/4_4fill_size420.mtx,420,2259,0
