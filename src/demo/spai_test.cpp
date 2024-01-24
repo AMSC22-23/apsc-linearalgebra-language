@@ -105,13 +105,13 @@ int main(int argc, char* argv[]) {
         std::chrono::duration_cast<std::chrono::microseconds>(end - begin)
             .count();
     // M.print();
-    // std::cout << "M non zero: " << M.countNonZero << std::endl;
+    // std::cout << "M non zero: " << M.non_zeros << std::endl;
     auto eigen_M =
         EigenStructureMap<Eigen::SparseMatrix<double>, double,
                           decltype(CSC_A)>::create_map(size, size,
-                                                       M.countNonZero, M.offset,
-                                                       M.flatRowIndex,
-                                                       M.flatData)
+                                                       M.non_zeros, M.offset,
+                                                       M.flat_row_index,
+                                                       M.values)
             .structure();
 
     if (mpi_rank == 0) {

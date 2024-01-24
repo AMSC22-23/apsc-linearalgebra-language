@@ -17,10 +17,10 @@ template <typename Scalar>
 struct CSC {
   int m = 0;
   int n = 0;
-  int countNonZero = 0;
+  int non_zeros = 0;
   int* offset = 0;
-  Scalar* flatData = 0;
-  int* flatRowIndex = 0;
+  Scalar* values = 0;
+  int* flat_row_index = 0;
   uint8_t initialised = 0;
   uint8_t external_buffer = 0;
 
@@ -32,15 +32,15 @@ struct CSC {
     if (!external_buffer && initialised) {
       free(offset);
       offset = 0;
-      free(flatData);
-      flatData = 0;
-      free(flatRowIndex);
-      flatRowIndex = 0;
+      free(values);
+      values = 0;
+      free(flat_row_index);
+      flat_row_index = 0;
     }
     initialised = 0;
     m = 0;
     n = 0;
-    countNonZero = 0;
+    non_zeros = 0;
     external_buffer = 0;
   }
 
@@ -54,8 +54,8 @@ struct CSC {
     // map this CSC matrix into an Eigen type to exploit Eigen iterative solvers
     auto eigen_csc =
         EigenStructureMap<Eigen::SparseMatrix<Scalar, Eigen::ColMajor>, Scalar,
-                          CSC<Scalar>>::create_map(m, n, countNonZero, offset,
-                                                   flatRowIndex, flatData)
+                          CSC<Scalar>>::create_map(m, n, non_zeros, offset,
+                                                   flat_row_index, values)
             .structure();
     // map this b vector into an Eigen type to exploit Eigen iterative solvers
     auto eigen_b =
@@ -84,8 +84,8 @@ struct CSC {
     // map this CSC matrix into an Eigen type to exploit Eigen iterative solvers
     auto eigen_csc =
         EigenStructureMap<Eigen::SparseMatrix<Scalar, Eigen::ColMajor>, Scalar,
-                          CSC<Scalar>>::create_map(m, n, countNonZero, offset,
-                                                   flatRowIndex, flatData)
+                          CSC<Scalar>>::create_map(m, n, non_zeros, offset,
+                                                   flat_row_index, values)
             .structure();
     // map this b vector into an Eigen type to exploit Eigen iterative solvers
     auto eigen_b =
@@ -112,10 +112,10 @@ struct CSC {
     ASSERT(!initialised, "CSC already initialised");
     m = m_in;
     n = n_in;
-    countNonZero = nnz;
+    non_zeros = nnz;
     offset = offset_in;
-    flatData = flat_data_in;
-    flatRowIndex = flat_row_index_in;
+    values = flat_data_in;
+    flat_row_index = flat_row_index_in;
     initialised = 1;
     external_buffer = 1;
   }
@@ -132,7 +132,7 @@ struct CSC {
         }
       }
     }
-    countNonZero = count;
+    non_zeros = count;
 
     offset = (int*)malloc(sizeof(int) * (n + 1));
     int scan = 0;
@@ -146,23 +146,23 @@ struct CSC {
     }
     offset[n] = scan;
 
-    flatData = (Scalar*)malloc(sizeof(Scalar) * countNonZero);
+    values = (Scalar*)malloc(sizeof(Scalar) * non_zeros);
     int index = 0;
     for (int j = 0; j < n; j++) {
       for (int i = 0; i < m; i++) {
         if (A[i * n + j] != 0.0) {
-          flatData[index] = A[i * n + j];
+          values[index] = A[i * n + j];
           index++;
         }
       }
     }
 
-    flatRowIndex = (int*)malloc(sizeof(int) * countNonZero);
+    flat_row_index = (int*)malloc(sizeof(int) * non_zeros);
     index = 0;
     for (int j = 0; j < n; j++) {
       for (int i = 0; i < m; i++) {
         if (A[i * n + j] != 0.0) {
-          flatRowIndex[index] = i;
+          flat_row_index[index] = i;
           index++;
         }
       }
@@ -174,7 +174,7 @@ struct CSC {
     ASSERT(!initialised, "CSC already initialised");
     m = m_in;
     n = n_in;
-    countNonZero = n;
+    non_zeros = n;
 
     offset = (int*)malloc(sizeof(int) * (n + 1));
     for (int j = 0; j < n + 1; j++) {
@@ -185,14 +185,14 @@ struct CSC {
       }
     }
 
-    flatData = (Scalar*)malloc(sizeof(Scalar) * countNonZero);
+    values = (Scalar*)malloc(sizeof(Scalar) * non_zeros);
     for (int j = 0; j < n; j++) {
-      flatData[j] = value;
+      values[j] = value;
     }
 
-    flatRowIndex = (int*)malloc(sizeof(int) * countNonZero);
+    flat_row_index = (int*)malloc(sizeof(int) * non_zeros);
     for (int i = 0; i < n; i++) {
-      flatRowIndex[i] = i;
+      flat_row_index[i] = i;
     }
     initialised = 1;
   }
@@ -212,7 +212,7 @@ struct CSC {
     deltaNonzeros -= offset[k + 1] - offset[k];
 
     // set the new number of nonzeros
-    newA.countNonZero = countNonZero + deltaNonzeros;
+    newA.non_zeros = non_zeros + deltaNonzeros;
 
     // Malloc space for the new offset array
     newA.offset = (int*)malloc(sizeof(int) * (n + 1));
@@ -228,29 +228,29 @@ struct CSC {
     }
 
     // Malloc space
-    newA.flatData = (Scalar*)malloc(sizeof(Scalar) * newA.countNonZero);
-    newA.flatRowIndex = (int*)malloc(sizeof(int) * newA.countNonZero);
+    newA.values = (Scalar*)malloc(sizeof(Scalar) * newA.non_zeros);
+    newA.flat_row_index = (int*)malloc(sizeof(int) * newA.non_zeros);
 
-    // Copy the old flatData and flatRowIndex values before k
+    // Copy the old values and flat_row_index values before k
     for (int i = 0; i < offset[k] + 1; i++) {
-      newA.flatData[i] = flatData[i];
-      newA.flatRowIndex[i] = flatRowIndex[i];
+      newA.values[i] = values[i];
+      newA.flat_row_index[i] = flat_row_index[i];
     }
 
-    // insert the new values into the flatData and flatRowIndex from k
+    // insert the new values into the values and flat_row_index from k
     int index = 0;
     for (int i = 0; i < n2; i++) {
       if (newVaules[i] != 0.0) {
-        newA.flatData[offset[k] + index] = newVaules[i];
-        newA.flatRowIndex[offset[k] + index] = J[i];
+        newA.values[offset[k] + index] = newVaules[i];
+        newA.flat_row_index[offset[k] + index] = J[i];
         index++;
       }
     }
 
-    // Copy the old flatData and flatRowIndex values after k
-    for (int i = newA.offset[k + 1]; i < newA.countNonZero; i++) {
-      newA.flatData[i] = flatData[i - deltaNonzeros];
-      newA.flatRowIndex[i] = flatRowIndex[i - deltaNonzeros];
+    // Copy the old values and flat_row_index values after k
+    for (int i = newA.offset[k + 1]; i < newA.non_zeros; i++) {
+      newA.values[i] = values[i - deltaNonzeros];
+      newA.flat_row_index[i] = flat_row_index[i - deltaNonzeros];
     }
 
     // swap
@@ -259,9 +259,9 @@ struct CSC {
     this->n = newA.n;
     this->initialised = 1;
     this->offset = newA.offset;
-    this->countNonZero = newA.countNonZero;
-    this->flatRowIndex = newA.flatRowIndex;
-    this->flatData = newA.flatData;
+    this->non_zeros = newA.non_zeros;
+    this->flat_row_index = newA.flat_row_index;
+    this->values = newA.values;
   }
 
   Scalar* to_dense(int* I, int* J, int n1, int n2) {
@@ -269,8 +269,8 @@ struct CSC {
     for (int i = 0; i < n1; i++) {
       for (int j = 0; j < n2; j++) {
         for (int l = offset[J[j]]; l < offset[J[j] + 1]; l++) {
-          if (I[i] == flatRowIndex[l]) {
-            dense[i * n2 + j] = flatData[l];
+          if (I[i] == flat_row_index[l]) {
+            dense[i * n2 + j] = values[l];
           }
         }
       }
@@ -282,33 +282,33 @@ struct CSC {
     CSC* C = (CSC*)malloc(sizeof(CSC));
     C->m = A->m;
     C->n = B->n;
-    C->countNonZero = 0;
+    C->non_zeros = 0;
     C->offset = (int*)malloc(sizeof(int) * (C->n + 1));
     C->offset[0] = 0;
-    C->flatData =
-        (Scalar*)malloc(sizeof(Scalar) * (A->countNonZero + B->countNonZero));
-    C->flatRowIndex =
-        (int*)malloc(sizeof(int) * (A->countNonZero + B->countNonZero));
+    C->values =
+        (Scalar*)malloc(sizeof(Scalar) * (A->non_zeros + B->non_zeros));
+    C->flat_row_index =
+        (int*)malloc(sizeof(int) * (A->non_zeros + B->non_zeros));
 
     for (int j = 0; j < C->n; j++) {
-      int countNonZero = 0;
+      int non_zeros = 0;
       for (int i = 0; i < C->m; i++) {
         Scalar sum = 0.0;
         for (int l = A->offset[i]; l < A->offset[i + 1]; l++) {
           for (int k = B->offset[j]; k < B->offset[j + 1]; k++) {
-            if (A->flatRowIndex[l] == B->flatRowIndex[k]) {
-              sum += A->flatData[l] * B->flatData[k];
+            if (A->flat_row_index[l] == B->flat_row_index[k]) {
+              sum += A->values[l] * B->values[k];
             }
           }
         }
         if (sum != 0.0) {
-          C->flatData[C->countNonZero] = sum;
-          C->flatRowIndex[C->countNonZero] = i;
-          C->countNonZero++;
-          countNonZero++;
+          C->values[C->non_zeros] = sum;
+          C->flat_row_index[C->non_zeros] = i;
+          C->non_zeros++;
+          non_zeros++;
         }
       }
-      C->offset[j + 1] = C->offset[j] + countNonZero;
+      C->offset[j + 1] = C->offset[j] + non_zeros;
     }
     return C;
   }
@@ -317,20 +317,20 @@ struct CSC {
     printf("\n\n--------Printing CSC data--------\n");
     printf("m: %d\n", m);
     printf("n: %d\n", n);
-    printf("countNonZero: %d\n", countNonZero);
+    printf("non_zeros: %d\n", non_zeros);
     printf("offset: ");
     for (int i = 0; i < n + 1; i++) {
       printf("%d ", offset[i]);
     }
     printf("\n");
-    printf("flatData: ");
-    for (int i = 0; i < countNonZero; i++) {
-      printf("%f ", flatData[i]);
+    printf("values: ");
+    for (int i = 0; i < non_zeros; i++) {
+      printf("%f ", values[i]);
     }
     printf("\n");
-    printf("flatRowIndex: ");
-    for (int i = 0; i < countNonZero; i++) {
-      printf("%d ", flatRowIndex[i]);
+    printf("flat_row_index: ");
+    for (int i = 0; i < non_zeros; i++) {
+      printf("%d ", flat_row_index[i]);
     }
     printf("\n");
   }

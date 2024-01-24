@@ -65,10 +65,10 @@ struct CSC<Scalar> CSPAI(struct CSC<Scalar>* A, Scalar tolerance,
     J = (int*)malloc(sizeof(int) * n2);
 
     // Iterate through row indeces from offset[k] to offset[k + 1] and take all
-    // elements from the flatRowIndex
+    // elements from the flat_row_index
     int h = 0;
     for (int i = M.offset[k]; i < M.offset[k + 1]; i++) {
-      J[h] = M.flatRowIndex[i];
+      J[h] = M.flat_row_index[i];
       h++;
     }
 
@@ -87,12 +87,12 @@ struct CSC<Scalar> CSPAI(struct CSC<Scalar>* A, Scalar tolerance,
       for (int i = A->offset[J[j]]; i < A->offset[J[j] + 1]; i++) {
         int keep = 1;
         for (int h = 0; h < A->m; h++) {
-          if (A->flatRowIndex[i] == I[h]) {
+          if (A->flat_row_index[i] == I[h]) {
             keep = 0;
           }
         }
         if (keep == 1) {
-          I[n1] = A->flatRowIndex[i];
+          I[n1] = A->flat_row_index[i];
           n1++;
         }
       }
@@ -105,7 +105,7 @@ struct CSC<Scalar> CSPAI(struct CSC<Scalar>* A, Scalar tolerance,
     // 3) Create Â = A(I, J)
     // We initialize AHat to zeros. Then we iterate through all indeces of J,
     // and iterate through all indeces of I. For each of the indices of I and
-    // the indices in the flatRowIndex, we check if they match. If they do, we
+    // the indices in the flat_row_index, we check if they match. If they do, we
     // add that element to AHat.
     AHat = A->to_dense(I, J, n1, n2);
 
@@ -243,7 +243,7 @@ struct CSC<Scalar> CSPAI(struct CSC<Scalar>* A, Scalar tolerance,
       for (int i = 0; i < A->n; i++) {
         for (int j = 0; j < l; j++) {
           for (int h = A->offset[i]; h < A->offset[i + 1]; h++) {
-            if (L[j] == A->flatRowIndex[h]) {
+            if (L[j] == A->flat_row_index[h]) {
               keepArray[i] = 1;
             }
           }
@@ -281,12 +281,12 @@ struct CSC<Scalar> CSPAI(struct CSC<Scalar>* A, Scalar tolerance,
       for (int i = 0; i < n2Tilde; i++) {
         Scalar rTAe_j = 0.0;  // r^T * A(.,j)
         for (int j = A->offset[JTilde[i]]; j < A->offset[JTilde[i] + 1]; j++) {
-          rTAe_j += A->flatData[j] * residual[A->flatRowIndex[j]];
+          rTAe_j += A->values[j] * residual[A->flat_row_index[j]];
         }
 
         Scalar Ae_jNorm = 0.0;
         for (int j = A->offset[JTilde[i]]; j < A->offset[JTilde[i] + 1]; j++) {
-          Ae_jNorm += A->flatData[j] * A->flatData[j];
+          Ae_jNorm += A->values[j] * A->values[j];
         }
         Ae_jNorm = sqrt(Ae_jNorm);
 
@@ -361,12 +361,12 @@ struct CSC<Scalar> CSPAI(struct CSC<Scalar>* A, Scalar tolerance,
         for (int i = A->offset[JUnion[j]]; i < A->offset[JUnion[j] + 1]; i++) {
           int keep = 1;
           for (int h = 0; h < n1; h++) {
-            if (A->flatRowIndex[i] == I[h] || A->flatRowIndex[i] == ITilde[h]) {
+            if (A->flat_row_index[i] == I[h] || A->flat_row_index[i] == ITilde[h]) {
               keep = 0;
             }
           }
           if (keep == 1) {
-            ITilde[n1Tilde] = A->flatRowIndex[i];
+            ITilde[n1Tilde] = A->flat_row_index[i];
             n1Tilde++;
           }
         }

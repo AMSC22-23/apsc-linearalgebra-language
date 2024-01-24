@@ -116,9 +116,9 @@ int main(int argc, char *argv[]) {
             double, Eigen::MatrixXd, 0>(&CSC_A, 0.1, 30, 1);
     const auto eigen_M =
         EigenStructureMap<Eigen::SparseMatrix<double>, double,
-                          decltype(M)>::create_map(size, size, M.countNonZero,
-                                                   M.offset, M.flatRowIndex,
-                                                   M.flatData)
+                          decltype(M)>::create_map(size, size, M.non_zeros,
+                                                   M.offset, M.flat_row_index,
+                                                   M.values)
             .structure();
 
     const Eigen::SparseMatrix<double> AM = A * eigen_M;
