@@ -142,7 +142,6 @@ int CG_no_precon(Matrix &A, Vector &x, const Vector &b, int &max_iter,
   // MPI section start
   A.product(x);
   Vector AxX;
-  A.template collectGlobal<Vector>(AxX);
   A.AllCollectGlobal(AxX);
   // MPI section end
 
