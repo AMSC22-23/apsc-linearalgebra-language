@@ -10,7 +10,7 @@
 #include <Parallel/Utilities/partitioner.hpp>
 #include <Vector.hpp>
 #include <csc.hpp>
-#include <cspai.hpp>
+#include <spai.hpp>
 #include <iostream>
 #include <utils.hpp>
 

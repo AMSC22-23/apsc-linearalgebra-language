@@ -4,7 +4,7 @@
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include <csc.hpp>
-#include <cspai.hpp>
+#include <spai.hpp>
 #include <iostream>
 #include <set>
 #include <spai.hpp>
