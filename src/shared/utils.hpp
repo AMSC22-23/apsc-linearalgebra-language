@@ -108,14 +108,13 @@ void MPI_matrix_show(MPIMatrix MPIMat, Matrix Mat, const int mpi_rank,
   }
 }
 
-namespace Solvers
-{
+namespace Solvers {
 namespace GMRES {
 template <typename MPILhs, typename Rhs, typename Scalar, typename ExactSol,
           int SHOW_ERROR_NORM = 1, typename... Preconditioner>
 int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
-              const MPIContext mpi_ctx, objective_context obj_ctx,
-              Preconditioner &...P) {
+          const MPIContext mpi_ctx, objective_context obj_ctx,
+          Preconditioner &...P) {
   constexpr std::size_t P_size = sizeof...(P);
   static_assert(P_size < 2, "Please specify max 1 preconditioner");
 
@@ -134,24 +133,15 @@ int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
     auto id = Eigen::IdentityPreconditioner();
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    auto result =
-        ::LinearAlgebra::LinearSolvers::Sequential::GMRES<MPILhs, Rhs, decltype(id)>(
-            A, x, b, id, restart, max_iter, tol);
+    auto result = ::LinearAlgebra::LinearSolvers::Sequential::GMRES<
+        MPILhs, Rhs, decltype(id)>(A, x, b, id, restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
     long long diff =
         std::chrono::duration_cast<std::chrono::microseconds>(end - begin)
             .count();
-    decltype(diff) diff_sum = 0;
-
-    MPI_Reduce(&diff, &diff_sum, 1, MPI_LONG_LONG, MPI_SUM, 0,
-               mpi_ctx.mpi_comm());
-
     if (mpi_ctx.mpi_rank() == 0) {
-      cout << "(Time spent by all processes: " << diff_sum
-           << ", total processes: " << mpi_ctx.mpi_size() << ")" << endl;
-      cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[µs]"
-           << endl;
+      cout << "(Time spent: " << diff << "[µs]" << endl;
       cout << "Solution with GMRES:" << endl;
       cout << "iterations performed:                      " << max_iter << endl;
       cout << "tolerance achieved:                        " << tol << endl;
@@ -161,8 +151,9 @@ int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
 #if PRODUCE_OUT_FILE == 1
       {
         obj_ctx.write(static_cast<long long>(size), ',',
-                      static_cast<long long>(diff_sum / mpi_ctx.mpi_size()),
-                      ',', static_cast<long long>(result));
+                      static_cast<long long>(diff), ',',
+                      static_cast<long long>(max_iter), ',',
+                      static_cast<long long>(result));
       }
 #endif
 #if DEBUG == 1
@@ -180,16 +171,9 @@ int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
     long long diff =
         std::chrono::duration_cast<std::chrono::microseconds>(end - begin)
             .count();
-    decltype(diff) diff_sum = 0;
-
-    MPI_Reduce(&diff, &diff_sum, 1, MPI_LONG_LONG, MPI_SUM, 0,
-               mpi_ctx.mpi_comm());
 
     if (mpi_ctx.mpi_rank() == 0) {
-      cout << "(Time spent by all processes: " << diff_sum
-           << ", total processes: " << mpi_ctx.mpi_size() << ")" << endl;
-      cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[µs]"
-           << endl;
+      cout << "(Time spent: " << diff << "[µs]" << endl;
       cout << "Solution with GMRES:" << endl;
       cout << "iterations performed:                      " << max_iter << endl;
       cout << "tolerance achieved:                        " << tol << endl;
@@ -199,8 +183,9 @@ int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
 #if PRODUCE_OUT_FILE == 1
       {
         obj_ctx.write(static_cast<long long>(size), ',',
-                      static_cast<long long>(diff_sum / mpi_ctx.mpi_size()),
-                      ',', static_cast<long long>(result));
+                      static_cast<long long>(diff), ',',
+                      static_cast<long long>(max_iter), ',',
+                      static_cast<long long>(result));
       }
 #endif
 #if DEBUG == 1
@@ -261,7 +246,8 @@ int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
       {
         obj_ctx.write(static_cast<long long>(size), ',',
                       static_cast<long long>(diff_sum / mpi_ctx.mpi_size()),
-                      ',', static_cast<long long>(result));
+                      ',', static_cast<long long>(max_iter), ',',
+                      static_cast<long long>(result));
       }
 #endif
 #if DEBUG == 1
@@ -272,8 +258,9 @@ int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
   } else {
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    auto result = ::LinearAlgebra::LinearSolvers::MPI::GMRES<
-        MPILhs, Rhs, Preconditioner...>(A, x, b, P..., restart, max_iter, tol);
+    auto result = ::LinearAlgebra::LinearSolvers::MPI::GMRES<MPILhs, Rhs,
+                                                             Preconditioner...>(
+        A, x, b, P..., restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
     long long diff =
@@ -299,7 +286,8 @@ int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
       {
         obj_ctx.write(static_cast<long long>(size), ',',
                       static_cast<long long>(diff_sum / mpi_ctx.mpi_size()),
-                      ',', static_cast<long long>(result));
+                      ',', static_cast<long long>(max_iter), ',',
+                      static_cast<long long>(result));
       }
 #endif
 #if DEBUG == 1
@@ -361,7 +349,8 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
       {
         obj_ctx.write(static_cast<long long>(size), ',',
                       static_cast<long long>(diff_sum / mpi_ctx.mpi_size()),
-                      ',', static_cast<long long>(result));
+                      ',', static_cast<long long>(max_iter), ',',
+                      static_cast<long long>(result));
       }
 #endif
 #if DEBUG == 1

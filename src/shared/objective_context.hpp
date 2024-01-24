@@ -48,7 +48,7 @@ class objective_context {
       if (show_problem_name()) {
         m_report_file << "PROBLEM_NAME,";
       }
-      m_report_file << "SIZE,TIME(microseconds),FLAG" << std::endl;
+      m_report_file << "SIZE,TIME(microseconds),ITERATIONS,FLAG" << std::endl;
     }
 
     // write content
