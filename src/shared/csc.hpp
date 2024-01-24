@@ -46,30 +46,6 @@ struct CSC {
     external_buffer = 0;
   }
 
-  void setup_mpi(const int master_rank, int current_rank) {
-    if (current_rank == master_rank) {
-      ASSERT(initialised, "CSC not initialised" << std::endl);
-    }
-    std::cout << current_rank << ": 1\n";
-    MPI_Bcast(&non_zeros, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    std::cout << current_rank << ": 2\n";
-    MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&m, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    std::cout << "m: " << m << " n " << n << " non_zeros: " << non_zeros << std::endl;
-    if (current_rank != master_rank) {
-      offset = (int*)malloc((n+1) * sizeof(int)); 
-      flat_row_index = (int*)malloc((non_zeros) * sizeof(int)); 
-      values = (Scalar*)malloc((non_zeros) * sizeof(Scalar)); 
-      ASSERT(offset, "offset malloc failed" << std::endl);
-      ASSERT(flat_row_index, "flat_row_index malloc failed" << std::endl);
-      ASSERT(values, "values malloc failed" << std::endl);
-    }
-    MPI_Bcast(offset, n+1, MPI_INT, master_rank, MPI_COMM_WORLD);
-    MPI_Bcast(flat_row_index, non_zeros, MPI_INT, master_rank, MPI_COMM_WORLD);
-    MPI_Bcast(values, non_zeros, mpi_typeof(Scalar{}), master_rank, MPI_COMM_WORLD);
-    initialised = 1;
-  }
-
   template<typename EigenMatrixType>
   auto to_eigen(const std::size_t size) const {
     return
