@@ -11,7 +11,7 @@
 #include "assert.hpp"
 #include "csc.hpp"
 
-namespace LinearAlgebra {
+namespace apsc::LinearAlgebra {
 namespace Preconditioners {
 namespace ApproximateInverse {
 namespace Utils {

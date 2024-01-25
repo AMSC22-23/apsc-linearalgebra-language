@@ -14,7 +14,7 @@
 #include "least_sqaure_solver.hpp"
 #include "update_qr.hpp"
 
-namespace LinearAlgebra {
+namespace apsc::LinearAlgebra {
 namespace Preconditioners {
 namespace ApproximateInverse {
 template <typename Scalar, typename FullMatrix, int DEBUG_MODE = 0>

@@ -1,14 +1,10 @@
-/*
- * MPIMatrix.hpp
- *
- *  Created on: Oct 15, 2022
- *      Author: forma
- *  Modified on: Nov 29 2023
- *      Author: Kaixi Matteo Chen
+/**
+ * @file MPIFullMatrix.hpp
+ * @brief Header file containing a parallel full matrix definition.
  */
 
-#ifndef MPIMATRIX_HPP
-#define MPIMATRIX_HPP
+#ifndef MPIFULLMATRIX_HPP
+#define MPIFULLMATRIX_HPP
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsuggest-override"
@@ -22,7 +18,9 @@
 #include <Parallel/Utilities/partitioner.hpp>
 #include <Vector.hpp>
 #include <vector>
-namespace apsc {
+
+namespace apsc::LinearAlgebra
+{
 /*!
  * A class for parallel matrix product
  * @tparam Matrix A matrix compliant with that in Matrix.hpp
@@ -33,7 +31,7 @@ namespace apsc {
  * It must have also a range constructor as std::vector
  */
 template <class Matrix, class Vector, ORDERINGTYPE ORDER_TYPE>
-class MPIMatrix {
+class MPIFullMatrix {
  public:
   /*!
    * We assume that Matrix defines a type equal to that of the contained element
@@ -242,4 +240,4 @@ class MPIMatrix {
 };
 }  // end namespace apsc
 
-#endif /* MPIMATRIX_HPP */
+#endif /* MPIFULLMATRIX_HPP */

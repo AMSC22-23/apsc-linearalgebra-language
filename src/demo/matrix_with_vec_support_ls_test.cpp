@@ -1,4 +1,4 @@
-#include <MatrixWithVecSupport.hpp>
+#include <FullMatrix.hpp>
 #include <Vector.hpp>
 #include <cstddef>
 #include <iostream>
@@ -10,11 +10,11 @@ int main(int argc, char *argv[]) {
   using namespace apsc::LinearAlgebra;
 
   constexpr std::size_t size = 10;
-  MatrixWithVecSupport<double, Vector<double>,
+  FullMatrix<double, Vector<double>,
                        apsc::LinearAlgebra::ORDERING::COLUMNMAJOR>
       A(size, size);
   Utils::default_spd_fill<
-      MatrixWithVecSupport<double, Vector<double>, ORDERING::COLUMNMAJOR>,
+      FullMatrix<double, Vector<double>, ORDERING::COLUMNMAJOR>,
       double>(A);
 
   Vector<double> e(size, 1.0);

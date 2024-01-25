@@ -3,10 +3,10 @@
 
 #include <Eigen/Sparse>
 #include <MPIContext.hpp>
-#include <MPIMatrix.hpp>
+#include <MPIFullMatrix.hpp>
 #include <MPISparseMatrix.hpp>
 #include <Matrix/Matrix.hpp>
-#include <MatrixWithVecSupport.hpp>
+#include <FullMatrix.hpp>
 #include <Parallel/Utilities/partitioner.hpp>
 #include <Vector.hpp>
 #include <csc.hpp>
@@ -115,11 +115,11 @@ int main(int argc, char* argv[]) {
 #endif
 
   // We have global A on each processes
-  CSC<double> CSC_A;
+  apsc::LinearAlgebra::CSC<double> CSC_A;
   CSC_A.map_external_buffer(A.outerIndexPtr(), A.valuePtr(), A.innerIndexPtr(),
                             A.rows(), A.cols(), A.nonZeros());
 
-  LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<double,
+  apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<double,
                                                            Eigen::MatrixXd, 1>
       precond(&CSC_A, tol, max_iter, 1);
   auto& M = precond.get_M();
@@ -222,7 +222,7 @@ int main(int argc, char* argv[]) {
       // x = My
 
       // Define an MPI version of AM
-      apsc::MPISparseMatrix<decltype(AM), decltype(e),
+      apsc::LinearAlgebra::MPISparseMatrix<decltype(AM), decltype(e),
                             decltype(AM)::IsRowMajor
                                 ? apsc::ORDERINGTYPE::ROWWISE
                                 : apsc::ORDERINGTYPE::COLUMNWISE>
@@ -266,7 +266,7 @@ int main(int argc, char* argv[]) {
       EigenVectord x;
 
       // Define an MPI version of A
-      apsc::MPISparseMatrix<decltype(A), decltype(e),
+      apsc::LinearAlgebra::MPISparseMatrix<decltype(A), decltype(e),
                             decltype(A)::IsRowMajor
                                 ? apsc::ORDERINGTYPE::ROWWISE
                                 : apsc::ORDERINGTYPE::COLUMNWISE>

@@ -29,11 +29,11 @@
 #include <mpi.h>
 
 #include <MPIContext.hpp>
-#include <MatrixWithVecSupport.hpp>
+#include <FullMatrix.hpp>
 
 #define DEBUG 0
 
-namespace LinearAlgebra {
+namespace apsc::LinearAlgebra {
 namespace LinearSolvers {
 namespace MPI {
 template <class Matrix, class Vector, class Preconditioner, typename Scalar>
@@ -46,15 +46,15 @@ int CG(Matrix &A, Vector &x, const Vector &b, const Preconditioner &M,
 
   static_assert(
       (std::is_base_of_v<
-           apsc::LinearAlgebra::MatrixWithVecSupport<
+           apsc::LinearAlgebra::FullMatrix<
                Scalar, Vector, apsc::LinearAlgebra::ORDERING::COLUMNMAJOR>,
            Preconditioner> ||
        std::is_base_of_v<
-           apsc::LinearAlgebra::MatrixWithVecSupport<
+           apsc::LinearAlgebra::FullMatrix<
                Scalar, Vector, apsc::LinearAlgebra::ORDERING::ROWMAJOR>,
            Preconditioner>),
       "The input Preconditioner class does not derive from "
-      "MatrixWithVecSupport");
+      "FullMatrix");
 
   const int mpi_rank = mpi_ctx.mpi_rank();
   const MPI_Comm mpi_comm = mpi_ctx.mpi_comm();

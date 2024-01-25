@@ -1,12 +1,10 @@
-/*
- * MatrixWithVecSupport.hpp
- *
- *  Created on: Nov 17, 2023
- *      Author: Kaixi Matteo Chen
+/**
+ * @file FullMatrix.hpp
+ * @brief Header file containing a full matrix definition supporting operation with a template defined vector.
  */
 
-#ifndef MATRIX_WITH_VEC_SUPPORT_HPP
-#define MATRIX_WITH_VEC_SUPPORT_HPP
+#ifndef FULL_MATRIX_HPP
+#define FULL_MATRIX_HPP
 #include <Eigen/Dense>
 #include <EigenStructureMap.hpp>
 #include <Matrix/Matrix.hpp>
@@ -32,7 +30,7 @@ namespace apsc::LinearAlgebra {
  * @tparam ORDER The Storage order (default row-wise)
  */
 template <typename SCALAR, typename Vector, ORDERING ORDER = ORDERING::ROWMAJOR>
-class MatrixWithVecSupport : public Matrix<SCALAR, ORDER> {
+class FullMatrix : public Matrix<SCALAR, ORDER> {
  public:
   using Scalar = SCALAR;
 
@@ -41,7 +39,7 @@ class MatrixWithVecSupport : public Matrix<SCALAR, ORDER> {
    * @param nrows Number of rows
    * @param ncols Number of columns
    */
-  MatrixWithVecSupport(std::size_t nrows = 0, std::size_t ncols = 0)
+  FullMatrix(std::size_t nrows = 0, std::size_t ncols = 0)
       : Matrix<SCALAR, ORDER>(nrows, ncols) {}
 
   /*!
@@ -145,4 +143,4 @@ class MatrixWithVecSupport : public Matrix<SCALAR, ORDER> {
 }  // namespace apsc::LinearAlgebra
 #pragma GCC diagnostic pop
 
-#endif /* MATRIX_WITH_VEC_SUPPORT_HPP */
+#endif /* FULL_MATRIX_HPP */

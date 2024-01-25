@@ -4,7 +4,7 @@
 #include <cmath>
 #include <vector>
 
-namespace LinearAlgebra {
+namespace apsc::LinearAlgebra {
 namespace LinearSolvers {
 namespace GMRESUtils {
 template <class Matrix, class Vector>

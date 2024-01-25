@@ -10,10 +10,10 @@
 #include <Eigen/IterativeLinearSolvers>
 #include <Eigen/Sparse>
 #include <MPIContext.hpp>
-#include <MPIMatrix.hpp>
+#include <MPIFullMatrix.hpp>
 #include <MPISparseMatrix.hpp>
 #include <Matrix/Matrix.hpp>
-#include <MatrixWithVecSupport.hpp>
+#include <FullMatrix.hpp>
 #include <Parallel/Utilities/partitioner.hpp>
 #include <Vector.hpp>
 #include <algorithm>
@@ -139,14 +139,14 @@ class SparseMatrix {
     Scalar tol = CG_TOL;
 
     if constexpr (USE_MPI) {
-      solver_info = ::LinearAlgebra::LinearSolvers::MPI::CG_no_precon<
+      solver_info = apsc::LinearAlgebra::LinearSolvers::MPI::CG_no_precon<
           decltype(parallel_sparse_matrix), decltype(rhs), Scalar>(
           parallel_sparse_matrix, x, rhs, max_iter, tol,
           MPIContext(communicator, mpi_rank), MPI_DOUBLE);
     } else {
       // Create identity preconditioner
       auto I = Eigen::IdentityPreconditioner();
-      solver_info = ::LinearAlgebra::LinearSolvers::Sequential::CG<
+      solver_info = apsc::LinearAlgebra::LinearSolvers::Sequential::CG<
           decltype(eigen_sparse_matrix), decltype(rhs), decltype(I), Scalar>(
           eigen_sparse_matrix, x, rhs, I, max_iter, tol);
     }
@@ -400,7 +400,7 @@ class FullMatrix {
     Scalar tol = CG_TOL;
 
     if constexpr (USE_MPI) {
-      solver_info = ::LinearAlgebra::LinearSolvers::MPI::CG_no_precon<
+      solver_info = apsc::LinearAlgebra::LinearSolvers::MPI::CG_no_precon<
           decltype(paralle_full_matrix), decltype(rhs), Scalar>(
           paralle_full_matrix, x, rhs, max_iter, tol,
           MPIContext(communicator, mpi_rank), MPI_DOUBLE);
@@ -411,7 +411,7 @@ class FullMatrix {
       for (int i = 0; i < m; i++) {
         I(i, i) = static_cast<Scalar>(1);
       }
-      solver_info = ::LinearAlgebra::LinearSolvers::Sequential::CG<
+      solver_info = apsc::LinearAlgebra::LinearSolvers::Sequential::CG<
           decltype(full_matirx), decltype(rhs), decltype(I), Scalar>(
           full_matirx, x, rhs, I, max_iter, tol);
     }
@@ -520,14 +520,14 @@ class FullMatrix {
   /**
    * @brief Instance of a full matrix.
    */
-  MatrixWithVecSupport<double, Vector<double>,
+  apsc::LinearAlgebra::FullMatrix<double, Vector<double>,
                        OT == OrderingType::COLUMNMAJOR ? ORDERING::COLUMNMAJOR
                                                        : ORDERING::ROWMAJOR>
       full_matirx;
   /**
    * @brief Instance of a MPI full matrix.
    */
-  MPIMatrix<decltype(full_matirx), Vector<Scalar>,
+  apsc::LinearAlgebra::MPIFullMatrix<decltype(full_matirx), Vector<Scalar>,
             OT == OrderingType::COLUMNMAJOR ? ORDERINGTYPE::COLUMNWISE
                                             : ORDERINGTYPE::ROWWISE>
       paralle_full_matrix;

@@ -13,7 +13,7 @@
 #include "least_sqaure_solver.hpp"
 #include "permutation.hpp"
 
-namespace LinearAlgebra {
+namespace apsc::LinearAlgebra {
 namespace Preconditioners {
 namespace ApproximateInverse {
 namespace Utils {

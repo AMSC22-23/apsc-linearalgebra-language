@@ -6,7 +6,7 @@
 #include <iostream>
 #include <memory>
 
-namespace LinearAlgebra {
+namespace apsc::LinearAlgebra {
 namespace LinearSolvers {
 namespace Sequential {
 //*****************************************************************

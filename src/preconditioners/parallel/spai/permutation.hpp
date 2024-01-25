@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <cstring>
 
-namespace LinearAlgebra {
+namespace apsc::LinearAlgebra {
 namespace Preconditioners {
 namespace ApproximateInverse {
 namespace Utils {
