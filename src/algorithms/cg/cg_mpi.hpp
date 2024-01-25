@@ -31,6 +31,8 @@
 #include <MPIContext.hpp>
 #include <MatrixWithVecSupport.hpp>
 
+#define DEBUG 0
+
 namespace LinearAlgebra {
 namespace LinearSolvers
 {
@@ -159,12 +161,13 @@ int CG_no_precon(Matrix &A, Vector &x, const Vector &b, int &max_iter,
     return 0;
   }
 
-  std::cout << mpi_rank << ": entered cg" << std::endl;
   for (int i = 1; i <= max_iter; i++) {
     // debug iteraton
+#if DEBUG == 1
     if (i % debug_iteration_delta == 0) {
       std::cout << mpi_rank << ": iteration " << i << std::endl;
     }
+#endif
     // alpha numerator
     alpha_num = d.dot(r);
     // alpha denominator
