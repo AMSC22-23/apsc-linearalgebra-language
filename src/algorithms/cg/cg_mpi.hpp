@@ -34,10 +34,8 @@
 #define DEBUG 0
 
 namespace LinearAlgebra {
-namespace LinearSolvers
-{
-namespace MPI
-{
+namespace LinearSolvers {
+namespace MPI {
 template <class Matrix, class Vector, class Preconditioner, typename Scalar>
 int CG(Matrix &A, Vector &x, const Vector &b, const Preconditioner &M,
        int &max_iter, typename Vector::Scalar &tol, const MPIContext mpi_ctx,
@@ -204,7 +202,7 @@ int CG_no_precon(Matrix &A, Vector &x, const Vector &b, int &max_iter,
   return 1;
 }
 
-}
-}
+}  // namespace MPI
+}  // namespace LinearSolvers
 }  // namespace LinearAlgebra
 #endif

@@ -74,7 +74,8 @@ class MPISparseMatrix {
     bool dead_signal = 0;
     if constexpr (std::is_base_of_v<Eigen::SparseCompressedBase<Matrix>,
                                     Matrix>) {
-      if (mpi_rank == manager && !compressed_global_sparse_matrix.isCompressed()) {
+      if (mpi_rank == manager &&
+          !compressed_global_sparse_matrix.isCompressed()) {
         dead_signal = 1;
       }
       MPI_Bcast(&dead_signal, 1, mpi_typeof(decltype(dead_signal){}), 0,

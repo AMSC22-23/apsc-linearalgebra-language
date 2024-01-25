@@ -4,7 +4,6 @@
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include <csc.hpp>
-#include <spai.hpp>
 #include <iostream>
 #include <set>
 #include <spai.hpp>
@@ -64,8 +63,9 @@ int main(int argc, char* argv[]) {
                               A.nonZeros());
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<
-        double, Eigen::MatrixXd, 1> precond(&CSC_A, tol, max_iter, 1);
+    LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<double,
+                                                             Eigen::MatrixXd, 1>
+        precond(&CSC_A, tol, max_iter, 1);
     MPI_Barrier(MPI_COMM_WORLD);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();

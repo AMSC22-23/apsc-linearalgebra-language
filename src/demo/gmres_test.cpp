@@ -1,4 +1,3 @@
-#include <string>
 #include <mpi.h>
 #include <stdint.h>
 
@@ -11,8 +10,9 @@
 #include <Parallel/Utilities/partitioner.hpp>
 #include <Vector.hpp>
 #include <csc.hpp>
-#include <spai.hpp>
 #include <iostream>
+#include <spai.hpp>
+#include <string>
 #include <utils.hpp>
 
 #include "assert.hpp"
@@ -27,7 +27,7 @@ using EigenVectord = Eigen::VectorXd;
 // we have to store the SparseMatrix A on each processes.
 // Further development can release this constraint by splitting
 // the SPAI setup in a more parallel fashion.
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
 #if LOAD_MATRIX_FROM_FILE == 0
   if (argc < 2) {
     std::cerr << "Please specify the problem size as input argument"
@@ -77,22 +77,22 @@ int main(int argc, char *argv[]) {
          "The provided matrix is not square" << std::endl);
 #endif
 #endif
-  
+
   if (argc > 2) {
     tol = atof(argv[2]);
   }
   if (argc > 3) {
     max_iter = atoi(argv[3]);
   }
- 
+
   global_size = A.rows();
-  // Enable this if memory optimisation are added in order to not store global matrix on each process
-  // MPI_Bcast(&global_size, 1, MPI_INT, 0, mpi_comm);
+  // Enable this if memory optimisation are added in order to not store global
+  // matrix on each process MPI_Bcast(&global_size, 1, MPI_INT, 0, mpi_comm);
 
   if (mpi_rank == 0) {
     std::cout << "Launching GMRES with a sparse MPI matrix with size: "
-              << global_size << "x" << global_size << ", non zero: " << A.nonZeros()
-              << std::endl;
+              << global_size << "x" << global_size
+              << ", non zero: " << A.nonZeros() << std::endl;
   }
 
   // Maintain whole vectors in each processess
@@ -116,21 +116,25 @@ int main(int argc, char *argv[]) {
 
   // We have global A on each processes
   CSC<double> CSC_A;
-  CSC_A.map_external_buffer(A.outerIndexPtr(), A.valuePtr(),
-                            A.innerIndexPtr(), A.rows(), A.cols(),
-                            A.nonZeros());
+  CSC_A.map_external_buffer(A.outerIndexPtr(), A.valuePtr(), A.innerIndexPtr(),
+                            A.rows(), A.cols(), A.nonZeros());
 
-  LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<
-      double, Eigen::MatrixXd, 1>precond(&CSC_A, tol, max_iter, 1);
+  LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<double,
+                                                           Eigen::MatrixXd, 1>
+      precond(&CSC_A, tol, max_iter, 1);
   auto& M = precond.get_M();
-  const Eigen::Map<Eigen::SparseMatrix<double>> eigen_M = M.to_eigen<Eigen::SparseMatrix<double>>(global_size);
+  const Eigen::Map<Eigen::SparseMatrix<double>> eigen_M =
+      M.to_eigen<Eigen::SparseMatrix<double>>(global_size);
 
   Eigen::SparseMatrix<double> AM = A * eigen_M;
 
   // Testing sequential GMRES
   {
     if (mpi_rank == 0) {
-      std::cout << "================================= SEQUENTIAL GMRES =================================" << std::endl << std::endl;
+      std::cout << "================================= SEQUENTIAL GMRES "
+                   "================================="
+                << std::endl
+                << std::endl;
     }
     // Test preconditioned GMRES with SPAI preconditioner
     int r;
@@ -147,17 +151,18 @@ int main(int argc, char *argv[]) {
       // AMy = b
       // x = My
 
-      // retrive y, the unpreconditioned solver is called as the preconditioner is
-      // embedded in the input matrix
-      r = apsc::LinearAlgebra::Utils::Solvers::GMRES::solve<decltype(AM), decltype(b),
-                                                       double, decltype(e), 0>(
+      // retrive y, the unpreconditioned solver is called as the preconditioner
+      // is embedded in the input matrix
+      r = apsc::LinearAlgebra::Utils::Solvers::GMRES::solve<
+          decltype(AM), decltype(b), double, decltype(e), 0>(
           AM, b, y, e, GMRES_MAX_ITER(global_size),
           MPIContext(mpi_comm, mpi_rank, mpi_size),
-          objective_context(0, mpi_size,
-                            std::string("sequential_gmres_with_precon_matrix_AM") + std::string("_epsilon") + std::to_string(tol) +
-                                std::string("_MPISIZE") +
-                                std::to_string(mpi_size) + ".log",
-                            std::string(argv[1])));
+          objective_context(
+              0, mpi_size,
+              std::string("sequential_gmres_with_precon_matrix_AM") +
+                  std::string("_epsilon") + std::to_string(tol) +
+                  std::string("_MPISIZE") + std::to_string(mpi_size) + ".log",
+              std::string(argv[1])));
       ASSERT(r == 0, "A*M*y = b solver failed, can not retrieve the solution x"
                          << std::endl);
       // Recover initial unknown
@@ -182,20 +187,25 @@ int main(int argc, char *argv[]) {
                   << std::endl;
       }
       EigenVectord x;
-      r = apsc::LinearAlgebra::Utils::Solvers::GMRES::solve<decltype(A), decltype(b),
-                                                       double, decltype(e)>(
+      r = apsc::LinearAlgebra::Utils::Solvers::GMRES::solve<
+          decltype(A), decltype(b), double, decltype(e)>(
           A, b, x, e, GMRES_MAX_ITER(global_size),
           MPIContext(mpi_comm, mpi_rank, mpi_size),
-          objective_context(0, mpi_size,
-                            std::string("sequential_gmres_with_no_precon_matrix_A") + std::string("_epsilon") + std::to_string(tol) +
-                                std::string("_MPISIZE") +
-                                std::to_string(mpi_size) + ".log",
-                            std::string(argv[1])));
-
+          objective_context(
+              0, mpi_size,
+              std::string("sequential_gmres_with_no_precon_matrix_A") +
+                  std::string("_epsilon") + std::to_string(tol) +
+                  std::string("_MPISIZE") + std::to_string(mpi_size) + ".log",
+              std::string(argv[1])));
     }
 
     if (mpi_rank == 0) {
-      std::cout << std::endl << std::endl << "================================= PARALLEL GMRES =================================" << std::endl << std::endl;
+      std::cout << std::endl
+                << std::endl
+                << "================================= PARALLEL GMRES "
+                   "================================="
+                << std::endl
+                << std::endl;
     }
     // Test preconditioned GMRES with SPAI preconditioner
     {
@@ -215,20 +225,22 @@ int main(int argc, char *argv[]) {
       apsc::MPISparseMatrix<decltype(AM), decltype(e),
                             decltype(AM)::IsRowMajor
                                 ? apsc::ORDERINGTYPE::ROWWISE
-                                : apsc::ORDERINGTYPE::COLUMNWISE> PAM;
+                                : apsc::ORDERINGTYPE::COLUMNWISE>
+          PAM;
       PAM.setup(AM, mpi_comm);
 
-      // retrive y, the unpreconditioned solver is called as the preconditioner is
-      // embedded in the input matrix
-      r = apsc::LinearAlgebra::Utils::Solvers::GMRES::solve_MPI<decltype(PAM), decltype(b),
-                                                       double, decltype(e), 0>(
+      // retrive y, the unpreconditioned solver is called as the preconditioner
+      // is embedded in the input matrix
+      r = apsc::LinearAlgebra::Utils::Solvers::GMRES::solve_MPI<
+          decltype(PAM), decltype(b), double, decltype(e), 0>(
           PAM, b, y, e, GMRES_MAX_ITER(global_size),
           MPIContext(mpi_comm, mpi_rank, mpi_size),
-          objective_context(0, mpi_size,
-                            std::string("parallel_gmres_with_precon_matrix_AM") + std::string("_epsilon") + std::to_string(tol) +
-                                std::string("_MPISIZE") +
-                                std::to_string(mpi_size) + ".log",
-                            std::string(argv[1])));
+          objective_context(
+              0, mpi_size,
+              std::string("parallel_gmres_with_precon_matrix_AM") +
+                  std::string("_epsilon") + std::to_string(tol) +
+                  std::string("_MPISIZE") + std::to_string(mpi_size) + ".log",
+              std::string(argv[1])));
       ASSERT(r == 0, "A*M*y = b solver failed, can not retrieve the solution x"
                          << std::endl);
       x = eigen_M * y;
@@ -261,16 +273,16 @@ int main(int argc, char *argv[]) {
           PA;
       PA.setup(A, mpi_comm);
 
-      r = apsc::LinearAlgebra::Utils::Solvers::GMRES::solve_MPI<decltype(PA), decltype(b),
-                                                       double, decltype(e)>(
+      r = apsc::LinearAlgebra::Utils::Solvers::GMRES::solve_MPI<
+          decltype(PA), decltype(b), double, decltype(e)>(
           PA, b, x, e, GMRES_MAX_ITER(global_size),
           MPIContext(mpi_comm, mpi_rank, mpi_size),
-          objective_context(0, mpi_size,
-                            std::string("parallel_gmres_with_no_precon_matrix_A") + std::string("_epsilon") + std::to_string(tol) +
-                                std::string("_MPISIZE") +
-                                std::to_string(mpi_size) + ".log",
-                            std::string(argv[1])));
-
+          objective_context(
+              0, mpi_size,
+              std::string("parallel_gmres_with_no_precon_matrix_A") +
+                  std::string("_epsilon") + std::to_string(tol) +
+                  std::string("_MPISIZE") + std::to_string(mpi_size) + ".log",
+              std::string(argv[1])));
     }
   }
 

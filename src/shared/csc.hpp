@@ -1,8 +1,8 @@
 #ifndef CSC_HPP
 #define CSC_HPP
 
-#include <stdint.h>
 #include <mpi.h>
+#include <stdint.h>
 
 #include <Eigen/Sparse>
 #include <cstdint>
@@ -46,11 +46,11 @@ struct CSC {
     external_buffer = 0;
   }
 
-  template<typename EigenMatrixType>
+  template <typename EigenMatrixType>
   auto to_eigen(const std::size_t size) const {
-    return
-        EigenStructureMap<EigenMatrixType, double, CSC<Scalar>>::create_map(
-            size, size, non_zeros, offset, flat_row_index, values).structure();
+    return EigenStructureMap<EigenMatrixType, double, CSC<Scalar>>::create_map(
+               size, size, non_zeros, offset, flat_row_index, values)
+        .structure();
   }
 
   template <typename Vector>

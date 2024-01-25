@@ -13,14 +13,10 @@
 #include "least_sqaure_solver.hpp"
 #include "permutation.hpp"
 
-namespace LinearAlgebra
-{
-namespace Preconditioners
-{
-namespace ApproximateInverse
-{
-namespace Utils
-{
+namespace LinearAlgebra {
+namespace Preconditioners {
+namespace ApproximateInverse {
+namespace Utils {
 template <typename Scalar, typename FullMatrix>
 int update_QR(struct CSC<Scalar> *A, Scalar **AHat, Scalar **Q, Scalar **R,
               int **I, int **J, int **sortedJ, int *ITilde, int *JTilde,
@@ -302,9 +298,9 @@ int update_QR(struct CSC<Scalar> *A, Scalar **AHat, Scalar **Q, Scalar **R,
 
   return 0;
 }
-}
-}
-}
-}
+}  // namespace Utils
+}  // namespace ApproximateInverse
+}  // namespace Preconditioners
+}  // namespace LinearAlgebra
 
 #endif

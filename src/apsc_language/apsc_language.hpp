@@ -5,6 +5,8 @@
  * operations combined with parallel computing using MPI.
  * @author Kaixi Matteo Chen
  */
+#include <mpi.h>
+
 #include <Eigen/IterativeLinearSolvers>
 #include <Eigen/Sparse>
 #include <MPIContext.hpp>
@@ -22,21 +24,14 @@
 #include <cstdint>
 #include <cstring>
 #include <iostream>
-#include <mpi.h>
 #include <utils.hpp>
 
-namespace apsc::LinearAlgebra
-{
-namespace Language
-{
+namespace apsc::LinearAlgebra {
+namespace Language {
 /**
  * @brief Enum class defing the matrix ordering type
  */
-enum class OrderingType
-{
-  ROWMAJOR = 0,
-  COLUMNMAJOR = 1
-};
+enum class OrderingType { ROWMAJOR = 0, COLUMNMAJOR = 1 };
 
 /**
  * @brief A class representing a sparse matrix.
@@ -44,10 +39,10 @@ enum class OrderingType
  * @tparam OT The ordering type of the matrix.
  * @tparam USE_MPI Flag indicating whether MPI is used or not.
  */
-template<typename Scalar, OrderingType OT = OrderingType::COLUMNMAJOR, int USE_MPI = 1>
-class SparseMatrix
-{
-public:
+template <typename Scalar, OrderingType OT = OrderingType::COLUMNMAJOR,
+          int USE_MPI = 1>
+class SparseMatrix {
+ public:
   using Vector = Eigen::VectorX<Scalar>;
   /**
    * @brief Constructor for SparseMatrix.
@@ -144,17 +139,16 @@ public:
     Scalar tol = CG_TOL;
 
     if constexpr (USE_MPI) {
-      solver_info =
-          ::LinearAlgebra::LinearSolvers::MPI::CG_no_precon<
-            decltype(parallel_sparse_matrix), decltype(rhs), Scalar>(
-              parallel_sparse_matrix, x, rhs, max_iter, tol, MPIContext(communicator, mpi_rank), MPI_DOUBLE);
-   } else {
+      solver_info = ::LinearAlgebra::LinearSolvers::MPI::CG_no_precon<
+          decltype(parallel_sparse_matrix), decltype(rhs), Scalar>(
+          parallel_sparse_matrix, x, rhs, max_iter, tol,
+          MPIContext(communicator, mpi_rank), MPI_DOUBLE);
+    } else {
       // Create identity preconditioner
       auto I = Eigen::IdentityPreconditioner();
-      solver_info =
-          ::LinearAlgebra::LinearSolvers::Sequential::CG<
-            decltype(eigen_sparse_matrix), decltype(rhs), decltype(I), Scalar>(
-              eigen_sparse_matrix, x, rhs, I, max_iter, tol);
+      solver_info = ::LinearAlgebra::LinearSolvers::Sequential::CG<
+          decltype(eigen_sparse_matrix), decltype(rhs), decltype(I), Scalar>(
+          eigen_sparse_matrix, x, rhs, I, max_iter, tol);
     }
     return x;
   }
@@ -173,7 +167,6 @@ public:
         solver_info = solver.info();
       }
     } else {
-
       solver.compute(eigen_sparse_matrix);
       x = solver.solve(rhs);
       solver_info = solver.info();
@@ -185,8 +178,9 @@ public:
    * @param file_name Path to the file containing matrix data.
    */
   void load_from_file(std::string file_name) {
-    auto load = [&](){
-      ASSERT(Eigen::loadMarket(eigen_sparse_matrix, file_name), "Failed to load matrix from file" << std::endl);
+    auto load = [&]() {
+      ASSERT(Eigen::loadMarket(eigen_sparse_matrix, file_name),
+             "Failed to load matrix from file" << std::endl);
     };
 
     if constexpr (USE_MPI) {
@@ -209,46 +203,37 @@ public:
    */
   void show_mpi_split() {
     if constexpr (USE_MPI) {
-      Utils::MPI_matrix_show<decltype(parallel_sparse_matrix)>(parallel_sparse_matrix, mpi_rank, mpi_size, communicator);
+      Utils::MPI_matrix_show<decltype(parallel_sparse_matrix)>(
+          parallel_sparse_matrix, mpi_rank, mpi_size, communicator);
     }
   }
   /**
    * @brief Retrieves the number of rows in the matrix.
    * @return Number of rows.
    */
-  int rows() const {
-    return eigen_sparse_matrix.rows();
-  }
+  int rows() const { return eigen_sparse_matrix.rows(); }
   /**
    * @brief Retrieves the number of columns in the matrix.
    * @return Number of columns.
    */
-  int cols() const {
-    return eigen_sparse_matrix.cols();
-  }
+  int cols() const { return eigen_sparse_matrix.cols(); }
   /**
    * @brief Retrieves the number of non zero elements.
    * @return Number of non zeros.
    */
-  int non_zeros() const {
-    return eigen_sparse_matrix.nonZeros();
-  }
+  int non_zeros() const { return eigen_sparse_matrix.nonZeros(); }
   /**
    * @brief Retrieves the solver status code.
    * @return The solver status code.
    */
-  int solver_success() const {
-    return solver_info;
-  }
+  int solver_success() const { return solver_info; }
   /**
    * @brief Stream the matrix to an output stream
    * @param os A reference to an output stream.
    */
-  void stream_to(std::ostream& os) const {
-    os << eigen_sparse_matrix;
-  }
+  void stream_to(std::ostream& os) const { os << eigen_sparse_matrix; }
 
-protected:
+ protected:
   /**
    * @brief MPI size.
    */
@@ -264,15 +249,20 @@ protected:
   /**
    * @brief Linear solver status code.
    */
-  int solver_info          = 0;
+  int solver_info = 0;
   /**
    * @brief Instance of a sparse matrix.
    */
-  Eigen::SparseMatrix<double, OT == OrderingType::COLUMNMAJOR ? Eigen::ColMajor : Eigen::RowMajor> eigen_sparse_matrix;
+  Eigen::SparseMatrix<double, OT == OrderingType::COLUMNMAJOR ? Eigen::ColMajor
+                                                              : Eigen::RowMajor>
+      eigen_sparse_matrix;
   /**
    * @brief Instance of a MPI sparse matrix.
    */
-  MPISparseMatrix<decltype(eigen_sparse_matrix), Vector, OT == OrderingType::COLUMNMAJOR ?  ORDERINGTYPE::COLUMNWISE : ORDERINGTYPE::ROWWISE> parallel_sparse_matrix;
+  MPISparseMatrix<decltype(eigen_sparse_matrix), Vector,
+                  OT == OrderingType::COLUMNMAJOR ? ORDERINGTYPE::COLUMNWISE
+                                                  : ORDERINGTYPE::ROWWISE>
+      parallel_sparse_matrix;
 };
 
 /**
@@ -281,17 +271,18 @@ protected:
  * @tparam OT The ordering type of the matrix.
  * @tparam USE_MPI Flag indicating whether MPI is used or not.
  */
-template<typename Scalar, OrderingType OT = OrderingType::COLUMNMAJOR, int USE_MPI = 1>
-inline std::ostream& operator<<(std::ostream &os, SparseMatrix<Scalar, OT, USE_MPI> const& mat)
-{
+template <typename Scalar, OrderingType OT = OrderingType::COLUMNMAJOR,
+          int USE_MPI = 1>
+inline std::ostream& operator<<(std::ostream& os,
+                                SparseMatrix<Scalar, OT, USE_MPI> const& mat) {
   mat.stream_to(os);
   return os;
 }
 
-template<typename Scalar, OrderingType OT = OrderingType::COLUMNMAJOR, int USE_MPI = 1>
-class FullMatrix
-{
-public:
+template <typename Scalar, OrderingType OT = OrderingType::COLUMNMAJOR,
+          int USE_MPI = 1>
+class FullMatrix {
+ public:
   /**
    * @brief Constructor for FullMatrix.
    */
@@ -313,7 +304,7 @@ public:
       if (mpi_rank == 0) {
         return full_matirx(i, j);
       } else {
-        return full_matirx(0,0);
+        return full_matirx(0, 0);
       }
     } else {
       return full_matirx(i, j);
@@ -409,21 +400,20 @@ public:
     Scalar tol = CG_TOL;
 
     if constexpr (USE_MPI) {
-      solver_info =
-          ::LinearAlgebra::LinearSolvers::MPI::CG_no_precon<
-            decltype(paralle_full_matrix), decltype(rhs), Scalar>(
-              paralle_full_matrix, x, rhs, max_iter, tol, MPIContext(communicator, mpi_rank), MPI_DOUBLE);
-   } else {
+      solver_info = ::LinearAlgebra::LinearSolvers::MPI::CG_no_precon<
+          decltype(paralle_full_matrix), decltype(rhs), Scalar>(
+          paralle_full_matrix, x, rhs, max_iter, tol,
+          MPIContext(communicator, mpi_rank), MPI_DOUBLE);
+    } else {
       // Create identity preconditioner
       decltype(full_matirx) I(m, n);
       std::fill(I.data(), I.data() + (m * n), static_cast<Scalar>(0));
-      for (int i=0; i<m; i++) {
+      for (int i = 0; i < m; i++) {
         I(i, i) = static_cast<Scalar>(1);
       }
-      solver_info =
-          ::LinearAlgebra::LinearSolvers::Sequential::CG<
-            decltype(full_matirx), decltype(rhs), decltype(I), Scalar>(
-              full_matirx, x, rhs, I, max_iter, tol);
+      solver_info = ::LinearAlgebra::LinearSolvers::Sequential::CG<
+          decltype(full_matirx), decltype(rhs), decltype(I), Scalar>(
+          full_matirx, x, rhs, I, max_iter, tol);
     }
     return x;
   }
@@ -440,13 +430,18 @@ public:
    * @param file_name Path to the file containing matrix data.
    */
   void load_from_file(std::string file_name) {
-    auto load = [&](){
-      ASSERT(Eigen::loadMarket(eigen_load_source_matrix, file_name), "Failed to load matrix from file" << std::endl);
-      //Convert sparse matrix to full matrix;
-      auto eigen_full_matrix = Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>(eigen_load_source_matrix);
+    auto load = [&]() {
+      ASSERT(Eigen::loadMarket(eigen_load_source_matrix, file_name),
+             "Failed to load matrix from file" << std::endl);
+      // Convert sparse matrix to full matrix;
+      auto eigen_full_matrix =
+          Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>(
+              eigen_load_source_matrix);
       // Resize the full_matrix container and copy data
       full_matirx.resize(eigen_full_matrix.rows(), eigen_full_matrix.cols());
-      memcpy(full_matirx.data(), eigen_full_matrix.data(), sizeof(Scalar) * (eigen_full_matrix.rows() * eigen_full_matrix.cols()));
+      memcpy(full_matirx.data(), eigen_full_matrix.data(),
+             sizeof(Scalar) *
+                 (eigen_full_matrix.rows() * eigen_full_matrix.cols()));
     };
 
     if constexpr (USE_MPI) {
@@ -472,39 +467,32 @@ public:
    */
   void show_mpi_split() {
     if constexpr (USE_MPI) {
-      Utils::MPI_matrix_show<decltype(paralle_full_matrix)>(paralle_full_matrix, mpi_rank, mpi_size, communicator);
+      Utils::MPI_matrix_show<decltype(paralle_full_matrix)>(
+          paralle_full_matrix, mpi_rank, mpi_size, communicator);
     }
   }
   /**
    * @brief Retrieves the number of rows in the matrix.
    * @return Number of rows.
    */
-  int rows() const {
-    return m;
-  }
+  int rows() const { return m; }
   /**
    * @brief Retrieves the number of columns in the matrix.
    * @return Number of columns.
    */
-  int cols() const {
-    return n;
-  }
+  int cols() const { return n; }
   /**
    * @brief Retrieves the solver status code.
    * @return The solver status code.
    */
-  int solver_success() const {
-    return solver_info;
-  }
+  int solver_success() const { return solver_info; }
   /**
    * @brief Stream the matrix to an output stream
    * @param os A reference to an output stream.
    */
-  void stream_to(std::ostream& os) const {
-    os << full_matirx;
-  }
+  void stream_to(std::ostream& os) const { os << full_matirx; }
 
-protected:
+ protected:
   /**
    * @brief MPI size.
    */
@@ -520,34 +508,41 @@ protected:
   /**
    * @brief Matrix rows count.
    */
-  int m                    = 0;
+  int m = 0;
   /**
    * @brief Matrix columns count.
    */
-  int n                    = 0;
+  int n = 0;
   /**
    * @brief Linear solver status code.
    */
-  int solver_info          = 0;
+  int solver_info = 0;
   /**
    * @brief Instance of a full matrix.
    */
-  MatrixWithVecSupport<double, Vector<double>, OT == OrderingType::COLUMNMAJOR ? ORDERING::COLUMNMAJOR : ORDERING::ROWMAJOR> full_matirx;
+  MatrixWithVecSupport<double, Vector<double>,
+                       OT == OrderingType::COLUMNMAJOR ? ORDERING::COLUMNMAJOR
+                                                       : ORDERING::ROWMAJOR>
+      full_matirx;
   /**
    * @brief Instance of a MPI full matrix.
    */
-  MPIMatrix<decltype(full_matirx), Vector<Scalar>, OT == OrderingType::COLUMNMAJOR ? ORDERINGTYPE::COLUMNWISE : ORDERINGTYPE::ROWWISE> paralle_full_matrix;
+  MPIMatrix<decltype(full_matirx), Vector<Scalar>,
+            OT == OrderingType::COLUMNMAJOR ? ORDERINGTYPE::COLUMNWISE
+                                            : ORDERINGTYPE::ROWWISE>
+      paralle_full_matrix;
   /**
    * @brief Eigen sparse matrix helper to load a matrix from file.
    */
   Eigen::SparseMatrix<Scalar> eigen_load_source_matrix;
 };
 
-template<typename Scalar, OrderingType OT = OrderingType::COLUMNMAJOR, int USE_MPI = 1>
-inline std::ostream& operator<<(std::ostream &os, FullMatrix<Scalar, OT, USE_MPI> & mat)
-{
+template <typename Scalar, OrderingType OT = OrderingType::COLUMNMAJOR,
+          int USE_MPI = 1>
+inline std::ostream& operator<<(std::ostream& os,
+                                FullMatrix<Scalar, OT, USE_MPI>& mat) {
   mat.stream_to(os);
   return os;
 }
-}
-}
+}  // namespace Language
+}  // namespace apsc::LinearAlgebra

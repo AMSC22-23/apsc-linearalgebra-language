@@ -8,14 +8,10 @@
 #include <cstdlib>
 #include <cstring>
 
-namespace LinearAlgebra
-{
-namespace Preconditioners
-{
-namespace ApproximateInverse
-{
-namespace Utils
-{
+namespace LinearAlgebra {
+namespace Preconditioners {
+namespace ApproximateInverse {
+namespace Utils {
 template <typename Scalar>
 void create_permutation(int* I, int* J, int n1, int n2, Scalar* Pr,
                         Scalar* Pc) {
@@ -76,9 +72,9 @@ void create_permutation(int* I, int* J, int n1, int n2, Scalar* Pr,
   free(IIndex);
   free(JIndex);
 }
-}
-}
-}
-}
+}  // namespace Utils
+}  // namespace ApproximateInverse
+}  // namespace Preconditioners
+}  // namespace LinearAlgebra
 
 #endif
