@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
       PA, b, e, MPIContext(mpi_comm, mpi_rank, mpi_size),
       objective_context(objective_id, mpi_size,
                         "objective" + std::to_string(objective_id) +
-                            "_MPISIZE" + std::to_string(mpi_size) + ".log"));
+                            "_MPISIZE" + std::to_string(mpi_size) + ".log"), 1);
 #else
   // Setup the preconditioner, all the processes for now..
   MatrixWithVecSupport<double, Vector<double>,

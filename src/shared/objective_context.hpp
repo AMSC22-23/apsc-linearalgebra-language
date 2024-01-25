@@ -17,6 +17,8 @@ class objective_context {
   bool show_problem_name() { return m_problem_name.length(); }
 
  public:
+  objective_context() = default;
+
   objective_context(const uint8_t objective_number, const uint8_t mpi_size,
                     const std::string report_file_name,
                     const std::string problem_name = "")
