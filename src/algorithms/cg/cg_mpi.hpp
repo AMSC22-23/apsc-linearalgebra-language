@@ -40,8 +40,6 @@ template <class Matrix, class Vector, class Preconditioner, typename Scalar>
 int CG(Matrix &A, Vector &x, const Vector &b, const Preconditioner &M,
        int &max_iter, typename Vector::Scalar &tol, const MPIContext mpi_ctx,
        MPI_Datatype mpi_datatype) {
-#warning \
-    "If the precondioner does not exploit MPI this method may perform worse that the iterative solution"
   using Real = typename Matrix::Scalar;
 
   const int mpi_rank = mpi_ctx.mpi_rank();

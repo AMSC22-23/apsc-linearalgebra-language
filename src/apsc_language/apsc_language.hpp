@@ -5,6 +5,7 @@
  * operations combined with parallel computing using MPI.
  * @author Kaixi Matteo Chen
  */
+#include <bicgstab.hpp>
 #include <mpi.h>
 
 #include <Eigen/IterativeLinearSolvers>
@@ -43,7 +44,9 @@ enum class OrderingType { ROWMAJOR = 0, COLUMNMAJOR = 1 };
 enum class IterativeSolverType {
   CONJUGATE_GRADIENT = 0,
   GMRES = 1,
-  SPAI_GMRES = 2
+  SPAI_GMRES = 2,
+  BiCGSTAB = 3,
+  SPAI_BiCGSTAB = 4
 };
 
 /**
@@ -169,7 +172,7 @@ class SparseMatrix {
             eigen_sparse_matrix, x, rhs, I, max_iter, tol);
         solver_iter = max_iter;
       }
-    } else if (Solver == IterativeSolverType::GMRES) {
+    } else if constexpr (Solver == IterativeSolverType::GMRES) {
       // Maybe parametrise this
       int max_iter = GMRES_MAX_ITER(rhs.size());
       Scalar tol = GMRES_TOL;
@@ -190,7 +193,8 @@ class SparseMatrix {
             max_iter, tol);
         solver_iter = max_iter;
       }
-    } else if (Solver == IterativeSolverType::SPAI_GMRES) {
+    } else if constexpr (Solver == IterativeSolverType::SPAI_GMRES) {
+      spai.get_M().destoy();
       // Maybe parametrise this
       int max_iter = GMRES_MAX_ITER(rhs.size());
       Scalar tol = GMRES_TOL;
@@ -288,6 +292,124 @@ class SparseMatrix {
         solver_iter = max_iter;
         ASSERT(solver_info == 0,
                "GMRES internal failed during A * M = b" << std::endl);
+        x = eigen_M * y;
+      }
+    } else if constexpr (Solver == IterativeSolverType::BiCGSTAB) {
+      // Maybe parametrise this
+      int max_iter = BiCGSTAB_MAX_ITER(rhs.size());
+      Scalar tol = BiCGSTAB_TOL;
+      // Create identity preconditioner
+      auto I = Eigen::IdentityPreconditioner();
+      if constexpr (USE_MPI) {
+        solver_info = apsc::LinearAlgebra::LinearSolvers::MPI::BiCGSTAB<
+            decltype(parallel_sparse_matrix), decltype(rhs), decltype(I)>(
+            parallel_sparse_matrix, x, rhs, I,
+            max_iter, tol);
+        solver_iter = max_iter;
+      } else {
+        solver_info = apsc::LinearAlgebra::LinearSolvers::Sequential::BiCGSTAB<
+            decltype(eigen_sparse_matrix), decltype(rhs), decltype(I)>(
+            eigen_sparse_matrix, x, rhs, I,
+            max_iter, tol);
+        solver_iter = max_iter;
+      }
+    } else if (Solver == IterativeSolverType::SPAI_BiCGSTAB) {
+      spai.get_M().destoy();
+      // Maybe parametrise this
+      int max_iter = BiCGSTAB_MAX_ITER(rhs.size());
+      Scalar tol = BiCGSTAB_TOL;
+      auto I = Eigen::IdentityPreconditioner();
+      int rows, cols, nnz;
+
+      // ============== SPAI creation ==============
+      // If MPI is used, we have to Bcast A matrix to all processes:
+      // - First, we retrive the sparse matrix data structure locally
+      // - Then we use those and create the local A matrix leveraging
+      // EigenStructureMap<>
+
+      // Retrive eigen index type
+      using Index = std::remove_const_t<typename std::remove_reference<
+          decltype(eigen_sparse_matrix.innerIndexPtr()[0])>::type>;
+      Index* iidx_ptr = 0;
+      Index* oidx_ptr = 0;
+      Scalar* value_ptr = 0;
+      if constexpr (USE_MPI) {
+        cols = eigen_sparse_matrix.cols();
+        rows = eigen_sparse_matrix.rows();
+        nnz = eigen_sparse_matrix.nonZeros();
+        MPI_Bcast(&cols, 1, MPI_INT, 0, communicator);
+        MPI_Bcast(&rows, 1, MPI_INT, 0, communicator);
+        MPI_Bcast(&nnz, 1, MPI_INT, 0, communicator);
+        iidx_ptr = new int[nnz];
+        oidx_ptr = new int[cols + 1];
+        value_ptr = new Scalar[nnz];
+        ASSERT(iidx_ptr != nullptr, "Memory allocation failed" << std::endl);
+        ASSERT(oidx_ptr != nullptr, "Memory allocation failed" << std::endl);
+        ASSERT(value_ptr != nullptr, "Memory allocation failed" << std::endl);
+        if (mpi_rank == 0) {
+          // Yes, master rank will have duplicated A's memory buffers...
+          memcpy(iidx_ptr, eigen_sparse_matrix.innerIndexPtr(),
+                 sizeof(Index) * nnz);
+          memcpy(oidx_ptr, eigen_sparse_matrix.outerIndexPtr(),
+                 sizeof(Index) * (cols + 1));
+          memcpy(value_ptr, eigen_sparse_matrix.valuePtr(),
+                 sizeof(Scalar) * nnz);
+        }
+        MPI_Barrier(communicator);
+        MPI_Bcast(iidx_ptr, nnz, mpi_typeof(Index{}), 0, communicator);
+        MPI_Bcast(oidx_ptr, cols + 1, mpi_typeof(Index{}), 0, communicator);
+        MPI_Bcast(value_ptr, nnz, mpi_typeof(Scalar{}), 0, communicator);
+      }
+      if constexpr (USE_MPI) {
+        spai_setup(rows, cols, nnz, oidx_ptr, iidx_ptr, value_ptr);
+      } else {
+        spai_setup();
+      }
+      auto& M = spai.get_M();
+      auto eigen_M = M.template to_eigen<decltype(eigen_sparse_matrix)>(M.n);
+
+      // ============== Solve ==============
+      // Algebra:
+      // AMy = b
+      // x = My
+      Vector y(cols);
+      y.fill(static_cast<Scalar>(0));
+      if constexpr (USE_MPI) {
+        // Create the local A matrix with no memory overhead
+        auto local_eigen_sparse_matrix =
+            EigenStructureMap<decltype(eigen_sparse_matrix),
+                              Scalar>::create_map(rows, cols, nnz, oidx_ptr,
+                                                  iidx_ptr, value_ptr)
+                .structure();
+        // Define A * M
+        decltype(eigen_sparse_matrix) A_x_M =
+            local_eigen_sparse_matrix * eigen_M;
+        // Define the parallel A * M matrix
+        decltype(parallel_sparse_matrix) parallel_A_x_M;
+        parallel_A_x_M.setup(A_x_M, communicator);
+        // Finally solve...
+        solver_info = apsc::LinearAlgebra::LinearSolvers::MPI::BiCGSTAB<
+            decltype(parallel_A_x_M), decltype(rhs), decltype(I)>(
+            parallel_A_x_M, y, rhs, I,
+            max_iter, tol);
+        solver_iter = max_iter;
+        ASSERT(solver_info == 0,
+               "BiCGSTAB internal failed during A * M = b" << std::endl);
+        x = eigen_M * y;
+
+        // Free memory
+        delete[] iidx_ptr;
+        delete[] oidx_ptr;
+        delete[] value_ptr;
+      } else {
+        decltype(eigen_sparse_matrix) A_x_M = eigen_sparse_matrix * eigen_M;
+        solver_info = apsc::LinearAlgebra::LinearSolvers::Sequential::BiCGSTAB<
+            decltype(A_x_M), decltype(rhs), decltype(I)>(
+            A_x_M, y, rhs, I,
+            max_iter, tol);
+        solver_iter = max_iter;
+        ASSERT(solver_info == 0,
+               "BiCGSTAB internal failed during A * M = b" << std::endl);
         x = eigen_M * y;
       }
     }
@@ -462,7 +584,6 @@ class SparseMatrix {
         eigen_sparse_matrix.outerIndexPtr(), eigen_sparse_matrix.valuePtr(),
         eigen_sparse_matrix.innerIndexPtr(), eigen_sparse_matrix.rows(),
         eigen_sparse_matrix.cols(), eigen_sparse_matrix.nonZeros());
-    csc_matrix.print();
     // Compute the approximate inverse
     spai.setup(&csc_matrix, spai_tol, spai_max_iter);
   }

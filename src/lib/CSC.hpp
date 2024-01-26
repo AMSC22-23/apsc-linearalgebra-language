@@ -174,7 +174,12 @@ struct CSC {
   void map_external_buffer(IndexType* offset_in, Scalar* flat_data_in,
                            IndexType* flat_row_index_in, int m_in,
                            const int n_in, const int nnz) {
-    ASSERT(!initialised, "CSC already initialised");
+    // We have to protect local allocated memory if user is trying to
+    // initialise the csc another time. If the memory is handled by external
+    // parties, we give green light!
+    if (!external_buffer) {
+      ASSERT(!initialised, "CSC already initialised");
+    }
     m = m_in;
     n = n_in;
     non_zeros = nnz;

@@ -26,6 +26,9 @@ using std::endl;
 #define GMRES_MAX_ITER(i) (20 * i)
 #define GMRES_TOL 1e-8;
 
+#define BiCGSTAB_MAX_ITER(i) (20 * i)
+#define BiCGSTAB_TOL 1e-8;
+
 namespace apsc::LinearAlgebra {
 namespace Utils {
 template <typename Mat, typename Scalar>

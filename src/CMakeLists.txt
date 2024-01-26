@@ -17,6 +17,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/AMSC-CodeExamples/Examples/src/
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/ ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/
   ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/cg/
   ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/gmres/
+  ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/bicg/
   ${CMAKE_CURRENT_SOURCE_DIR}/apsc_language/
   ${CMAKE_CURRENT_SOURCE_DIR}/preconditioners/parallel/spai/
   ${EIGEN3_DIR_LOCAL} ${EIGEN3_DIR_PCAFRICA})

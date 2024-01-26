@@ -387,11 +387,51 @@ int main(int argc, char* argv[]) {
     MPI_Barrier(mpi_runner.communicator);
 
     x = M.solve_iterative<
+        apsc::LinearAlgebra::Language::IterativeSolverType::BiCGSTAB>(b);
+    if (mpi_runner.mpi_rank == 0) {
+      std::cout << "=============== Testing BiCGSTAB iterative linear solver "
+                   "==============="
+                << std::endl;
+      std::cout << "Problem size: " << size << std::endl;
+      std::cout << "Error norm: " << (x - e).norm() << std::endl;
+      std::cout << "Iterations: " << M.solver_iterations() << std::endl;
+      std::cout << "Solver return code: " << M.solver_success() << std::endl;
+    }
+
+    if (mpi_runner.mpi_rank == 0) {
+      std::cout << std::endl << std::endl << std::endl;
+    }
+
+    MPI_Barrier(mpi_runner.communicator);
+
+    M.set_spai_max_iters(50);
+    M.set_spai_tol(0.6);
+
+    x = M.solve_iterative<
         apsc::LinearAlgebra::Language::IterativeSolverType::SPAI_GMRES>(b);
     if (mpi_runner.mpi_rank == 0) {
       std::cout << "=============== Testing SPAI_GMRES iterative linear solver "
                    "==============="
                 << std::endl;
+      std::cout << "Problem size: " << size << std::endl;
+      std::cout << "Error norm: " << (x - e).norm() << std::endl;
+      std::cout << "Iterations: " << M.solver_iterations() << std::endl;
+      std::cout << "Solver return code: " << M.solver_success() << std::endl;
+    }
+
+    if (mpi_runner.mpi_rank == 0) {
+      std::cout << std::endl << std::endl << std::endl;
+    }
+
+    MPI_Barrier(mpi_runner.communicator);
+
+    x = M.solve_iterative<
+        apsc::LinearAlgebra::Language::IterativeSolverType::SPAI_BiCGSTAB>(b);
+    if (mpi_runner.mpi_rank == 0) {
+      std::cout
+          << "=============== Testing SPAI_BiCGSTAB iterative linear solver "
+             "==============="
+          << std::endl;
       std::cout << "Problem size: " << size << std::endl;
       std::cout << "Error norm: " << (x - e).norm() << std::endl;
       std::cout << "Iterations: " << M.solver_iterations() << std::endl;
