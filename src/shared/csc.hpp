@@ -63,6 +63,21 @@ struct CSC {
     external_buffer = 0;
   }
   /**
+   * @brief Allocates the buffer memory.
+   * @param nnz The number of non zero elements.
+   * @param rows The number of matrix rows.
+   * @param cols The number of matrix columns.
+   */
+  void allocate(const int nnz, const int rows, const int cols) {
+    m = rows,
+    n = cols,
+    non_zeros = nnz;
+    offset = (int*)malloc(sizeof(int) * (cols+1));
+    flat_row_index = (int*)malloc(sizeof(int) * (nnz));
+    values = (Scalar*)malloc(sizeof(Scalar) * (nnz));
+    initialised = 1;
+  }
+  /**
    * @brief Converts the CSC matrix to an Eigen matrix of the specified type.
    * @tparam EigenMatrixType The Eigen matrix type.
    * @param size The size of the matrix.
