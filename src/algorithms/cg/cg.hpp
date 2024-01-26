@@ -25,27 +25,26 @@
 #include <type_traits>
 
 #include "Matrix/Matrix.hpp"
-#include "MatrixWithVecSupport.hpp"
+#include "FullMatrix.hpp"
 #include "Vector.hpp"
-namespace LinearAlgebra {
-namespace LinearSolvers
-{
-namespace Sequential
-{
+
+namespace apsc::LinearAlgebra {
+namespace LinearSolvers {
+namespace Sequential {
 template <class Matrix, class Vector, class Preconditioner, typename Scalar>
 int CG(const Matrix &A, Vector &x, const Vector &b, const Preconditioner &M,
        int &max_iter, typename Vector::Scalar &tol) {
   static_assert(
       (std::is_base_of_v<
-           apsc::LinearAlgebra::MatrixWithVecSupport<
+           apsc::LinearAlgebra::FullMatrix<
                Scalar, Vector, apsc::LinearAlgebra::ORDERING::COLUMNMAJOR>,
            Preconditioner> ||
        std::is_base_of_v<
-           apsc::LinearAlgebra::MatrixWithVecSupport<
+           apsc::LinearAlgebra::FullMatrix<
                Scalar, Vector, apsc::LinearAlgebra::ORDERING::ROWMAJOR>,
            Preconditioner>),
       "The input Preconditioner class does not derive from "
-      "MatrixWithVecSupport");
+      "FullMatrix");
 
   using Real = typename Matrix::Scalar;
   Real resid;
@@ -96,7 +95,7 @@ int CG(const Matrix &A, Vector &x, const Vector &b, const Preconditioner &M,
   return 1;
 }
 
-}
-}
+}  // namespace Sequential
+}  // namespace LinearSolvers
 }  // namespace LinearAlgebra
 #endif

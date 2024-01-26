@@ -1,4 +1,4 @@
-#include <MatrixWithVecSupport.hpp>
+#include <FullMatrix.hpp>
 #include <Vector.hpp>
 #include <cg.hpp>
 #include <cstddef>
@@ -23,7 +23,8 @@ int cg_solve(Lhs &a, Rhs b, ExactSol &e) {
   }
 
   auto result =
-      LinearAlgebra::LinearSolvers::Sequential::CG<Lhs, Rhs, Lhs, Scalar>(a, x, b, P, max_iter, tol);
+      apsc::LinearAlgebra::LinearSolvers::Sequential::CG<Lhs, Rhs, Lhs, Scalar>(
+          a, x, b, P, max_iter, tol);
 
   cout << "Solution with Conjugate Gradient:" << endl;
   cout << "iterations performed:                      " << max_iter << endl;
@@ -39,11 +40,11 @@ int main(int argc, char *argv[]) {
 
   constexpr unsigned size = 10;
   cout << "Creating a test matrix..." << endl;
-  MatrixWithVecSupport<double, Vector<double>,
+  FullMatrix<double, Vector<double>,
                        apsc::LinearAlgebra::ORDERING::COLUMNMAJOR>
       A(size, size);
   Utils::default_spd_fill<
-      MatrixWithVecSupport<double, Vector<double>, ORDERING::COLUMNMAJOR>,
+      FullMatrix<double, Vector<double>, ORDERING::COLUMNMAJOR>,
       double>(A);
 
   cout << "Creating a test rhs..." << endl;

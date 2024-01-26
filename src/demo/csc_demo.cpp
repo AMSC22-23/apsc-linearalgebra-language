@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
     SpVec e(size);
     e.fill(1.0);
     SpVec b = A * e;
-    CSC<double> CSC_A;
+    apsc::LinearAlgebra::CSC<double> CSC_A;
     CSC_A.map_external_buffer(A.outerIndexPtr(), A.valuePtr(),
                               A.innerIndexPtr(), A.rows(), A.cols(),
                               A.nonZeros());

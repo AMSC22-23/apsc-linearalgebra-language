@@ -4,7 +4,6 @@
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include <csc.hpp>
-#include <spai.hpp>
 #include <iostream>
 #include <set>
 #include <spai.hpp>
@@ -57,22 +56,23 @@ int main(int argc, char* argv[]) {
   auto I = Eigen::MatrixXd::Identity(size, size);
 
   {
-    CSC<double> CSC_A;
+    apsc::LinearAlgebra::CSC<double> CSC_A;
     // CSC_A.create_diagonal(size, size, 2.0);
     CSC_A.map_external_buffer(A.outerIndexPtr(), A.valuePtr(),
                               A.innerIndexPtr(), A.rows(), A.cols(),
                               A.nonZeros());
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<
-        double, Eigen::MatrixXd, 1> precond(&CSC_A, tol, max_iter, 1);
+    apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<double,
+                                                             Eigen::MatrixXd, 1>
+        precond(&CSC_A, tol, max_iter, 1);
     MPI_Barrier(MPI_COMM_WORLD);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
     long long diff =
         std::chrono::duration_cast<std::chrono::microseconds>(end - begin)
             .count();
-    const CSC<double>& M = precond.get_M();
+    const apsc::LinearAlgebra::CSC<double>& M = precond.get_M();
     // M.print();
     // std::cout << "M non zero: " << M.non_zeros << std::endl;
     auto eigen_M = M.to_eigen<Eigen::SparseMatrix<double>>(size);

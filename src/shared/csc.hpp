@@ -1,8 +1,13 @@
+/**
+ * @file CSC.hpp
+ * @brief Header file containing the CSC struct for compressed sparse column (CSC) matrix representation.
+ */
+
 #ifndef CSC_HPP
 #define CSC_HPP
 
-#include <stdint.h>
 #include <mpi.h>
+#include <stdint.h>
 
 #include <Eigen/Sparse>
 #include <cstdint>
@@ -14,22 +19,34 @@
 #include "EigenStructureMap.hpp"
 #include "Parallel/Utilities/mpi_utils.hpp"
 #include "assert.hpp"
-
+namespace apsc::LinearAlgebra
+{
+/**
+ * @struct CSC
+ * @brief Struct representing a compressed sparse column (CSC) matrix.
+ * @tparam Scalar The scalar type of the matrix.
+ */
 template <typename Scalar>
 struct CSC {
-  int m = 0;
-  int n = 0;
-  int non_zeros = 0;
-  int* offset = 0;
-  Scalar* values = 0;
-  int* flat_row_index = 0;
-  uint8_t initialised = 0;
-  uint8_t external_buffer = 0;
-
+  int m = 0;                      /**< Number of rows. */
+  int n = 0;                      /**< Number of columns. */
+  int non_zeros = 0;              /**< Number of non-zero elements. */
+  int* offset = nullptr;          /**< Array of column offsets. */
+  Scalar* values = nullptr;       /**< Array of non-zero values. */
+  int* flat_row_index = nullptr;  /**< Array of row indices for non-zero values. */
+  uint8_t initialised = 0;        /**< Flag indicating whether the struct is initialised. */
+  uint8_t external_buffer = 0;    /**< Flag indicating whether an external buffer is used. */
+  /**
+   * @brief Default constructor.
+   */
   CSC() = default;
-
+   /**
+   * @brief Destructor.
+   */
   ~CSC() { destoy(); }
-
+  /**
+   * @brief Destroys the CSC struct and releases memory.
+   */
   void destoy() {
     if (!external_buffer && initialised) {
       free(offset);
@@ -45,14 +62,24 @@ struct CSC {
     non_zeros = 0;
     external_buffer = 0;
   }
-
-  template<typename EigenMatrixType>
+  /**
+   * @brief Converts the CSC matrix to an Eigen matrix of the specified type.
+   * @tparam EigenMatrixType The Eigen matrix type.
+   * @param size The size of the matrix.
+   * @return Eigen matrix mapped to the CSC matrix data.
+   */
+  template <typename EigenMatrixType>
   auto to_eigen(const std::size_t size) const {
-    return
-        EigenStructureMap<EigenMatrixType, double, CSC<Scalar>>::create_map(
-            size, size, non_zeros, offset, flat_row_index, values).structure();
+    return EigenStructureMap<EigenMatrixType, double, CSC<Scalar>>::create_map(
+               size, size, non_zeros, offset, flat_row_index, values)
+        .structure();
   }
-
+  /**
+   * @brief Solves a linear system using the CSC matrix.
+   * @tparam Vector The vector type.
+   * @param b The vector representing the right-hand side of the linear system.
+   * @return The solution vector.
+   */
   template <typename Vector>
   Vector solve(Vector& b) const {
     int size = b.size();
@@ -82,7 +109,12 @@ struct CSC {
     memcpy(x.data(), eigen_x.data(), sizeof(Scalar) * eigen_x.size());
     return x;
   }
-
+  /**
+   * @brief Solves a linear system using the CSC matrix.
+   * @tparam Vector The vector type.
+   * @param b The vector representing the right-hand side of the linear system.
+   * @return The solution vector.
+   */
   template <typename Vector>
   Vector solve(Vector& b) {
     int size = b.size();
@@ -112,8 +144,16 @@ struct CSC {
     memcpy(x.data(), eigen_x.data(), sizeof(Scalar) * eigen_x.size());
     return x;
   }
-
-  // remember to use a column major ordering matrix!
+  /**
+   * @brief Maps an external buffer to the CSC struct.
+   * @tparam IndexType The type of indices.
+   * @param offset_in Pointer to the column offsets.
+   * @param flat_data_in Pointer to the non-zero values.
+   * @param flat_row_index_in Pointer to the row indices for non-zero values.
+   * @param m_in Number of rows.
+   * @param n_in Number of columns.
+   * @param nnz Number of non-zero elements.
+   */
   template <typename IndexType>
   void map_external_buffer(IndexType* offset_in, Scalar* flat_data_in,
                            IndexType* flat_row_index_in, int m_in,
@@ -128,7 +168,12 @@ struct CSC {
     initialised = 1;
     external_buffer = 1;
   }
-
+  /**
+   * @brief Creates a CSC matrix from a dense matrix.
+   * @param A Pointer to the dense matrix.
+   * @param m_in Number of rows.
+   * @param n_in Number of columns.
+   */
   void create_from_dense(Scalar* A, int m_in, int n_in) {
     m = m_in;
     n = n_in;
@@ -178,7 +223,12 @@ struct CSC {
     }
     initialised = 1;
   }
-
+  /**
+   * @brief Creates a diagonal CSC matrix.
+   * @param m_in Number of rows.
+   * @param n_in Number of columns.
+   * @param value The value of the diagonal elements.
+   */
   void create_diagonal(int m_in, int n_in, Scalar value) {
     ASSERT(!initialised, "CSC already initialised");
     m = m_in;
@@ -205,7 +255,13 @@ struct CSC {
     }
     initialised = 1;
   }
-
+  /**
+   * @brief Updates the values of the k-th column.
+   * @param newVaules The new values for the column.
+   * @param k The column index to update.
+   * @param J The row indices corresponding to the new values.
+   * @param n2 The number of elements in the new values array.
+   */
   void update_kth_column(Scalar* newVaules, int k, int* J, int n2) {
     CSC newA;
     newA.m = m;
@@ -272,7 +328,14 @@ struct CSC {
     this->flat_row_index = newA.flat_row_index;
     this->values = newA.values;
   }
-
+  /**
+   * @brief Converts the CSC matrix to a dense matrix.
+   * @param I The row indices.
+   * @param J The column indices.
+   * @param n1 Number of rows.
+   * @param n2 Number of columns.
+   * @return Pointer to the dense matrix.
+   */
   Scalar* to_dense(int* I, int* J, int n1, int n2) {
     Scalar* dense = (Scalar*)calloc(n1 * n2, sizeof(Scalar));
     for (int i = 0; i < n1; i++) {
@@ -286,7 +349,9 @@ struct CSC {
     }
     return dense;
   }
-
+  /**
+   * @brief Prints the CSC matrix data.
+   */
   void print() {
     printf("\n\n--------Printing CSC data--------\n");
     printf("m: %d\n", m);
@@ -309,5 +374,6 @@ struct CSC {
     printf("\n");
   }
 };
+}
 
 #endif

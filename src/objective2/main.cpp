@@ -1,9 +1,9 @@
 #include <mpi.h>
 
 #include <MPIContext.hpp>
-#include <MPIMatrix.hpp>
+#include <MPIFullMatrix.hpp>
 #include <Matrix/Matrix.hpp>
-#include <MatrixWithVecSupport.hpp>
+#include <FullMatrix.hpp>
 #include <Vector.hpp>
 #include <chrono>
 #include <cstddef>
@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
   MPI_Comm_rank(mpi_comm, &mpi_rank);
   MPI_Comm_size(mpi_comm, &mpi_size);
 
-  MatrixWithVecSupport<double, Vector<double>,
+  FullMatrix<double, Vector<double>,
                        apsc::LinearAlgebra::ORDERING::ROWMAJOR>
       A;
   if (mpi_rank == 0) {
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
     cout << "Launching CG with problem (SPD matrix) size of " << size << "x"
          << size << endl;
     Utils::default_spd_fill<
-        MatrixWithVecSupport<double, Vector<double>, ORDERING::ROWMAJOR>,
+        FullMatrix<double, Vector<double>, ORDERING::ROWMAJOR>,
         double>(A);
   }
 
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
   }
   MPI_Bcast(b.data(), b.size(), MPI_DOUBLE, 0, mpi_comm);
 
-  apsc::MPIMatrix<decltype(A), decltype(b),
+  apsc::LinearAlgebra::MPIFullMatrix<decltype(A), decltype(b),
                   decltype(A)::ordering == ORDERING::ROWMAJOR
                       ? apsc::ORDERINGTYPE::ROWWISE
                       : apsc::ORDERINGTYPE::COLUMNWISE>
@@ -74,10 +74,11 @@ int main(int argc, char *argv[]) {
       PA, b, e, MPIContext(mpi_comm, mpi_rank, mpi_size),
       objective_context(objective_id, mpi_size,
                         "objective" + std::to_string(objective_id) +
-                            "_MPISIZE" + std::to_string(mpi_size) + ".log"));
+                            "_MPISIZE" + std::to_string(mpi_size) + ".log"),
+      1);
 #else
   // Setup the preconditioner, all the processes for now..
-  MatrixWithVecSupport<double, Vector<double>,
+  FullMatrix<double, Vector<double>,
                        apsc::LinearAlgebra::ORDERING::ROWMAJOR>
       P(size, size);
   for (unsigned i = 0; i < size; i++) {

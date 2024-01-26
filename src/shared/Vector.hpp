@@ -1,8 +1,6 @@
-/*
- * Vector.hpp
- *
- *  Created on: Nov 17 2023
- *      Author: Kaixi Matteo Chen
+/**
+ * @file Vector.hpp
+ * @brief Header file containing a full vector definiton.
  */
 
 #ifndef VECTOR_HPP
@@ -21,8 +19,9 @@
 // To avoid stupid warnings if I do not use openmp
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
-namespace apsc::LinearAlgebra {
 
+namespace apsc::LinearAlgebra
+{
 /*!
  * A full vector
  * @tparam Scalar The type of the element

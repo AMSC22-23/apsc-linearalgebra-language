@@ -29,13 +29,13 @@
 #include <mpi.h>
 
 #include <MPIContext.hpp>
-#include <MatrixWithVecSupport.hpp>
+#include <FullMatrix.hpp>
 
-namespace LinearAlgebra {
-namespace LinearSolvers
-{
-namespace MPI
-{
+#define DEBUG 0
+
+namespace apsc::LinearAlgebra {
+namespace LinearSolvers {
+namespace MPI {
 template <class Matrix, class Vector, class Preconditioner, typename Scalar>
 int CG(Matrix &A, Vector &x, const Vector &b, const Preconditioner &M,
        int &max_iter, typename Vector::Scalar &tol, const MPIContext mpi_ctx,
@@ -46,15 +46,15 @@ int CG(Matrix &A, Vector &x, const Vector &b, const Preconditioner &M,
 
   static_assert(
       (std::is_base_of_v<
-           apsc::LinearAlgebra::MatrixWithVecSupport<
+           apsc::LinearAlgebra::FullMatrix<
                Scalar, Vector, apsc::LinearAlgebra::ORDERING::COLUMNMAJOR>,
            Preconditioner> ||
        std::is_base_of_v<
-           apsc::LinearAlgebra::MatrixWithVecSupport<
+           apsc::LinearAlgebra::FullMatrix<
                Scalar, Vector, apsc::LinearAlgebra::ORDERING::ROWMAJOR>,
            Preconditioner>),
       "The input Preconditioner class does not derive from "
-      "MatrixWithVecSupport");
+      "FullMatrix");
 
   const int mpi_rank = mpi_ctx.mpi_rank();
   const MPI_Comm mpi_comm = mpi_ctx.mpi_comm();
@@ -159,12 +159,13 @@ int CG_no_precon(Matrix &A, Vector &x, const Vector &b, int &max_iter,
     return 0;
   }
 
-  std::cout << mpi_rank << ": entered cg" << std::endl;
   for (int i = 1; i <= max_iter; i++) {
     // debug iteraton
+#if DEBUG == 1
     if (i % debug_iteration_delta == 0) {
       std::cout << mpi_rank << ": iteration " << i << std::endl;
     }
+#endif
     // alpha numerator
     alpha_num = d.dot(r);
     // alpha denominator
@@ -201,7 +202,7 @@ int CG_no_precon(Matrix &A, Vector &x, const Vector &b, int &max_iter,
   return 1;
 }
 
-}
-}
+}  // namespace MPI
+}  // namespace LinearSolvers
 }  // namespace LinearAlgebra
 #endif

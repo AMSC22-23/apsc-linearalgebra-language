@@ -1,7 +1,7 @@
 #include <mpi.h>
 
 #include <Eigen/Dense>
-#include <MPIMatrix.hpp>
+#include <MPIFullMatrix.hpp>
 #include <Vector.hpp>
 #include <chrono>
 #include <cstddef>
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
   }
 
   // Create the MPI full matrix
-  apsc::MPIMatrix<decltype(A), decltype(x),
+  apsc::LinearAlgebra::MPIFullMatrix<decltype(A), decltype(x),
                   decltype(A)::IsRowMajor ? apsc::ORDERINGTYPE::ROWWISE
                                           : apsc::ORDERINGTYPE::COLUMNWISE>
       PA;

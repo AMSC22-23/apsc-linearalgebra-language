@@ -1,10 +1,3 @@
-/*
- * EigenStructureMap.hpp
- *
- *  Created on: Nov 17, 2023
- *      Author: Kaixi Matteo Chen
- */
-
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
@@ -33,9 +26,11 @@ using std::endl;
 #define GMRES_MAX_ITER(i) (20 * i)
 #define GMRES_TOL 1e-8;
 
-namespace apsc::LinearAlgebra {
+namespace apsc::LinearAlgebra
+{
 namespace Utils {
-template <typename Mat, typename Scalar> void default_spd_fill(Mat &m) {
+template <typename Mat, typename Scalar>
+void default_spd_fill(Mat &m) {
   ASSERT((m.rows() == m.cols()), "The matrix must be squared!");
   const Scalar diagonal_value = static_cast<Scalar>(2.0);
   const Scalar upper_diagonal_value = static_cast<Scalar>(-1.0);
@@ -53,7 +48,8 @@ template <typename Mat, typename Scalar> void default_spd_fill(Mat &m) {
   }
 }
 
-template <typename Vector> double vector_norm_2(Vector v) {
+template <typename Vector>
+double vector_norm_2(Vector v) {
   double norm = 0.0;
   for (int i = 0; i < v.size(); i++) {
     norm += v[i] * v[i];
@@ -82,6 +78,24 @@ void print_matlab_matrix(SparseMatrix m, std::string file_name) {
   out_file.close();
 }
 
+namespace MPIUtils {
+class MPIRunner {
+ public:
+  int mpi_rank;
+  int mpi_size;
+  MPI_Comm communicator;
+
+  MPIRunner(int *argc, char **argv[]) {
+    MPI_Init(argc, argv);
+    communicator = MPI_COMM_WORLD;
+    MPI_Comm_rank(communicator, &mpi_rank);
+    MPI_Comm_size(communicator, &mpi_size);
+  }
+
+  ~MPIRunner() { MPI_Finalize(); }
+};
+}  // namespace MPIUtils
+
 namespace EigenUtils {
 template <typename Matrix, typename Scalar>
 void load_sparse_matrix(const std::string file_name, Matrix &mat) {
@@ -92,11 +106,11 @@ void load_sparse_matrix(const std::string file_name, Matrix &mat) {
   ASSERT(Eigen::loadMarket(mat, file_name),
          "Failed to load matrix from " << file_name);
 }
-} // namespace EigenUtils
+}  // namespace EigenUtils
 
-template <typename MPIMatrix, typename Matrix>
-void MPI_matrix_show(MPIMatrix MPIMat, Matrix Mat, const int mpi_rank,
-                     const int mpi_size, MPI_Comm mpi_comm) {
+template <typename MPIMatrix>
+void MPI_matrix_show(MPIMatrix MPIMat, const int mpi_rank, const int mpi_size,
+                     MPI_Comm mpi_comm) {
   int rank = 0;
   while (rank < mpi_size) {
     if (mpi_rank == rank) {
@@ -133,8 +147,10 @@ int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
     auto id = Eigen::IdentityPreconditioner();
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    auto result = ::LinearAlgebra::LinearSolvers::Sequential::GMRES<
-        MPILhs, Rhs, decltype(id)>(A, x, b, id, restart, max_iter, tol);
+    auto result =
+        apsc::LinearAlgebra::LinearSolvers::Sequential::GMRES<MPILhs, Rhs,
+                                                          decltype(id)>(
+            A, x, b, id, restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
     long long diff =
@@ -164,8 +180,10 @@ int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
   } else {
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    auto result = ::LinearAlgebra::LinearSolvers::Sequential::GMRES<
-        MPILhs, Rhs, Preconditioner...>(A, x, b, P..., restart, max_iter, tol);
+    auto result =
+        apsc::LinearAlgebra::LinearSolvers::Sequential::GMRES<MPILhs, Rhs,
+                                                          Preconditioner...>(
+            A, x, b, P..., restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
     long long diff =
@@ -219,7 +237,7 @@ int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
     auto result =
-        ::LinearAlgebra::LinearSolvers::MPI::GMRES<MPILhs, Rhs, decltype(id)>(
+        apsc::LinearAlgebra::LinearSolvers::MPI::GMRES<MPILhs, Rhs, decltype(id)>(
             A, x, b, id, restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
@@ -258,7 +276,7 @@ int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
   } else {
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    auto result = ::LinearAlgebra::LinearSolvers::MPI::GMRES<MPILhs, Rhs,
+    auto result = apsc::LinearAlgebra::LinearSolvers::MPI::GMRES<MPILhs, Rhs,
                                                              Preconditioner...>(
         A, x, b, P..., restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
@@ -297,13 +315,14 @@ int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
     return result;
   }
 }
-} // namespace GMRES
+}  // namespace GMRES
 
 namespace ConjugateGradient {
 template <typename MPILhs, typename Rhs, typename Scalar, typename ExactSol,
           typename... Preconditioner>
 int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
-              objective_context obj_ctx, Preconditioner... P) {
+              objective_context obj_ctx = {}, bool produce_out_file = 1,
+              Preconditioner... P) {
   constexpr std::size_t P_size = sizeof...(P);
   static_assert(P_size < 2, "Please specify max 1 preconditioner");
 
@@ -323,7 +342,7 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
     auto result =
-        ::LinearAlgebra::LinearSolvers::MPI::CG_no_precon<MPILhs, Rhs, Scalar>(
+        apsc::LinearAlgebra::LinearSolvers::MPI::CG_no_precon<MPILhs, Rhs, Scalar>(
             A, x, b, max_iter, tol, mpi_ctx, MPI_DOUBLE);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
@@ -345,14 +364,12 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
       cout << "tolerance achieved:                        " << tol << endl;
       cout << "Error norm:                                " << (x - e).norm()
            << std::endl;
-#if PRODUCE_OUT_FILE == 1
-      {
+      if (produce_out_file) {
         obj_ctx.write(static_cast<long long>(size), ',',
                       static_cast<long long>(diff_sum / mpi_ctx.mpi_size()),
                       ',', static_cast<long long>(max_iter), ',',
                       static_cast<long long>(result));
       }
-#endif
 #if DEBUG == 1
       cout << "Result vector:                             " << x << std::endl;
 #endif
@@ -362,9 +379,9 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
     // TODO
   }
 }
-} // namespace ConjugateGradient
-} // namespace Solvers
-} // namespace Utils
-} // namespace apsc::LinearAlgebra
+}  // namespace ConjugateGradient
+}  // namespace Solvers
+}  // namespace Utils
+}  // namespace apsc::LinearAlgebra
 
 #endif /*UTILS_HPP*/

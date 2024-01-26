@@ -1,7 +1,7 @@
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include <EigenStructureMap.hpp>
-#include <MatrixWithVecSupport.hpp>
+#include <FullMatrix.hpp>
 #include <Vector.hpp>
 #include <cmath>
 #include <iostream>
@@ -17,11 +17,11 @@ int main(int argc, char* argv[]) {
 
   {
     constexpr unsigned size = 5;
-    MatrixWithVecSupport<double, Vector<double>,
+    FullMatrix<double, Vector<double>,
                          apsc::LinearAlgebra::ORDERING::ROWMAJOR>
         A(size, size);
     Utils::default_spd_fill<
-        MatrixWithVecSupport<double, Vector<double>, ORDERING::ROWMAJOR>,
+        FullMatrix<double, Vector<double>, ORDERING::ROWMAJOR>,
         double>(A);
 
     auto mapped_A = EigenStructureMap<Eigen::Matrix<double, size, size>, double,

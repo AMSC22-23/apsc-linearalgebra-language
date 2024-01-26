@@ -1,8 +1,6 @@
-/*
- * MPIMatrix.hpp
- *
- *  Created on: Dec 3 2023
- *      Author: Kaixi Matteo Chen
+/**
+ * @file MPISparseMatrix.hpp
+ * @brief Header file containing a parallel sparse matrix definition.
  */
 
 #ifndef MPISPARSEMATRIX_HPP
@@ -21,7 +19,9 @@
 #include <Vector.hpp>
 #include <array>
 #include <vector>
-namespace apsc {
+
+namespace apsc::LinearAlgebra
+{
 /*!
  * A class for parallel sparse matrix product
  * @tparam Matrix A sparse matrix class
@@ -74,7 +74,8 @@ class MPISparseMatrix {
     bool dead_signal = 0;
     if constexpr (std::is_base_of_v<Eigen::SparseCompressedBase<Matrix>,
                                     Matrix>) {
-      if (mpi_rank == manager && !compressed_global_sparse_matrix.isCompressed()) {
+      if (mpi_rank == manager &&
+          !compressed_global_sparse_matrix.isCompressed()) {
         dead_signal = 1;
       }
       MPI_Bcast(&dead_signal, 1, mpi_typeof(decltype(dead_signal){}), 0,
@@ -312,6 +313,6 @@ class MPISparseMatrix {
   // default constructor, with Scalar{}
   MPI_Datatype MPI_Scalar_Type = mpi_typeof(Scalar{});
 };
-}  // end namespace apsc
+}  // apsc::LinearAlgebra
 
 #endif /* MPISPARSEMATRIX_HPP */

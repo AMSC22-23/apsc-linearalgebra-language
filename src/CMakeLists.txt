@@ -17,6 +17,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/AMSC-CodeExamples/Examples/src/
   ${CMAKE_CURRENT_SOURCE_DIR}/shared/ ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/
   ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/cg/
   ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/gmres/
+  ${CMAKE_CURRENT_SOURCE_DIR}/apsc_language/
   ${CMAKE_CURRENT_SOURCE_DIR}/preconditioners/parallel/spai/
   ${EIGEN3_DIR_LOCAL} ${EIGEN3_DIR_PCAFRICA})
 include_directories(SYSTEM ${MPI_INCLUDE_PATH})
@@ -41,3 +42,5 @@ target_link_libraries(spai_test MPI::MPI_CXX)
 add_executable(gmres_test demo/gmres_test.cpp)
 target_link_libraries(gmres_test MPI::MPI_CXX)
 add_executable(csc_demo demo/csc_demo.cpp)
+add_executable(linear_algebra_demo demo/linear_algebra_demo.cpp)
+target_link_libraries(linear_algebra_demo MPI::MPI_CXX)

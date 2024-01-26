@@ -1,3 +1,8 @@
+/**
+ * @file objective_context.hpp
+ * @brief Header file containing the objective_context class for managing objective-related information and reporting.
+ */
+
 #ifndef OBJECTIVE_CONTEXT_HPP
 #define OBJECTIVE_CONTEXT_HPP
 
@@ -6,17 +11,36 @@
 #include <fstream>
 #include <iostream>
 
+/**
+ * @class objective_context
+ * @brief Class for managing objective-related information and reporting.
+ */
 class objective_context {
  private:
-  uint8_t m_objective_number;
-  uint8_t m_mpi_sie;
-  std::string m_report_file_name;
-  std::string m_problem_name;
-  std::ofstream m_report_file;
+  uint8_t m_objective_number;    /**< The objective number. */
+  uint8_t m_mpi_sie;             /**< The MPI size. */
+  std::string m_report_file_name; /**< The name of the report file. */
+  std::string m_problem_name;     /**< The name of the problem. */
+  std::ofstream m_report_file;    /**< Output file stream for reporting. */
 
+  /**
+   * @brief Check if the problem name is provided.
+   * @return True if the problem name is provided, false otherwise.
+   */
   bool show_problem_name() { return m_problem_name.length(); }
 
  public:
+  /**
+   * @brief Default constructor.
+   */
+  objective_context() = default;
+  /**
+   * @brief Constructor.
+   * @param objective_number The objective number.
+   * @param mpi_size The MPI size.
+   * @param report_file_name The name of the report file.
+   * @param problem_name The name of the problem (optional, default is an empty string).
+   */
   objective_context(const uint8_t objective_number, const uint8_t mpi_size,
                     const std::string report_file_name,
                     const std::string problem_name = "")
@@ -24,7 +48,11 @@ class objective_context {
         m_mpi_sie(mpi_size),
         m_report_file_name(report_file_name),
         m_problem_name(problem_name) {}
-
+  /**
+   * @brief Write data to the report file.
+   * @tparam Var Variable argument types.
+   * @param vars Variable arguments to write to the report file.
+   */
   template <typename... Var>
   void write(Var... vars) {
     std::streamsize report_file_size;

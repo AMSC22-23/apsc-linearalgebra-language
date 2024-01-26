@@ -1,8 +1,8 @@
 #include <mpi.h>
 
-#include <MPIMatrix.hpp>
+#include <MPIFullMatrix.hpp>
 #include <Matrix/Matrix.hpp>
-#include <MatrixWithVecSupport.hpp>
+#include <FullMatrix.hpp>
 #include <Vector.hpp>
 #include <chrono>
 #include <cstddef>
@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
   MPI_Comm_size(mpi_comm, &mpi_size);
 
   // Create the global full matrix
-  apsc::LinearAlgebra::MatrixWithVecSupport<
+  apsc::LinearAlgebra::FullMatrix<
       double, apsc::LinearAlgebra::Vector<double>,
       apsc::LinearAlgebra::ORDERING::COLUMNMAJOR>
       A(size, size);
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
   apsc::LinearAlgebra::Vector<double> x(size, 1.0);
 
   // Create the MPI full matrix
-  apsc::MPIMatrix<decltype(A), decltype(x), apsc::ORDERINGTYPE::COLUMNWISE> PA;
+  apsc::LinearAlgebra::MPIFullMatrix<decltype(A), decltype(x), apsc::ORDERINGTYPE::COLUMNWISE> PA;
   PA.setup(A, mpi_comm);
   int rank = 0;
 #if DEBUG_LOCAL_MATRIX == 1

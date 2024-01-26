@@ -4,7 +4,7 @@
 #include <cmath>
 #include <vector>
 
-namespace LinearAlgebra {
+namespace apsc::LinearAlgebra {
 namespace LinearSolvers {
 namespace GMRESUtils {
 template <class Matrix, class Vector>
@@ -43,7 +43,7 @@ void apply_plane_rotation(Real &dx, Real &dy, Real &cs, Real &sn) {
   dy = -sn * dx + cs * dy;
   dx = temp;
 }
-}  // namespace GMRES
+}  // namespace GMRESUtils
 }  // namespace LinearSolvers
 }  // namespace LinearAlgebra
 

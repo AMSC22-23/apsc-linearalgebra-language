@@ -3,10 +3,10 @@
 
 #include <Eigen/Sparse>
 #include <MPIContext.hpp>
-#include <MPIMatrix.hpp>
+#include <MPIFullMatrix.hpp>
 #include <MPISparseMatrix.hpp>
 #include <Matrix/Matrix.hpp>
-#include <MatrixWithVecSupport.hpp>
+#include <FullMatrix.hpp>
 #include <Parallel/Utilities/partitioner.hpp>
 #include <Vector.hpp>
 #include <iostream>
@@ -73,8 +73,9 @@ int main(int argc, char *argv[]) {
   MPI_Bcast(&global_rows, 1, MPI_INT, 0, mpi_comm);
 
   if (mpi_rank == 0) {
-  std::cout << "Launching CG with a sparse MPI matrix with size: " << global_rows
-            << "x" << global_rows << ", non zero: " << A.nonZeros() << std::endl;
+    std::cout << "Launching CG with a sparse MPI matrix with size: "
+              << global_rows << "x" << global_rows
+              << ", non zero: " << A.nonZeros() << std::endl;
   }
 
   // Make A as compressed storage mode
@@ -90,13 +91,13 @@ int main(int argc, char *argv[]) {
     b = A * e;
   }
 #if DEBUG == 1
-    std::cout << "e vector:" << std::endl << e << std::endl;
-    std::cout << "b vector:" << std::endl << b << std::endl;
+  std::cout << "e vector:" << std::endl << e << std::endl;
+  std::cout << "b vector:" << std::endl << b << std::endl;
 #endif
   // Initialise processes b vector
   MPI_Bcast(b.data(), global_rows, MPI_DOUBLE, 0, mpi_comm);
 
-  apsc::MPISparseMatrix<decltype(A), decltype(e),
+  apsc::LinearAlgebra::MPISparseMatrix<decltype(A), decltype(e),
                         decltype(A)::IsRowMajor
                             ? apsc::ORDERINGTYPE::ROWWISE
                             : apsc::ORDERINGTYPE::COLUMNWISE>

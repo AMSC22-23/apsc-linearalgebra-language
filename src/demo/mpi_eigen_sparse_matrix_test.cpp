@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
   MPI_Barrier(mpi_comm);
 
   // Create the MPI full matrix
-  apsc::MPISparseMatrix<decltype(A), decltype(x),
+  apsc::LinearAlgebra::MPISparseMatrix<decltype(A), decltype(x),
                         decltype(A)::IsRowMajor
                             ? apsc::ORDERINGTYPE::ROWWISE
                             : apsc::ORDERINGTYPE::COLUMNWISE>

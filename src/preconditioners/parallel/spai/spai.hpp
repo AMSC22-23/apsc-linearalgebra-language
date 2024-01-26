@@ -14,13 +14,12 @@
 #include "least_sqaure_solver.hpp"
 #include "update_qr.hpp"
 
-namespace LinearAlgebra {
+namespace apsc::LinearAlgebra {
 namespace Preconditioners {
 namespace ApproximateInverse {
 template <typename Scalar, typename FullMatrix, int DEBUG_MODE = 0>
-class SPAI
-{
-protected:
+class SPAI {
+ protected:
   CSC<Scalar> M;
   int mpi_size;
   int mpi_rank;
@@ -30,30 +29,23 @@ protected:
     MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
   }
 
-public:
-  
-  ~ SPAI() {
-    M.destoy();
-  }
+ public:
+  ~SPAI() { M.destoy(); }
 
-  SPAI() {
-    setup_mpi();
-  }
+  SPAI() { setup_mpi(); }
 
-  SPAI(struct CSC<Scalar>* A, Scalar tolerance = 0.01, int max_iteration = 100, int s = 1) {
+  SPAI(struct CSC<Scalar>* A, Scalar tolerance = 0.01, int max_iteration = 100,
+       int s = 1) {
     setup_mpi();
     setup(A, tolerance, max_iteration, s);
   }
 
-  CSC<Scalar>& get_M() {
-    return M;
-  }
+  CSC<Scalar>& get_M() { return M; }
 
-  CSC<Scalar>& get_M() const {
-    return M;
-  }
+  CSC<Scalar>& get_M() const { return M; }
 
-  void setup(struct CSC<Scalar>* A, Scalar tolerance = 0.01, int maxIteration = 100, int s = 1) {
+  void setup(struct CSC<Scalar>* A, Scalar tolerance = 0.01,
+             int maxIteration = 100, int s = 1) {
     setup_mpi();
 
     if constexpr (DEBUG_MODE) {
@@ -94,19 +86,19 @@ public:
       n2 = M.offset[k + 1] - M.offset[k];
       J = (int*)malloc(sizeof(int) * n2);
 
-      // Iterate through row indeces from offset[k] to offset[k + 1] and take all
-      // elements from the flat_row_index
+      // Iterate through row indeces from offset[k] to offset[k + 1] and take
+      // all elements from the flat_row_index
       int h = 0;
       for (int i = M.offset[k]; i < M.offset[k + 1]; i++) {
         J[h] = M.flat_row_index[i];
         h++;
       }
 
-      // 2) Compute the row indices I of the corresponding nonzero entries of A(i,
-      // J) We initialize I to -1, and the iterate through all elements of J. Then
-      // we iterate through the row indeces of A from the offset J[j] to J[j] + 1.
-      // If the row index is already in I, we dont do anything, else we add it to
-      // I.
+      // 2) Compute the row indices I of the corresponding nonzero entries of
+      // A(i, J) We initialize I to -1, and the iterate through all elements of
+      // J. Then we iterate through the row indeces of A from the offset J[j] to
+      // J[j] + 1. If the row index is already in I, we dont do anything, else
+      // we add it to I.
       I = (int*)malloc(sizeof(int) * A->m);
       for (int i = 0; i < A->m; i++) {
         I[i] = -1;
@@ -135,8 +127,8 @@ public:
       // 3) Create Â = A(I, J)
       // We initialize AHat to zeros. Then we iterate through all indeces of J,
       // and iterate through all indeces of I. For each of the indices of I and
-      // the indices in the flat_row_index, we check if they match. If they do, we
-      // add that element to AHat.
+      // the indices in the flat_row_index, we check if they match. If they do,
+      // we add that element to AHat.
       AHat = A->to_dense(I, J, n1, n2);
 
       // 4) Do QR decomposition of AHat
@@ -166,8 +158,8 @@ public:
       mHat_k = (Scalar*)malloc(n2 * sizeof(Scalar));
       residual = (Scalar*)malloc(A->m * sizeof(Scalar));
 
-      Utils::solve_least_square<Scalar, FullMatrix>(A, Q, R, &mHat_k, residual, I, J, n1,
-                                             n2, k, &residualNorm);
+      Utils::solve_least_square<Scalar, FullMatrix>(
+          A, Q, R, &mHat_k, residual, I, J, n1, n2, k, &residualNorm);
 
       // 6) Compute residual = A * mHat_k - e_k
       // Malloc space for residual
@@ -310,12 +302,14 @@ public:
         rhoSq = (Scalar*)malloc(sizeof(Scalar) * n2Tilde);
         for (int i = 0; i < n2Tilde; i++) {
           Scalar rTAe_j = 0.0;  // r^T * A(.,j)
-          for (int j = A->offset[JTilde[i]]; j < A->offset[JTilde[i] + 1]; j++) {
+          for (int j = A->offset[JTilde[i]]; j < A->offset[JTilde[i] + 1];
+               j++) {
             rTAe_j += A->values[j] * residual[A->flat_row_index[j]];
           }
 
           Scalar Ae_jNorm = 0.0;
-          for (int j = A->offset[JTilde[i]]; j < A->offset[JTilde[i] + 1]; j++) {
+          for (int j = A->offset[JTilde[i]]; j < A->offset[JTilde[i] + 1];
+               j++) {
             Ae_jNorm += A->values[j] * A->values[j];
           }
           Ae_jNorm = sqrt(Ae_jNorm);
@@ -369,8 +363,8 @@ public:
         }
 
         // 11) Determine the new indices Î
-        // Denote by ITilde the new rows, which corresponds to the nonzero rows of
-        // A(:, J union JTilde) not contained in I yet
+        // Denote by ITilde the new rows, which corresponds to the nonzero rows
+        // of A(:, J union JTilde) not contained in I yet
         n2Tilde = newN2Tilde;
         n2Union = n2 + n2Tilde;
         JUnion = (int*)malloc(sizeof(int) * n2Union);
@@ -388,10 +382,12 @@ public:
 
         n1Tilde = 0;
         for (int j = 0; j < n2Union; j++) {
-          for (int i = A->offset[JUnion[j]]; i < A->offset[JUnion[j] + 1]; i++) {
+          for (int i = A->offset[JUnion[j]]; i < A->offset[JUnion[j] + 1];
+               i++) {
             int keep = 1;
             for (int h = 0; h < n1; h++) {
-              if (A->flat_row_index[i] == I[h] || A->flat_row_index[i] == ITilde[h]) {
+              if (A->flat_row_index[i] == I[h] ||
+                  A->flat_row_index[i] == ITilde[h]) {
                 keep = 0;
               }
             }
@@ -414,10 +410,10 @@ public:
         }
 
         // 13) Update the QR factorization of A(IUnion, JUnion)
-        Utils::update_QR<Scalar, FullMatrix>(A, &AHat, &Q, &R, &I, &J, &sortedJ, ITilde,
-                                      JTilde, IUnion, JUnion, n1, n2, n1Tilde,
-                                      n2Tilde, n1Union, n2Union, &mHat_k,
-                                      residual, &residualNorm, k);
+        Utils::update_QR<Scalar, FullMatrix>(
+            A, &AHat, &Q, &R, &I, &J, &sortedJ, ITilde, JTilde, IUnion, JUnion,
+            n1, n2, n1Tilde, n2Tilde, n1Union, n2Union, &mHat_k, residual,
+            &residualNorm, k);
 
         n1 = n1Union;
         n2 = n2Union;
@@ -453,8 +449,9 @@ public:
           MPI_Get_count(&status, MPI_DOUBLE, &recv_n2);
           Scalar* recv_mHat_k = (Scalar*)calloc(recv_n2, sizeof(Scalar));
           int* recv_sortedJ = (int*)calloc(recv_n2, sizeof(int));
-          MPI_Recv(recv_mHat_k, recv_n2, mpi_typeof(Scalar{}), status.MPI_SOURCE,
-                   (100 * i), MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+          MPI_Recv(recv_mHat_k, recv_n2, mpi_typeof(Scalar{}),
+                   status.MPI_SOURCE, (100 * i), MPI_COMM_WORLD,
+                   MPI_STATUS_IGNORE);
           MPI_Recv(recv_sortedJ, recv_n2, MPI_INT, status.MPI_SOURCE, (101 * i),
                    MPI_COMM_WORLD, MPI_STATUS_IGNORE);
           M.update_kth_column(recv_mHat_k, recv_col, recv_sortedJ, recv_n2);

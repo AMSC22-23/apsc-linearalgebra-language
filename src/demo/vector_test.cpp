@@ -1,4 +1,4 @@
-#include <MatrixWithVecSupport.hpp>
+#include <FullMatrix.hpp>
 #include <Vector.hpp>
 #include <iostream>
 #include <string>
@@ -11,11 +11,11 @@ int main(int argc, char *argv[]) {
 
   constexpr unsigned size = 10;
   Vector<double> e(size, 1.0);
-  MatrixWithVecSupport<double, decltype(e),
+  FullMatrix<double, decltype(e),
                        apsc::LinearAlgebra::ORDERING::ROWMAJOR>
       A(size, size);
   Utils::default_spd_fill<
-      MatrixWithVecSupport<double, decltype(e), ORDERING::ROWMAJOR>, double>(A);
+      FullMatrix<double, decltype(e), ORDERING::ROWMAJOR>, double>(A);
 
   Vector<double> b = A * e;
 
