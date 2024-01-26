@@ -272,20 +272,20 @@ struct CSC {
   }
   /**
    * @brief Updates the values of the k-th column.
-   * @param newVaules The new values for the column.
+   * @param new_values The new values for the column.
    * @param k The column index to update.
-   * @param J The row indices corresponding to the new values.
-   * @param n2 The number of elements in the new values array.
+   * @param row_indices The row indices corresponding to the new values.
+   * @param size The number of elements in the new values array.
    */
-  void update_kth_column(Scalar* newVaules, int k, int* J, int n2) {
+  void update_kth_column(Scalar* new_values, int k, int* row_indices, int size) {
     CSC newA;
     newA.m = m;
     newA.n = n;
 
     // Compute the new number of nonzeros
     int deltaNonzeros = 0;
-    for (int i = 0; i < n2; i++) {
-      if (newVaules[i] != 0.0) {
+    for (int i = 0; i < size; i++) {
+      if (new_values[i] != 0.0) {
         deltaNonzeros++;
       }
     }
@@ -294,8 +294,10 @@ struct CSC {
     // set the new number of nonzeros
     newA.non_zeros = non_zeros + deltaNonzeros;
 
-    // Malloc space for the new offset array
+    // Malloc space
     newA.offset = (int*)malloc(sizeof(int) * (n + 1));
+    newA.values = (Scalar*)malloc(sizeof(Scalar) * newA.non_zeros);
+    newA.flat_row_index = (int*)malloc(sizeof(int) * newA.non_zeros);
 
     // Copy the offset values before k
     for (int i = 0; i < k + 1; i++) {
@@ -307,10 +309,6 @@ struct CSC {
       newA.offset[i] = offset[i] + deltaNonzeros;
     }
 
-    // Malloc space
-    newA.values = (Scalar*)malloc(sizeof(Scalar) * newA.non_zeros);
-    newA.flat_row_index = (int*)malloc(sizeof(int) * newA.non_zeros);
-
     // Copy the old values and flat_row_index values before k
     for (int i = 0; i < offset[k] + 1; i++) {
       newA.values[i] = values[i];
@@ -319,10 +317,10 @@ struct CSC {
 
     // insert the new values into the values and flat_row_index from k
     int index = 0;
-    for (int i = 0; i < n2; i++) {
-      if (newVaules[i] != 0.0) {
-        newA.values[offset[k] + index] = newVaules[i];
-        newA.flat_row_index[offset[k] + index] = J[i];
+    for (int i = 0; i < size; i++) {
+      if (new_values[i] != 0.0) {
+        newA.values[offset[k] + index] = new_values[i];
+        newA.flat_row_index[offset[k] + index] = row_indices[i];
         index++;
       }
     }
@@ -333,7 +331,7 @@ struct CSC {
       newA.flat_row_index[i] = flat_row_index[i - deltaNonzeros];
     }
 
-    // swap
+    // swap old with new memory
     destoy();
     this->m = newA.m;
     this->n = newA.n;

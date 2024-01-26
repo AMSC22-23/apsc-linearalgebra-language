@@ -2,7 +2,7 @@
 #define CSPAI_H
 
 #include <mpi.h>
-#include <stdlib.h>
+#include <cstdlib>
 
 #include <Eigen/Dense>
 #include <cmath>
@@ -72,14 +72,14 @@ class SPAI {
       int iteration = 0;
       Scalar residualNorm = 0.0;
 
-      int* J;
-      int* I;
-      int* sortedJ = (int*)malloc(sizeof(int) * M.n);
-      Scalar* AHat;
-      Scalar* Q;
-      Scalar* R;
-      Scalar* mHat_k;
-      Scalar* residual;
+      int* J = 0;
+      int* I = 0;
+      int* sortedJ = (int*)calloc(M.n, sizeof(int));
+      Scalar* AHat = 0;
+      Scalar* Q = 0;
+      Scalar* R = 0;
+      Scalar* mHat_k = 0;
+      Scalar* residual = 0;
 
       // 1) Find the initial sparsity J of m_k
       // Malloc space for the indeces from offset[k] to offset[k + 1]
@@ -196,11 +196,8 @@ class SPAI {
       }
       residualNorm = sqrt(residualNorm);
 
-      int somethingToBeDone = 1;
-
       // While norm of residual > tolerance do
-      while (residualNorm > tolerance && maxIteration > iteration &&
-             somethingToBeDone) {
+      while ((iteration == 0) || (residualNorm > tolerance && maxIteration > iteration)) {
         iteration++;
 
         // Variables
@@ -211,15 +208,15 @@ class SPAI {
         int l = 0;
         int kNotInI = 0;
 
-        Scalar* rhoSq;
-        int* ITilde;
-        int* IUnion;
-        int* JTilde;
-        int* JUnion;
-        int* L;
-        int* keepArray;
-        int* smallestIndices;
-        int* smallestJTilde;
+        Scalar* rhoSq = 0;
+        int* ITilde = 0;
+        int* IUnion = 0;
+        int* JTilde = 0;
+        int* JUnion = 0;
+        int* L = 0;
+        int* keepArray = 0;
+        int* smallestIndices = 0;
+        int* smallestJTilde = 0;
 
         // 7) Set L to the set of indices where r(l) != 0
         // Count the numbers of nonzeros in residual
@@ -435,7 +432,7 @@ class SPAI {
       if (mpi_rank == 0) {
         M.update_kth_column(mHat_k, k, sortedJ, n2);
         if constexpr (DEBUG_MODE) {
-          printf("SPAI: updated %d column\n", k);
+          printf("SPAI: updated column: %d\n", k);
         }
         for (int i = 1; i < mpi_size; i++) {
           int recv_col = k + i;
@@ -456,7 +453,7 @@ class SPAI {
                    MPI_COMM_WORLD, MPI_STATUS_IGNORE);
           M.update_kth_column(recv_mHat_k, recv_col, recv_sortedJ, recv_n2);
           if constexpr (DEBUG_MODE) {
-            printf("SPAI: updated %d column\n", recv_col);
+            printf("SPAI: updated column: %d\n", recv_col);
           }
           free(recv_mHat_k);
           free(recv_sortedJ);
