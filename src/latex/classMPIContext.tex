@@ -1,0 +1,94 @@
+\hypertarget{classMPIContext}{}\doxysection{M\+P\+I\+Context Class Reference}
+\label{classMPIContext}\index{MPIContext@{MPIContext}}
+
+
+Class for encapsulating M\+PI context information.  
+
+
+
+
+{\ttfamily \#include $<$M\+P\+I\+Context.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classMPIContext_ababc347b1ccf2e4462d812c922d73b9f}{M\+P\+I\+Context}} (M\+P\+I\+\_\+\+Comm \mbox{\hyperlink{classMPIContext_a2225b63be7b0bb9cf4fee8959d44d60f}{mpi\+\_\+comm}}, const int \mbox{\hyperlink{classMPIContext_ac3d9f6bfc56f4ef7f6821ee62a0f097f}{mpi\+\_\+rank}}, const int \mbox{\hyperlink{classMPIContext_a3cf536e70f5651e1accb5e92c94ffbb3}{mpi\+\_\+size}}=0)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+M\+P\+I\+\_\+\+Comm \mbox{\hyperlink{classMPIContext_a2225b63be7b0bb9cf4fee8959d44d60f}{mpi\+\_\+comm}} () const
+\begin{DoxyCompactList}\small\item\em Get the M\+PI communicator. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classMPIContext_ac3d9f6bfc56f4ef7f6821ee62a0f097f}{mpi\+\_\+rank}} () const
+\begin{DoxyCompactList}\small\item\em Get the rank of the M\+PI process. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classMPIContext_a3cf536e70f5651e1accb5e92c94ffbb3}{mpi\+\_\+size}} () const
+\begin{DoxyCompactList}\small\item\em Get the size of the M\+PI communicator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class for encapsulating M\+PI context information. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classMPIContext_ababc347b1ccf2e4462d812c922d73b9f}\label{classMPIContext_ababc347b1ccf2e4462d812c922d73b9f}} 
+\index{MPIContext@{MPIContext}!MPIContext@{MPIContext}}
+\index{MPIContext@{MPIContext}!MPIContext@{MPIContext}}
+\doxysubsubsection{\texorpdfstring{MPIContext()}{MPIContext()}}
+{\footnotesize\ttfamily M\+P\+I\+Context\+::\+M\+P\+I\+Context (\begin{DoxyParamCaption}\item[{M\+P\+I\+\_\+\+Comm}]{mpi\+\_\+comm,  }\item[{const int}]{mpi\+\_\+rank,  }\item[{const int}]{mpi\+\_\+size = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mpi\+\_\+comm} & The M\+PI communicator. \\
+\hline
+{\em mpi\+\_\+rank} & The rank of the M\+PI process. \\
+\hline
+{\em mpi\+\_\+size} & The size of the M\+PI communicator (optional, default is 0). \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classMPIContext_a2225b63be7b0bb9cf4fee8959d44d60f}\label{classMPIContext_a2225b63be7b0bb9cf4fee8959d44d60f}} 
+\index{MPIContext@{MPIContext}!mpi\_comm@{mpi\_comm}}
+\index{mpi\_comm@{mpi\_comm}!MPIContext@{MPIContext}}
+\doxysubsubsection{\texorpdfstring{mpi\_comm()}{mpi\_comm()}}
+{\footnotesize\ttfamily M\+P\+I\+\_\+\+Comm M\+P\+I\+Context\+::mpi\+\_\+comm (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the M\+PI communicator. 
+
+\begin{DoxyReturn}{Returns}
+The M\+PI communicator. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMPIContext_ac3d9f6bfc56f4ef7f6821ee62a0f097f}\label{classMPIContext_ac3d9f6bfc56f4ef7f6821ee62a0f097f}} 
+\index{MPIContext@{MPIContext}!mpi\_rank@{mpi\_rank}}
+\index{mpi\_rank@{mpi\_rank}!MPIContext@{MPIContext}}
+\doxysubsubsection{\texorpdfstring{mpi\_rank()}{mpi\_rank()}}
+{\footnotesize\ttfamily int M\+P\+I\+Context\+::mpi\+\_\+rank (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the rank of the M\+PI process. 
+
+\begin{DoxyReturn}{Returns}
+The rank of the M\+PI process. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMPIContext_a3cf536e70f5651e1accb5e92c94ffbb3}\label{classMPIContext_a3cf536e70f5651e1accb5e92c94ffbb3}} 
+\index{MPIContext@{MPIContext}!mpi\_size@{mpi\_size}}
+\index{mpi\_size@{mpi\_size}!MPIContext@{MPIContext}}
+\doxysubsubsection{\texorpdfstring{mpi\_size()}{mpi\_size()}}
+{\footnotesize\ttfamily int M\+P\+I\+Context\+::mpi\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the size of the M\+PI communicator. 
+
+\begin{DoxyReturn}{Returns}
+The size of the M\+PI communicator. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+lib/\mbox{\hyperlink{MPIContext_8hpp}{M\+P\+I\+Context.\+hpp}}\end{DoxyCompactItemize}

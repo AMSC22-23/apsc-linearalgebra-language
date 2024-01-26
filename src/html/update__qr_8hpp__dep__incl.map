@@ -1,0 +1,5 @@
+<map id="preconditioners/parallel/spai/update_qr.hpp" name="preconditioners/parallel/spai/update_qr.hpp">
+<area shape="rect" id="node1" title="Header file containing a QR factorisation updater for SPAI." alt="" coords="5,5,181,47"/>
+<area shape="rect" id="node2" href="$spai_8hpp.html" title="Header file for the SPAI class." alt="" coords="5,95,181,136"/>
+<area shape="rect" id="node3" href="$apsc__language_8hpp.html" title="Header file defining apsc custom linear algebra language. It aims to ease the developer experience wh..." alt="" coords="17,184,170,225"/>
+</map>

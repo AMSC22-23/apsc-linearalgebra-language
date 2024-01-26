@@ -1,0 +1,138 @@
+\hypertarget{classapsc_1_1LinearAlgebra_1_1FullMatrix}{}\doxysection{apsc\+::Linear\+Algebra\+::Full\+Matrix$<$ S\+C\+A\+L\+AR, Vector, O\+R\+D\+ER $>$ Class Template Reference}
+\label{classapsc_1_1LinearAlgebra_1_1FullMatrix}\index{apsc::LinearAlgebra::FullMatrix$<$ SCALAR, Vector, ORDER $>$@{apsc::LinearAlgebra::FullMatrix$<$ SCALAR, Vector, ORDER $>$}}
+
+
+A full matrix with vector multiplication support for custom \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} class.  
+
+
+
+
+{\ttfamily \#include $<$Full\+Matrix.\+hpp$>$}
+
+
+
+Inheritance diagram for apsc\+::Linear\+Algebra\+::Full\+Matrix$<$ S\+C\+A\+L\+AR, Vector, O\+R\+D\+ER $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=237pt]{classapsc_1_1LinearAlgebra_1_1FullMatrix__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for apsc\+::Linear\+Algebra\+::Full\+Matrix$<$ S\+C\+A\+L\+AR, Vector, O\+R\+D\+ER $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=237pt]{classapsc_1_1LinearAlgebra_1_1FullMatrix__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1FullMatrix_a14043c4c4d166458d77693500dc8e2d8}\label{classapsc_1_1LinearAlgebra_1_1FullMatrix_a14043c4c4d166458d77693500dc8e2d8}} 
+using {\bfseries Scalar} = S\+C\+A\+L\+AR
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix_a4b85fab01185d509945410905d1fec05}{Full\+Matrix}} (std\+::size\+\_\+t nrows=0, std\+::size\+\_\+t ncols=0)
+\item 
+{\footnotesize template$<$typename Input\+Vector\+Type $>$ }\\\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix_a6be66a58e3e94184dcc1c2b52c66c4e3}{operator$\ast$}} (Input\+Vector\+Type const \&v) const
+\item 
+{\footnotesize template$<$typename Input\+Vector\+Type $>$ }\\\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix_af98922abf3fc0dcad6e2af01dd69c4a3}{solve}} (Input\+Vector\+Type const \&v) const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename S\+C\+A\+L\+AR, typename Vector, O\+R\+D\+E\+R\+I\+NG O\+R\+D\+ER = O\+R\+D\+E\+R\+I\+N\+G\+::\+R\+O\+W\+M\+A\+J\+OR$>$\newline
+class apsc\+::\+Linear\+Algebra\+::\+Full\+Matrix$<$ S\+C\+A\+L\+A\+R, Vector, O\+R\+D\+E\+R $>$}
+
+A full matrix with vector multiplication support for custom \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} class. 
+
+The template \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} param type is used only for internal temporary buffers and return types. Each computation method can be use with different \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} classes (hence different from the class template \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}).
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Scalar} & The type of the element \\
+\hline
+{\em \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}} & The type of the \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} to be used in computation \\
+\hline
+{\em O\+R\+D\+ER} & The Storage order (default row-\/wise) \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1FullMatrix_a4b85fab01185d509945410905d1fec05}\label{classapsc_1_1LinearAlgebra_1_1FullMatrix_a4b85fab01185d509945410905d1fec05}} 
+\index{apsc::LinearAlgebra::FullMatrix$<$ SCALAR, Vector, ORDER $>$@{apsc::LinearAlgebra::FullMatrix$<$ SCALAR, Vector, ORDER $>$}!FullMatrix@{FullMatrix}}
+\index{FullMatrix@{FullMatrix}!apsc::LinearAlgebra::FullMatrix$<$ SCALAR, Vector, ORDER $>$@{apsc::LinearAlgebra::FullMatrix$<$ SCALAR, Vector, ORDER $>$}}
+\doxysubsubsection{\texorpdfstring{FullMatrix()}{FullMatrix()}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR , typename Vector , O\+R\+D\+E\+R\+I\+NG O\+R\+D\+ER = O\+R\+D\+E\+R\+I\+N\+G\+::\+R\+O\+W\+M\+A\+J\+OR$>$ \\
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix}{apsc\+::\+Linear\+Algebra\+::\+Full\+Matrix}}$<$ S\+C\+A\+L\+AR, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}, O\+R\+D\+ER $>$\+::\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix}{Full\+Matrix}} (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{nrows = {\ttfamily 0},  }\item[{std\+::size\+\_\+t}]{ncols = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Constructor may take number of rows and columns 
+\begin{DoxyParams}{Parameters}
+{\em nrows} & Number of rows \\
+\hline
+{\em ncols} & Number of columns \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1FullMatrix_a6be66a58e3e94184dcc1c2b52c66c4e3}\label{classapsc_1_1LinearAlgebra_1_1FullMatrix_a6be66a58e3e94184dcc1c2b52c66c4e3}} 
+\index{apsc::LinearAlgebra::FullMatrix$<$ SCALAR, Vector, ORDER $>$@{apsc::LinearAlgebra::FullMatrix$<$ SCALAR, Vector, ORDER $>$}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!apsc::LinearAlgebra::FullMatrix$<$ SCALAR, Vector, ORDER $>$@{apsc::LinearAlgebra::FullMatrix$<$ SCALAR, Vector, ORDER $>$}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR , typename Vector , O\+R\+D\+E\+R\+I\+NG O\+R\+D\+ER = O\+R\+D\+E\+R\+I\+N\+G\+::\+R\+O\+W\+M\+A\+J\+OR$>$ \\
+template$<$typename Input\+Vector\+Type $>$ \\
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix}{apsc\+::\+Linear\+Algebra\+::\+Full\+Matrix}}$<$ S\+C\+A\+L\+AR, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}, O\+R\+D\+ER $>$\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{Input\+Vector\+Type const \&}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Multiplication with a custom Input\+Vector\+Type The output vector has the matrix scalar type.
+
+Numerical faults will occur if Input\+Vector\+Type\+::\+Scalar and Scalar are different.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Input\+Vector\+Type} & the input vector type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em v} & a Input\+Vector\+Type to be multiplicated with \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of A$\ast$v 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1FullMatrix_af98922abf3fc0dcad6e2af01dd69c4a3}\label{classapsc_1_1LinearAlgebra_1_1FullMatrix_af98922abf3fc0dcad6e2af01dd69c4a3}} 
+\index{apsc::LinearAlgebra::FullMatrix$<$ SCALAR, Vector, ORDER $>$@{apsc::LinearAlgebra::FullMatrix$<$ SCALAR, Vector, ORDER $>$}!solve@{solve}}
+\index{solve@{solve}!apsc::LinearAlgebra::FullMatrix$<$ SCALAR, Vector, ORDER $>$@{apsc::LinearAlgebra::FullMatrix$<$ SCALAR, Vector, ORDER $>$}}
+\doxysubsubsection{\texorpdfstring{solve()}{solve()}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR , typename Vector , O\+R\+D\+E\+R\+I\+NG O\+R\+D\+ER = O\+R\+D\+E\+R\+I\+N\+G\+::\+R\+O\+W\+M\+A\+J\+OR$>$ \\
+template$<$typename Input\+Vector\+Type $>$ \\
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix}{apsc\+::\+Linear\+Algebra\+::\+Full\+Matrix}}$<$ S\+C\+A\+L\+AR, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}, O\+R\+D\+ER $>$\+::solve (\begin{DoxyParamCaption}\item[{Input\+Vector\+Type const \&}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Solve a linear system.
+
+Numerical faults will occur if Input\+Vector\+Type\+::\+Scalar and Scalar are different.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Input\+Vector\+Type} & the input vector type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em v} & a Input\+Vector\+Type representing the know data in the linear system \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of Ax=b 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+lib/\mbox{\hyperlink{FullMatrix_8hpp}{Full\+Matrix.\+hpp}}\end{DoxyCompactItemize}

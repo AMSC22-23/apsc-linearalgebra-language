@@ -1,5 +1,10 @@
-#ifndef CSPAI_H
-#define CSPAI_H
+/**
+ * @file spai.hpp
+ * @brief Header file for the SPAI class.
+ * @author Kaixi Matteo Chen
+ */
+#ifndef SPAI_H
+#define SPAI_H
 
 #include <mpi.h>
 
@@ -11,39 +16,71 @@
 #include "CSC.hpp"
 #include "Parallel/Utilities/mpi_utils.hpp"
 #include "assert.hpp"
-#include "least_sqaure_solver.hpp"
+#include "least_square_solver.hpp"
 #include "update_qr.hpp"
 
 namespace apsc::LinearAlgebra {
 namespace Preconditioners {
 namespace ApproximateInverse {
+/**
+ * @brief SPAI class.
+ * @tparam Scalar The scalar type used for the matrix elements.
+ * @tparam FullMatrix Matrix type for full matrices.
+ * @tparam DEBUG_MODE Flag to enable debug mode (default: 0).
+ */
 template <typename Scalar, typename FullMatrix, int DEBUG_MODE = 0>
 class SPAI {
  protected:
-  CSC<Scalar> M;
-  int mpi_size;
-  int mpi_rank;
+  CSC<Scalar> M;  ///< CSC matrix to store the preconditioner.
+  int mpi_size;   ///< Number of MPI processes.
+  int mpi_rank;   ///< Rank of the MPI process.
 
+  /**
+   * @brief Initializes MPI settings.
+   */
   void setup_mpi() {
     MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
     MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
   }
 
  public:
+  /**
+   * @brief Destructor.
+   */
   ~SPAI() { M.destoy(); }
-
+   /**
+   * @brief Default constructor.
+   */
   SPAI() { setup_mpi(); }
-
+  /**
+   * @brief Constructor with initialization.
+   * @param A Pointer to the input matrix.
+   * @param tolerance Tolerance for convergence criteria (default: 0.01).
+   * @param max_iteration Maximum number of iterations (default: 100).
+   * @param s Parameter for determining smallest indices (default: 1).
+   */
   SPAI(struct CSC<Scalar>* A, Scalar tolerance = 0.01, int max_iteration = 100,
        int s = 1) {
     setup_mpi();
     setup(A, tolerance, max_iteration, s);
   }
-
+  /**
+   * @brief Gets the preconditioner matrix M.
+   * @return Reference to the preconditioner matrix M.
+   */
   CSC<Scalar>& get_M() { return M; }
-
+  /**
+   * @brief Gets the preconditioner matrix M (const version).
+   * @return Const reference to the preconditioner matrix M.
+   */
   CSC<Scalar>& get_M() const { return M; }
-
+  /**
+   * @brief Sets up the SPAI preconditioner.
+   * @param A Pointer to the input matrix.
+   * @param tolerance Tolerance for convergence criteria.
+   * @param maxIteration Maximum number of iterations.
+   * @param s Parameter for determining smallest indices.
+   */
   void setup(struct CSC<Scalar>* A, Scalar tolerance = 0.01,
              int maxIteration = 100, int s = 1) {
     setup_mpi();

@@ -1,7 +1,8 @@
 /**
- * @file objective_context.hpp
- * @brief Header file containing the objective_context class for managing
+ * @file ObjectiveContext.hpp
+ * @brief Header file containing the objective context class for managing
  * objective-related information and reporting.
+ * @author Kaixi Matteo Chen
  */
 
 #ifndef OBJECTIVE_CONTEXT_HPP
@@ -13,7 +14,7 @@
 #include <iostream>
 
 /**
- * @class objective_context
+ * @class ObjectiveContext
  * @brief Class for managing objective-related information and reporting.
  */
 class ObjectiveContext {

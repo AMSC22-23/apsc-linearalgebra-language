@@ -1,0 +1,16 @@
+\hypertarget{md_lib_README_autotoc_md13}{}\doxysection{$<$tt$>$\+Eigen\+Structure\+Map.\+hpp$<$/tt$>$}\label{md_lib_README_autotoc_md13}
+{\ttfamily Eigen\+Structure\+Map} is a helper class designed to facilitate the usage of {\ttfamily Eigen} matrix class methods on non-\/{\ttfamily Eigen} matrices, such as {\ttfamily Matrix\+With\+Vec\+Support}. This class allows you to leverage the powerful functionalities of {\ttfamily Eigen} without the need for memory movements when operating on non-\/{\ttfamily Eigen} data.
+
+For comprehensive details and usage examples, please refer to the official \href{http://www.eigen.tuxfamily.org/dox/group__TutorialMapClass.html}{\texttt{ Eigen documentation on Mapping External Structures}}. The key concept behind {\ttfamily Eigen\+Structure\+Map} is to seamlessly apply {\ttfamily Eigen} methods to non-\/{\ttfamily Eigen} data, ensuring efficient and memory-\/friendly operations.\hypertarget{md_lib_README_autotoc_md14}{}\doxysection{$<$tt$>$\+Matrix\+With\+Vec\+Support.\+hpp$<$/tt$>$}\label{md_lib_README_autotoc_md14}
+{\ttfamily Matrix\+With\+Vec\+Support} extends the functionality of {\ttfamily A\+M\+S\+C-\/\+Code\+Examples/\+Examples/src/\+Matrix/\+Matrix.\+hpp}. This full matrix class introduces support for the {\ttfamily operator$\ast$} to facilitate matrix-\/vector multiplication with {\ttfamily \mbox{\hyperlink{Vector_8hpp}{Vector.\+hpp}}} objects. Additionally, it includes a {\ttfamily solve} method, providing a straightforward approach to solving linear systems using direct solvers.\hypertarget{md_lib_README_autotoc_md15}{}\doxysection{$<$tt$>$\+Vector.\+hpp$<$/tt$>$}\label{md_lib_README_autotoc_md15}
+{\ttfamily Vector} is a comprehensive vector class definition inspired by {\ttfamily A\+M\+S\+C-\/\+Code\+Examples/\+Examples/src/\+Matrix/\+Matrix.\+hpp}. It currently supports multiplication operations, specifically when performing matrix-\/vector multiplications between instances of {\ttfamily Matrix\+With\+Vec\+Support.\+hpp} and {\ttfamily \mbox{\hyperlink{Vector_8hpp}{Vector.\+hpp}}}.\hypertarget{md_lib_README_autotoc_md16}{}\doxysection{$<$tt$>$\+M\+P\+I\+Matrix.\+hpp$<$/tt$>$}\label{md_lib_README_autotoc_md16}
+This {\ttfamily M\+PI} compatible matrix class is inspired by {\ttfamily A\+M\+S\+C-\/\+Code\+Examples/\+Examples/src/\+Parallel/\+M\+P\+I/\+P\+Matirx.\+hpp}. This updated class can use a custom {\ttfamily Vector} class as local solution buffer and can collect the result in a custom {\ttfamily Vector} class.
+
+The only restrictions are\+:
+\begin{DoxyItemize}
+\item {\ttfamily Vector} must implement {\ttfamily data()} method in order to expose a pointer to its buffer.
+\item {\ttfamily Vector} must implement {\ttfamily resize()} method in order to be resized when needed.
+\end{DoxyItemize}\hypertarget{md_lib_README_autotoc_md17}{}\doxysection{Demo Files}\label{md_lib_README_autotoc_md17}
+You can find them in {\ttfamily matvetcg-\/chen-\/zhang-\/guo/src/demo}.
+
+A set of demonstration {\ttfamily cpp} files is provided to showcase the usage of these objects. Feel free to explore the demos to gain a better understanding of how these custom classes can be effectively employed in your linear algebra operations. 

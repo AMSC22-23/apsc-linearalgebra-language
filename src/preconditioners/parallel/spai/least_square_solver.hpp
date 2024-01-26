@@ -1,3 +1,8 @@
+/**
+ * @file least_square_solver.hpp
+ * @brief Header file containing a least square solver.
+ * @author Kaixi Matteo Chen
+ */
 #ifndef LEAST_SQUARE_PROBLEM_HPP
 #define LEAST_SQUARE_PROBLEM_HPP
 
@@ -15,6 +20,28 @@ namespace apsc::LinearAlgebra {
 namespace Preconditioners {
 namespace ApproximateInverse {
 namespace Utils {
+/**
+ * \brief Solves a least square problem using the given QR factorization.
+ *
+ * This function computes the solution to a least square problem using the given QR
+ * factorization. It computes the solution for the k-th column of the matrix A,
+ * where A is represented in compressed sparse column (CSC) format.
+ *
+ * \tparam Scalar The scalar type of the matrix elements.
+ * \tparam FullMatrix The Eigen-compatible matrix type representing the full matrix.
+ *
+ * \param A Pointer to the CSC representation of the matrix A.
+ * \param Q Pointer to the matrix Q from the QR factorization.
+ * \param R Pointer to the matrix R from the QR factorization.
+ * \param mHat_k Pointer to the output array to store the computed solution.
+ * \param residual Pointer to the residual vector.
+ * \param I Array representing the row indices of non-zero elements in the matrix A.
+ * \param J Array representing the column indices of non-zero elements in the matrix A.
+ * \param n1 Number of rows in the matrix A.
+ * \param n2 Number of columns in the matrix A.
+ * \param k Index of the column for which to compute the solution.
+ * \param residualNorm Pointer to store the residual norm after computation.
+ */
 template <typename Scalar, typename FullMatrix>
 void solve_least_square(CSC<Scalar> *A, Scalar *Q, Scalar *R, Scalar **mHat_k,
                         Scalar *residual, int *I, int *J, int n1, int n2, int k,

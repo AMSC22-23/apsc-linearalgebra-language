@@ -1,0 +1,375 @@
+\hypertarget{structapsc_1_1LinearAlgebra_1_1CSC}{}\doxysection{apsc\+::Linear\+Algebra\+::C\+SC$<$ Scalar $>$ Struct Template Reference}
+\label{structapsc_1_1LinearAlgebra_1_1CSC}\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+
+
+Struct representing a compressed sparse column (\mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}}) matrix.  
+
+
+
+
+{\ttfamily \#include $<$C\+S\+C.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_add58962365e2bf84f5d191fa2a53fbeb}\label{structapsc_1_1LinearAlgebra_1_1CSC_add58962365e2bf84f5d191fa2a53fbeb}} 
+\mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_add58962365e2bf84f5d191fa2a53fbeb}{C\+SC}} ()=default
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_aad42b65a1a32b69e694745ec637d5090}\label{structapsc_1_1LinearAlgebra_1_1CSC_aad42b65a1a32b69e694745ec637d5090}} 
+\mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_aad42b65a1a32b69e694745ec637d5090}{$\sim$\+C\+SC}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_a98ea97a67294f4d902bbadeb04c6db40}\label{structapsc_1_1LinearAlgebra_1_1CSC_a98ea97a67294f4d902bbadeb04c6db40}} 
+void \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_a98ea97a67294f4d902bbadeb04c6db40}{destoy}} ()
+\begin{DoxyCompactList}\small\item\em Destroys the \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} struct and releases memory. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_a1f311a9fbb66af19772a552f50da6464}{allocate}} (const int nnz, const int rows, const int cols)
+\begin{DoxyCompactList}\small\item\em Allocates the buffer memory. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Eigen\+Matrix\+Type $>$ }\\auto \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_a09eda7b4045dcf0fb423a991598c2abd}{to\+\_\+eigen}} (const std\+::size\+\_\+t size) const
+\begin{DoxyCompactList}\small\item\em Converts the \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} matrix to an Eigen matrix of the specified type. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Vector $>$ }\\\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_a85ca8efa9e9b399067dde8bdc1601474}{solve}} (\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} \&b) const
+\begin{DoxyCompactList}\small\item\em Solves a linear system using the \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} matrix. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Vector $>$ }\\\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_a3e0647167aff2401be2421cf6559f3e5}{solve}} (\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} \&b)
+\begin{DoxyCompactList}\small\item\em Solves a linear system using the \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} matrix. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Index\+Type $>$ }\\void \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_a1c11bec949e1afdef2d992524016fcca}{map\+\_\+external\+\_\+buffer}} (Index\+Type $\ast$offset\+\_\+in, Scalar $\ast$flat\+\_\+data\+\_\+in, Index\+Type $\ast$flat\+\_\+row\+\_\+index\+\_\+in, int m\+\_\+in, const int n\+\_\+in, const int nnz)
+\begin{DoxyCompactList}\small\item\em Maps an external buffer to the \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} struct. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_a450e65a77ef02da9bdf9eebe6138e4b9}{create\+\_\+from\+\_\+dense}} (Scalar $\ast$A, int m\+\_\+in, int n\+\_\+in)
+\begin{DoxyCompactList}\small\item\em Creates a \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} matrix from a dense matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_ac510a660694252393fbd7af410d15088}{create\+\_\+diagonal}} (int m\+\_\+in, int n\+\_\+in, Scalar value)
+\begin{DoxyCompactList}\small\item\em Creates a diagonal \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_ac4a928ac131f7d8e5a143a68a94afb71}{update\+\_\+kth\+\_\+column}} (Scalar $\ast$new\+\_\+values, int k, int $\ast$row\+\_\+indices, int size)
+\begin{DoxyCompactList}\small\item\em Updates the values of the k-\/th column. \end{DoxyCompactList}\item 
+Scalar $\ast$ \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_a4f99115510af1b69238e1a5d120ee254}{to\+\_\+dense}} (int $\ast$I, int $\ast$J, int n1, int n2)
+\begin{DoxyCompactList}\small\item\em Converts the \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} matrix to a dense matrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_afd03b7f424568846db73a8101566e3c7}\label{structapsc_1_1LinearAlgebra_1_1CSC_afd03b7f424568846db73a8101566e3c7}} 
+void \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_afd03b7f424568846db73a8101566e3c7}{print}} ()
+\begin{DoxyCompactList}\small\item\em Prints the \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} matrix data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_a97156a86044988957825119455e73f8b}{m}} = 0
+\item 
+int \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_a15874f640769c9b220b55877a0199819}{n}} = 0
+\item 
+int \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_ade00bb879e210ce83a8c9d99b16b3227}{non\+\_\+zeros}} = 0
+\item 
+int $\ast$ \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_a65a400b92fa794f24529a916659a75f7}{offset}} = nullptr
+\item 
+Scalar $\ast$ \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_aa611c59be64e5a069a34fc891f901032}{values}} = nullptr
+\item 
+int $\ast$ \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_a12635ff349d1fc032503e8220c53e9d9}{flat\+\_\+row\+\_\+index}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_a18bf59168eb42641ffdc607a74c0ffb0}{initialised}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC_aa76dd152295b4babf72133fda84e834b}{external\+\_\+buffer}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename Scalar$>$\newline
+struct apsc\+::\+Linear\+Algebra\+::\+C\+S\+C$<$ Scalar $>$}
+
+Struct representing a compressed sparse column (\mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}}) matrix. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Scalar} & The scalar type of the matrix. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_a1f311a9fbb66af19772a552f50da6464}\label{structapsc_1_1LinearAlgebra_1_1CSC_a1f311a9fbb66af19772a552f50da6464}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!allocate@{allocate}}
+\index{allocate@{allocate}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{allocate()}{allocate()}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+void \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::allocate (\begin{DoxyParamCaption}\item[{const int}]{nnz,  }\item[{const int}]{rows,  }\item[{const int}]{cols }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Allocates the buffer memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nnz} & The number of non zero elements. \\
+\hline
+{\em rows} & The number of matrix rows. \\
+\hline
+{\em cols} & The number of matrix columns. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_ac510a660694252393fbd7af410d15088}\label{structapsc_1_1LinearAlgebra_1_1CSC_ac510a660694252393fbd7af410d15088}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!create\_diagonal@{create\_diagonal}}
+\index{create\_diagonal@{create\_diagonal}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{create\_diagonal()}{create\_diagonal()}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+void \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::create\+\_\+diagonal (\begin{DoxyParamCaption}\item[{int}]{m\+\_\+in,  }\item[{int}]{n\+\_\+in,  }\item[{Scalar}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Creates a diagonal \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m\+\_\+in} & Number of rows. \\
+\hline
+{\em n\+\_\+in} & Number of columns. \\
+\hline
+{\em value} & The value of the diagonal elements. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_a450e65a77ef02da9bdf9eebe6138e4b9}\label{structapsc_1_1LinearAlgebra_1_1CSC_a450e65a77ef02da9bdf9eebe6138e4b9}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!create\_from\_dense@{create\_from\_dense}}
+\index{create\_from\_dense@{create\_from\_dense}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{create\_from\_dense()}{create\_from\_dense()}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+void \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::create\+\_\+from\+\_\+dense (\begin{DoxyParamCaption}\item[{Scalar $\ast$}]{A,  }\item[{int}]{m\+\_\+in,  }\item[{int}]{n\+\_\+in }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Creates a \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} matrix from a dense matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & Pointer to the dense matrix. \\
+\hline
+{\em m\+\_\+in} & Number of rows. \\
+\hline
+{\em n\+\_\+in} & Number of columns. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_a1c11bec949e1afdef2d992524016fcca}\label{structapsc_1_1LinearAlgebra_1_1CSC_a1c11bec949e1afdef2d992524016fcca}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!map\_external\_buffer@{map\_external\_buffer}}
+\index{map\_external\_buffer@{map\_external\_buffer}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{map\_external\_buffer()}{map\_external\_buffer()}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+template$<$typename Index\+Type $>$ \\
+void \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::map\+\_\+external\+\_\+buffer (\begin{DoxyParamCaption}\item[{Index\+Type $\ast$}]{offset\+\_\+in,  }\item[{Scalar $\ast$}]{flat\+\_\+data\+\_\+in,  }\item[{Index\+Type $\ast$}]{flat\+\_\+row\+\_\+index\+\_\+in,  }\item[{int}]{m\+\_\+in,  }\item[{const int}]{n\+\_\+in,  }\item[{const int}]{nnz }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Maps an external buffer to the \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} struct. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Index\+Type} & The type of indices. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em offset\+\_\+in} & Pointer to the column offsets. \\
+\hline
+{\em flat\+\_\+data\+\_\+in} & Pointer to the non-\/zero values. \\
+\hline
+{\em flat\+\_\+row\+\_\+index\+\_\+in} & Pointer to the row indices for non-\/zero values. \\
+\hline
+{\em m\+\_\+in} & Number of rows. \\
+\hline
+{\em n\+\_\+in} & Number of columns. \\
+\hline
+{\em nnz} & Number of non-\/zero elements. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_a3e0647167aff2401be2421cf6559f3e5}\label{structapsc_1_1LinearAlgebra_1_1CSC_a3e0647167aff2401be2421cf6559f3e5}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!solve@{solve}}
+\index{solve@{solve}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{solve()}{solve()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+template$<$typename Vector $>$ \\
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::solve (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Solves a linear system using the \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} matrix. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}} & The vector type. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em b} & The vector representing the right-\/hand side of the linear system. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The solution vector. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_a85ca8efa9e9b399067dde8bdc1601474}\label{structapsc_1_1LinearAlgebra_1_1CSC_a85ca8efa9e9b399067dde8bdc1601474}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!solve@{solve}}
+\index{solve@{solve}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{solve()}{solve()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+template$<$typename Vector $>$ \\
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::solve (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} \&}]{b }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Solves a linear system using the \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} matrix. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}} & The vector type. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em b} & The vector representing the right-\/hand side of the linear system. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The solution vector. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_a4f99115510af1b69238e1a5d120ee254}\label{structapsc_1_1LinearAlgebra_1_1CSC_a4f99115510af1b69238e1a5d120ee254}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!to\_dense@{to\_dense}}
+\index{to\_dense@{to\_dense}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{to\_dense()}{to\_dense()}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+Scalar$\ast$ \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::to\+\_\+dense (\begin{DoxyParamCaption}\item[{int $\ast$}]{I,  }\item[{int $\ast$}]{J,  }\item[{int}]{n1,  }\item[{int}]{n2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Converts the \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} matrix to a dense matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I} & The row indices. \\
+\hline
+{\em J} & The column indices. \\
+\hline
+{\em n1} & Number of rows. \\
+\hline
+{\em n2} & Number of columns. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the dense matrix. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_a09eda7b4045dcf0fb423a991598c2abd}\label{structapsc_1_1LinearAlgebra_1_1CSC_a09eda7b4045dcf0fb423a991598c2abd}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!to\_eigen@{to\_eigen}}
+\index{to\_eigen@{to\_eigen}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{to\_eigen()}{to\_eigen()}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+template$<$typename Eigen\+Matrix\+Type $>$ \\
+auto \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::to\+\_\+eigen (\begin{DoxyParamCaption}\item[{const std\+::size\+\_\+t}]{size }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Converts the \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} matrix to an Eigen matrix of the specified type. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Eigen\+Matrix\+Type} & The Eigen matrix type. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em size} & The size of the matrix. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eigen matrix mapped to the \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} matrix data. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_ac4a928ac131f7d8e5a143a68a94afb71}\label{structapsc_1_1LinearAlgebra_1_1CSC_ac4a928ac131f7d8e5a143a68a94afb71}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!update\_kth\_column@{update\_kth\_column}}
+\index{update\_kth\_column@{update\_kth\_column}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{update\_kth\_column()}{update\_kth\_column()}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+void \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::update\+\_\+kth\+\_\+column (\begin{DoxyParamCaption}\item[{Scalar $\ast$}]{new\+\_\+values,  }\item[{int}]{k,  }\item[{int $\ast$}]{row\+\_\+indices,  }\item[{int}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Updates the values of the k-\/th column. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+\_\+values} & The new values for the column. \\
+\hline
+{\em k} & The column index to update. \\
+\hline
+{\em row\+\_\+indices} & The row indices corresponding to the new values. \\
+\hline
+{\em size} & The number of elements in the new values array. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_aa76dd152295b4babf72133fda84e834b}\label{structapsc_1_1LinearAlgebra_1_1CSC_aa76dd152295b4babf72133fda84e834b}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!external\_buffer@{external\_buffer}}
+\index{external\_buffer@{external\_buffer}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{external\_buffer}{external\_buffer}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+uint8\+\_\+t \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::external\+\_\+buffer}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{      0}
+
+\end{DoxyCode}
+Flag indicating whether an external buffer is used. \mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_a12635ff349d1fc032503e8220c53e9d9}\label{structapsc_1_1LinearAlgebra_1_1CSC_a12635ff349d1fc032503e8220c53e9d9}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!flat\_row\_index@{flat\_row\_index}}
+\index{flat\_row\_index@{flat\_row\_index}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{flat\_row\_index}{flat\_row\_index}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+int$\ast$ \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::flat\+\_\+row\+\_\+index}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{      \textcolor{keyword}{nullptr}}
+
+\end{DoxyCode}
+Array of row indices for non-\/zero values. \mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_a18bf59168eb42641ffdc607a74c0ffb0}\label{structapsc_1_1LinearAlgebra_1_1CSC_a18bf59168eb42641ffdc607a74c0ffb0}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!initialised@{initialised}}
+\index{initialised@{initialised}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{initialised}{initialised}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+uint8\+\_\+t \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::initialised}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{      0}
+
+\end{DoxyCode}
+Flag indicating whether the struct is initialised. \mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_a97156a86044988957825119455e73f8b}\label{structapsc_1_1LinearAlgebra_1_1CSC_a97156a86044988957825119455e73f8b}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!m@{m}}
+\index{m@{m}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{m}{m}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+int \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::m = 0}
+
+Number of rows. \mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_a15874f640769c9b220b55877a0199819}\label{structapsc_1_1LinearAlgebra_1_1CSC_a15874f640769c9b220b55877a0199819}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!n@{n}}
+\index{n@{n}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{n}{n}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+int \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::n = 0}
+
+Number of columns. \mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_ade00bb879e210ce83a8c9d99b16b3227}\label{structapsc_1_1LinearAlgebra_1_1CSC_ade00bb879e210ce83a8c9d99b16b3227}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!non\_zeros@{non\_zeros}}
+\index{non\_zeros@{non\_zeros}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{non\_zeros}{non\_zeros}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+int \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::non\+\_\+zeros = 0}
+
+Number of non-\/zero elements. \mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_a65a400b92fa794f24529a916659a75f7}\label{structapsc_1_1LinearAlgebra_1_1CSC_a65a400b92fa794f24529a916659a75f7}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!offset@{offset}}
+\index{offset@{offset}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{offset}{offset}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+int$\ast$ \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::offset = nullptr}
+
+Array of column offsets. \mbox{\Hypertarget{structapsc_1_1LinearAlgebra_1_1CSC_aa611c59be64e5a069a34fc891f901032}\label{structapsc_1_1LinearAlgebra_1_1CSC_aa611c59be64e5a069a34fc891f901032}} 
+\index{apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}!values@{values}}
+\index{values@{values}!apsc::LinearAlgebra::CSC$<$ Scalar $>$@{apsc::LinearAlgebra::CSC$<$ Scalar $>$}}
+\doxysubsubsection{\texorpdfstring{values}{values}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+Scalar$\ast$ \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{apsc\+::\+Linear\+Algebra\+::\+C\+SC}}$<$ Scalar $>$\+::values = nullptr}
+
+Array of non-\/zero values. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+lib/\mbox{\hyperlink{CSC_8hpp}{C\+S\+C.\+hpp}}\end{DoxyCompactItemize}

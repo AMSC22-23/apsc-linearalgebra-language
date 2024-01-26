@@ -1,0 +1,8 @@
+<map id="lib/MPIContext.hpp" name="lib/MPIContext.hpp">
+<area shape="rect" id="node1" title="Header file containing the MPIContext class for encapsulating MPI context information." alt="" coords="392,5,537,32"/>
+<area shape="rect" id="node2" href="$Utils_8hpp_source.html" title=" " alt="" coords="371,80,471,107"/>
+<area shape="rect" id="node5" href="$apsc__language_8hpp.html" title="Header file defining apsc custom linear algebra language. It aims to ease the developer experience wh..." alt="" coords="253,304,407,345"/>
+<area shape="rect" id="node3" href="$Vector_8hpp.html" title="Header file containing a full vector definiton." alt="" coords="211,155,321,181"/>
+<area shape="rect" id="node4" href="$MPIFullMatrix_8hpp.html" title="Header file containing a parallel full matrix definition." alt="" coords="5,229,164,256"/>
+<area shape="rect" id="node6" href="$MPISparseMatrix_8hpp.html" title="Header file containing a parallel sparse matrix definition." alt="" coords="240,229,420,256"/>
+</map>

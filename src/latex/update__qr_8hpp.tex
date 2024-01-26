@@ -1,0 +1,114 @@
+\hypertarget{update__qr_8hpp}{}\doxysection{preconditioners/parallel/spai/update\+\_\+qr.hpp File Reference}
+\label{update__qr_8hpp}\index{preconditioners/parallel/spai/update\_qr.hpp@{preconditioners/parallel/spai/update\_qr.hpp}}
+
+
+Header file containing a QR factorisation updater for S\+P\+AI.  
+
+
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$cstdio$>$}\newline
+{\ttfamily \#include $<$cstdlib$>$}\newline
+{\ttfamily \#include $<$cstring$>$}\newline
+{\ttfamily \#include \char`\"{}C\+S\+C.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}assert.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}least\+\_\+square\+\_\+solver.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}permutation.\+hpp\char`\"{}}\newline
+Include dependency graph for update\+\_\+qr.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{update__qr_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=212pt]{update__qr_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Scalar , typename Full\+Matrix $>$ }\\int \mbox{\hyperlink{update__qr_8hpp_ad03e3ec4457af1897661df3a3dbe3c24}{apsc\+::\+Linear\+Algebra\+::\+Preconditioners\+::\+Approximate\+Inverse\+::\+Utils\+::update\+\_\+\+QR}} (struct C\+SC$<$ Scalar $>$ $\ast$A, Scalar $\ast$$\ast$A\+Hat, Scalar $\ast$$\ast$Q, Scalar $\ast$$\ast$R, int $\ast$$\ast$I, int $\ast$$\ast$J, int $\ast$$\ast$sortedJ, int $\ast$I\+Tilde, int $\ast$J\+Tilde, int $\ast$I\+Union, int $\ast$J\+Union, int n1, int n2, int n1\+Tilde, int n2\+Tilde, int n1\+Union, int n2\+Union, Scalar $\ast$$\ast$m\+\_\+k\+Out, Scalar $\ast$residual, Scalar $\ast$residual\+Norm, int k)
+\begin{DoxyCompactList}\small\item\em Update QR factorization for least squares problem. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file containing a QR factorisation updater for S\+P\+AI. 
+
+\begin{DoxyAuthor}{Author}
+Kaixi Matteo Chen 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{update__qr_8hpp_ad03e3ec4457af1897661df3a3dbe3c24}\label{update__qr_8hpp_ad03e3ec4457af1897661df3a3dbe3c24}} 
+\index{update\_qr.hpp@{update\_qr.hpp}!update\_QR@{update\_QR}}
+\index{update\_QR@{update\_QR}!update\_qr.hpp@{update\_qr.hpp}}
+\doxysubsubsection{\texorpdfstring{update\_QR()}{update\_QR()}}
+{\footnotesize\ttfamily template$<$typename Scalar , typename Full\+Matrix $>$ \\
+int apsc\+::\+Linear\+Algebra\+::\+Preconditioners\+::\+Approximate\+Inverse\+::\+Utils\+::update\+\_\+\+QR (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}}$<$ Scalar $>$ $\ast$}]{A,  }\item[{Scalar $\ast$$\ast$}]{A\+Hat,  }\item[{Scalar $\ast$$\ast$}]{Q,  }\item[{Scalar $\ast$$\ast$}]{R,  }\item[{int $\ast$$\ast$}]{I,  }\item[{int $\ast$$\ast$}]{J,  }\item[{int $\ast$$\ast$}]{sortedJ,  }\item[{int $\ast$}]{I\+Tilde,  }\item[{int $\ast$}]{J\+Tilde,  }\item[{int $\ast$}]{I\+Union,  }\item[{int $\ast$}]{J\+Union,  }\item[{int}]{n1,  }\item[{int}]{n2,  }\item[{int}]{n1\+Tilde,  }\item[{int}]{n2\+Tilde,  }\item[{int}]{n1\+Union,  }\item[{int}]{n2\+Union,  }\item[{Scalar $\ast$$\ast$}]{m\+\_\+k\+Out,  }\item[{Scalar $\ast$}]{residual,  }\item[{Scalar $\ast$}]{residual\+Norm,  }\item[{int}]{k }\end{DoxyParamCaption})}
+
+
+
+Update QR factorization for least squares problem. 
+
+This function updates the QR factorization for solving the least squares problem based on the given input matrices and parameters. It computes the QR factorization of the updated matrix and solves the least squares problem to find the new solution vector {\ttfamily m\+\_\+k\+Out}. It also computes the residual and its norm.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Scalar} & The scalar type of the matrices. \\
+\hline
+{\em Full\+Matrix} & The full matrix type for Eigen operations.\\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em A} & Pointer to the input matrix in C\+SC format. \\
+\hline
+{\em A\+Hat} & Pointer to the modified matrix in dense format. \\
+\hline
+{\em Q} & Pointer to the Q matrix of the QR factorization. \\
+\hline
+{\em R} & Pointer to the R matrix of the QR factorization. \\
+\hline
+{\em I} & Pointer to the row indices of the input matrix. \\
+\hline
+{\em J} & Pointer to the column indices of the input matrix. \\
+\hline
+{\em sortedJ} & Pointer to the sorted column indices. \\
+\hline
+{\em I\+Tilde} & Pointer to the modified row indices. \\
+\hline
+{\em J\+Tilde} & Pointer to the modified column indices. \\
+\hline
+{\em I\+Union} & Pointer to the union of row indices. \\
+\hline
+{\em J\+Union} & Pointer to the union of column indices. \\
+\hline
+{\em n1} & Number of rows in the input matrix. \\
+\hline
+{\em n2} & Number of columns in the input matrix. \\
+\hline
+{\em n1\+Tilde} & Number of rows in the modified matrix. \\
+\hline
+{\em n2\+Tilde} & Number of columns in the modified matrix. \\
+\hline
+{\em n1\+Union} & Number of rows in the union matrix. \\
+\hline
+{\em n2\+Union} & Number of columns in the union matrix. \\
+\hline
+{\em m\+\_\+k\+Out} & Pointer to store the new solution vector. \\
+\hline
+{\em residual} & Pointer to store the residual vector. \\
+\hline
+{\em residual\+Norm} & Pointer to store the norm of the residual. \\
+\hline
+{\em k} & Index for computing the residual.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if successful. 
+\end{DoxyReturn}

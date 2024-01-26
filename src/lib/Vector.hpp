@@ -1,6 +1,7 @@
 /**
  * @file Vector.hpp
  * @brief Header file containing a full vector definiton.
+ * @author Kaixi Matteo Chen
  */
 
 #ifndef VECTOR_HPP
@@ -22,7 +23,8 @@
 
 namespace apsc::LinearAlgebra {
 /*!
- * A full vector
+ * @class Vector
+ * @brief A full vector
  * @tparam Scalar The type of the element
  */
 template <typename SCALAR>

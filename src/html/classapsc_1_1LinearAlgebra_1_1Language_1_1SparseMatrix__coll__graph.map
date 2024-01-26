@@ -1,0 +1,6 @@
+<map id="apsc::LinearAlgebra::Language::SparseMatrix&lt; Scalar, OT, USE_MPI &gt;" name="apsc::LinearAlgebra::Language::SparseMatrix&lt; Scalar, OT, USE_MPI &gt;">
+<area shape="rect" id="node1" title="A class representing a sparse matrix." alt="" coords="837,81,1024,137"/>
+<area shape="rect" id="node2" href="$classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI.html" title=" " alt="" coords="347,5,588,91"/>
+<area shape="rect" id="node3" href="$classapsc_1_1LinearAlgebra_1_1MPISparseMatrix.html" title=" " alt="" coords="299,115,636,229"/>
+<area shape="rect" id="node4" href="$classapsc_1_1LinearAlgebra_1_1Vector.html" title="A full vector." alt="" coords="5,151,159,193"/>
+</map>

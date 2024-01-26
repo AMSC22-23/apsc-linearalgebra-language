@@ -1,0 +1,79 @@
+Iterative linerar solvers based on distribuited matrix vector multiplication (M\+PI)
+
+A parallel M\+PI implementation of different iterative schemes.\hypertarget{index_autotoc_md1}{}\doxysection{Supported Iterative schemes}\label{index_autotoc_md1}
+
+\begin{DoxyItemize}
+\item \mbox{[}x\mbox{]} Conjugate Gradient
+\end{DoxyItemize}\hypertarget{index_autotoc_md2}{}\doxysection{Supported preconditioners}\label{index_autotoc_md2}
+\hypertarget{index_autotoc_md3}{}\doxysection{Setup}\label{index_autotoc_md3}
+Initialise submodules
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git submodule update -\/-\/init -\/-\/recursive}
+\end{DoxyCode}
+\hypertarget{index_autotoc_md4}{}\doxysection{Compilation}\label{index_autotoc_md4}
+This repository is intended to be used inside the {\ttfamily pcafrica/mk} docker image env. See \href{https://github.com/HPC-Courses/AMSC-Labs/tree/main/Labs/2023-24/lab00-setup}{\texttt{ here}} for the configuration. If so, you don\textquotesingle{}t need to take additional steps.
+
+In case you want to run the project locally, you have to\+:
+\begin{DoxyItemize}
+\item Export the {\ttfamily Eigen} include directory path under the env variable {\ttfamily \$\+E\+I\+G\+E\+N3\+\_\+\+I\+N\+C\+L\+U\+D\+E\+\_\+\+D\+IR}.
+\item Have {\ttfamily M\+PI} installed (Note\+: we had no issued using version {\ttfamily 3.\+1} of {\ttfamily M\+PI}, newer versions might not compatible)
+\end{DoxyItemize}
+
+Then\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{-\/ cd src}
+\DoxyCodeLine{-\/ mkdir build}
+\DoxyCodeLine{-\/ cd build}
+\DoxyCodeLine{-\/ cmake ..}
+\DoxyCodeLine{-\/ make [-\/j n]}
+\end{DoxyCode}
+\hypertarget{index_autotoc_md5}{}\doxysection{Run $<$tt$>$objective1$<$/tt$>$}\label{index_autotoc_md5}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./your\_executable}
+\end{DoxyCode}
+\hypertarget{index_autotoc_md6}{}\doxysection{Run $<$tt$>$objective2$<$/tt$>$}\label{index_autotoc_md6}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mpirun -\/n [your\_core\_number] objective2 [problem\_size]}
+\end{DoxyCode}
+
+
+For example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mpirun -\/n 2 objective2 1000}
+\end{DoxyCode}
+\hypertarget{index_autotoc_md7}{}\doxysection{Run $<$tt$>$objective3$<$/tt$>$}\label{index_autotoc_md7}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mpirun -\/n [your\_core\_number] objective3 [input\_file]}
+\end{DoxyCode}
+
+
+For example (launched from {\ttfamily build} directory)\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mpirun -\/n 2 objective3 ../inputs/0\_05fill\_size9604.mtx }
+\end{DoxyCode}
+\hypertarget{index_autotoc_md8}{}\doxysection{File format}\label{index_autotoc_md8}
+In order to maintain a consistent format please format your files with 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{clang-\/format -\/style=Google -\/-\/sort-\/includes -\/i path/to/file}
+\end{DoxyCode}
+\hypertarget{index_autotoc_md9}{}\doxysection{M\+P\+I docker errors}\label{index_autotoc_md9}
+You might experience a strange error when launching {\ttfamily M\+PI} inside the suggested docker container image\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Read -\/1, expected <someNumber>, errno =1}
+\end{DoxyCode}
+
+
+Please refer to \href{https://github.com/feelpp/docker/issues/26}{\texttt{ this}}.\hypertarget{index_autotoc_md10}{}\doxysection{A note on Eigen usage}\label{index_autotoc_md10}
+In order to maintain back compability with the {\ttfamily Eigen} version inside the offical supported docker image ({\ttfamily pcafrica/mk}), {\ttfamily Eigen 3.\+4} or above features must not be used.\hypertarget{index_autotoc_md11}{}\doxysection{Valgrind}\label{index_autotoc_md11}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{valgrind -\/-\/leak-\/check=full -\/-\/show-\/leak-\/kinds=all -\/-\/track-\/origins=yes -\/-\/verbose -\/-\/log-\/file=valgrind-\/out.txt [your\_executable]}
+\end{DoxyCode}
+ 

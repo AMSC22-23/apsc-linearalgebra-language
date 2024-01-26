@@ -1,0 +1,79 @@
+\hypertarget{permutation_8hpp}{}\doxysection{preconditioners/parallel/spai/permutation.hpp File Reference}
+\label{permutation_8hpp}\index{preconditioners/parallel/spai/permutation.hpp@{preconditioners/parallel/spai/permutation.hpp}}
+
+
+Header file containing a method to create permutation matrices for S\+P\+AI.  
+
+
+{\ttfamily \#include $<$assert.\+hpp$>$}\newline
+{\ttfamily \#include $<$climits$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$cstdio$>$}\newline
+{\ttfamily \#include $<$cstdlib$>$}\newline
+{\ttfamily \#include $<$cstring$>$}\newline
+Include dependency graph for permutation.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{permutation_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=212pt]{permutation_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Scalar $>$ }\\void \mbox{\hyperlink{permutation_8hpp_a633b573e9dd45063da607e2e562a6694}{apsc\+::\+Linear\+Algebra\+::\+Preconditioners\+::\+Approximate\+Inverse\+::\+Utils\+::create\+\_\+permutation}} (int $\ast$I, int $\ast$J, int n1, int n2, Scalar $\ast$Pr, Scalar $\ast$Pc)
+\begin{DoxyCompactList}\small\item\em Create permutation matrices based on row and column indices. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file containing a method to create permutation matrices for S\+P\+AI. 
+
+\begin{DoxyAuthor}{Author}
+Kaixi Matteo Chen 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{permutation_8hpp_a633b573e9dd45063da607e2e562a6694}\label{permutation_8hpp_a633b573e9dd45063da607e2e562a6694}} 
+\index{permutation.hpp@{permutation.hpp}!create\_permutation@{create\_permutation}}
+\index{create\_permutation@{create\_permutation}!permutation.hpp@{permutation.hpp}}
+\doxysubsubsection{\texorpdfstring{create\_permutation()}{create\_permutation()}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+void apsc\+::\+Linear\+Algebra\+::\+Preconditioners\+::\+Approximate\+Inverse\+::\+Utils\+::create\+\_\+permutation (\begin{DoxyParamCaption}\item[{int $\ast$}]{I,  }\item[{int $\ast$}]{J,  }\item[{int}]{n1,  }\item[{int}]{n2,  }\item[{Scalar $\ast$}]{Pr,  }\item[{Scalar $\ast$}]{Pc }\end{DoxyParamCaption})}
+
+
+
+Create permutation matrices based on row and column indices. 
+
+This function creates permutation matrices based on row and column indices. It generates row permutation matrix {\ttfamily Pr} and column permutation matrix {\ttfamily Pc} using the given row and column indices {\ttfamily I} and {\ttfamily J}, respectively. The size of the matrices {\ttfamily Pr} and {\ttfamily Pc} is determined by the dimensions {\ttfamily n1} and {\ttfamily n2}.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Scalar} & The scalar type of the permutation matrices.\\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em I} & Pointer to the row indices. \\
+\hline
+{\em J} & Pointer to the column indices. \\
+\hline
+{\em n1} & Number of rows in the permutation matrix {\ttfamily Pr}. \\
+\hline
+{\em n2} & Number of columns in the permutation matrix {\ttfamily Pc}. \\
+\hline
+{\em Pr} & Pointer to store the row permutation matrix {\ttfamily Pr}. \\
+\hline
+{\em Pc} & Pointer to store the column permutation matrix {\ttfamily Pc}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The pointers {\ttfamily I}, {\ttfamily J}, {\ttfamily Pr}, and {\ttfamily Pc} must be initialized before calling this function. 
+\end{DoxyNote}

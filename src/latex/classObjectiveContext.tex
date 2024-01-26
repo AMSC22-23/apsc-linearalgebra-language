@@ -1,0 +1,77 @@
+\hypertarget{classObjectiveContext}{}\doxysection{Objective\+Context Class Reference}
+\label{classObjectiveContext}\index{ObjectiveContext@{ObjectiveContext}}
+
+
+Class for managing objective-\/related information and reporting.  
+
+
+
+
+{\ttfamily \#include $<$Objective\+Context.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classObjectiveContext_a9c31365a8ad6ae3cbbdc49b81ea626cb}\label{classObjectiveContext_a9c31365a8ad6ae3cbbdc49b81ea626cb}} 
+\mbox{\hyperlink{classObjectiveContext_a9c31365a8ad6ae3cbbdc49b81ea626cb}{Objective\+Context}} ()=default
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classObjectiveContext_a53fd3a33a34a1da552069aaf667253eb}{Objective\+Context}} (const uint8\+\_\+t objective\+\_\+number, const uint8\+\_\+t mpi\+\_\+size, const std\+::string report\+\_\+file\+\_\+name, const std\+::string problem\+\_\+name=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename... Var$>$ }\\void \mbox{\hyperlink{classObjectiveContext_a5e5423162b42c4810992b2a81c561ae2}{write}} (Var... vars)
+\begin{DoxyCompactList}\small\item\em Write data to the report file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class for managing objective-\/related information and reporting. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classObjectiveContext_a53fd3a33a34a1da552069aaf667253eb}\label{classObjectiveContext_a53fd3a33a34a1da552069aaf667253eb}} 
+\index{ObjectiveContext@{ObjectiveContext}!ObjectiveContext@{ObjectiveContext}}
+\index{ObjectiveContext@{ObjectiveContext}!ObjectiveContext@{ObjectiveContext}}
+\doxysubsubsection{\texorpdfstring{ObjectiveContext()}{ObjectiveContext()}}
+{\footnotesize\ttfamily Objective\+Context\+::\+Objective\+Context (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t}]{objective\+\_\+number,  }\item[{const uint8\+\_\+t}]{mpi\+\_\+size,  }\item[{const std\+::string}]{report\+\_\+file\+\_\+name,  }\item[{const std\+::string}]{problem\+\_\+name = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em objective\+\_\+number} & The objective number. \\
+\hline
+{\em mpi\+\_\+size} & The M\+PI size. \\
+\hline
+{\em report\+\_\+file\+\_\+name} & The name of the report file. \\
+\hline
+{\em problem\+\_\+name} & The name of the problem (optional, default is an empty string). \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classObjectiveContext_a5e5423162b42c4810992b2a81c561ae2}\label{classObjectiveContext_a5e5423162b42c4810992b2a81c561ae2}} 
+\index{ObjectiveContext@{ObjectiveContext}!write@{write}}
+\index{write@{write}!ObjectiveContext@{ObjectiveContext}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily template$<$typename... Var$>$ \\
+void Objective\+Context\+::write (\begin{DoxyParamCaption}\item[{Var...}]{vars }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Write data to the report file. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Var} & Variable argument types. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em vars} & Variable arguments to write to the report file. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+lib/\mbox{\hyperlink{ObjectiveContext_8hpp}{Objective\+Context.\+hpp}}\end{DoxyCompactItemize}

@@ -1,6 +1,6 @@
 /**
  * @file apsc_language.hpp
- * @brief Header file containing defining apsc custom linear algebra language.
+ * @brief Header file defining apsc custom linear algebra language.
  * It aims to ease the developer experience when dealing with linear algebra
  * operations combined with parallel computing using MPI.
  * @author Kaixi Matteo Chen
@@ -623,6 +623,12 @@ inline std::ostream& operator<<(std::ostream& os,
   return os;
 }
 
+/**
+ * @brief A class representing a full matrix.
+ * @tparam Scalar The scalar type of the matrix elements.
+ * @tparam OT The ordering type of the matrix.
+ * @tparam USE_MPI Flag indicating whether MPI is used or not.
+ */
 template <typename Scalar, OrderingType OT = OrderingType::COLUMNMAJOR,
           int USE_MPI = 1>
 class FullMatrix {

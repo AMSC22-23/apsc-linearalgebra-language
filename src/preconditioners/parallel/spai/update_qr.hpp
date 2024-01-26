@@ -1,3 +1,8 @@
+/**
+ * @file update_qr.hpp
+ * @brief Header file containing a QR factorisation updater for SPAI.
+ * @author Kaixi Matteo Chen
+ */
 #ifndef UPDATE_QR_HPP
 #define UPDATE_QR_HPP
 
@@ -10,13 +15,48 @@
 
 #include "CSC.hpp"
 #include "assert.hpp"
-#include "least_sqaure_solver.hpp"
+#include "least_square_solver.hpp"
 #include "permutation.hpp"
 
 namespace apsc::LinearAlgebra {
 namespace Preconditioners {
 namespace ApproximateInverse {
 namespace Utils {
+/**
+ * \brief Update QR factorization for least squares problem.
+ *
+ * This function updates the QR factorization for solving the least squares problem
+ * based on the given input matrices and parameters. It computes the QR factorization
+ * of the updated matrix and solves the least squares problem to find the new solution
+ * vector `m_kOut`. It also computes the residual and its norm.
+ *
+ * \tparam Scalar The scalar type of the matrices.
+ * \tparam FullMatrix The full matrix type for Eigen operations.
+ *
+ * \param A Pointer to the input matrix in CSC format.
+ * \param AHat Pointer to the modified matrix in dense format.
+ * \param Q Pointer to the Q matrix of the QR factorization.
+ * \param R Pointer to the R matrix of the QR factorization.
+ * \param I Pointer to the row indices of the input matrix.
+ * \param J Pointer to the column indices of the input matrix.
+ * \param sortedJ Pointer to the sorted column indices.
+ * \param ITilde Pointer to the modified row indices.
+ * \param JTilde Pointer to the modified column indices.
+ * \param IUnion Pointer to the union of row indices.
+ * \param JUnion Pointer to the union of column indices.
+ * \param n1 Number of rows in the input matrix.
+ * \param n2 Number of columns in the input matrix.
+ * \param n1Tilde Number of rows in the modified matrix.
+ * \param n2Tilde Number of columns in the modified matrix.
+ * \param n1Union Number of rows in the union matrix.
+ * \param n2Union Number of columns in the union matrix.
+ * \param m_kOut Pointer to store the new solution vector.
+ * \param residual Pointer to store the residual vector.
+ * \param residualNorm Pointer to store the norm of the residual.
+ * \param k Index for computing the residual.
+ *
+ * \return 0 if successful.
+ */
 template <typename Scalar, typename FullMatrix>
 int update_QR(struct CSC<Scalar> *A, Scalar **AHat, Scalar **Q, Scalar **R,
               int **I, int **J, int **sortedJ, int *ITilde, int *JTilde,

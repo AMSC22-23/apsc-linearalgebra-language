@@ -1,0 +1,216 @@
+\hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix}{}\doxysection{apsc\+::Linear\+Algebra\+::M\+P\+I\+Sparse\+Matrix$<$ Matrix, Vector, O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE $>$ Class Template Reference}
+\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix}\index{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}}
+
+
+A class for parallel sparse matrix product.  
+
+
+
+
+{\ttfamily \#include $<$M\+P\+I\+Sparse\+Matrix.\+hpp$>$}
+
+
+
+Collaboration diagram for apsc\+::Linear\+Algebra\+::M\+P\+I\+Sparse\+Matrix$<$ Matrix, Vector, O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=231pt]{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_adcb7db544db6afce5d4cf6ae161addb0}{Scalar}} = typename Matrix\+::\+Scalar
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a029effbd3f3040cfe1056bdd98dc1d30}{setup}} (Matrix const \&compressed\+\_\+global\+\_\+sparse\+\_\+matrix, M\+P\+I\+\_\+\+Comm communicator)
+\item 
+{\footnotesize template$<$typename Input\+Vector\+Type $>$ }\\void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_abb68a2c15111e517671ed3763822823c}{product}} (Input\+Vector\+Type const \&x)
+\item 
+{\footnotesize template$<$typename Collection\+Vector $>$ }\\void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a669f132b7738edcfa7542373124cb0a3}{collect\+Global}} (Collection\+Vector \&v) const
+\item 
+{\footnotesize template$<$typename Collection\+Vector $>$ }\\void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a90842ccd4a2cb8be8eac0ce3ea4d729e}{All\+Collect\+Global}} (Collection\+Vector \&v) const
+\item 
+const auto \& \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a3e900ebeb23fdb7318e60ee82dd609c5}{get\+Local\+Matrix}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a147584e3143258e0ad49c8e434b354f0}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a147584e3143258e0ad49c8e434b354f0}} 
+static constexpr int {\bfseries manager} = 0
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a5220ee239d106175d9f69a8fc48b128d}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a5220ee239d106175d9f69a8fc48b128d}} 
+M\+P\+I\+\_\+\+Comm {\bfseries mpi\+\_\+comm}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a42349df90a4a7c1edac069ffcd575eae}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a42349df90a4a7c1edac069ffcd575eae}} 
+int {\bfseries mpi\+\_\+rank}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a8c4ad2a1fb59e3d45c41492c0db3e84b}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a8c4ad2a1fb59e3d45c41492c0db3e84b}} 
+int {\bfseries mpi\+\_\+size}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a04ae10ce42624a0cd284729e8fd10990}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a04ae10ce42624a0cd284729e8fd10990}} 
+std\+::vector$<$ int $>$ {\bfseries counts}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a358cb812985c119052924bc673c1e343}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a358cb812985c119052924bc673c1e343}} 
+std\+::vector$<$ int $>$ {\bfseries displacements}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_af635a5bfcc8ef643878b51f1f9ac95a4}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_af635a5bfcc8ef643878b51f1f9ac95a4}} 
+Matrix {\bfseries local\+\_\+matrix}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a42452803d37d9f1b4a2211a4def684e7}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a42452803d37d9f1b4a2211a4def684e7}} 
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} {\bfseries local\+\_\+product}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_aed3092f1136607b5b9a30409f2766a5e}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_aed3092f1136607b5b9a30409f2766a5e}} 
+std\+::size\+\_\+t {\bfseries local\+\_\+num\+\_\+rows} = 0u
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a0fd4ce1c70e6c7a6fe59e806e9ca5cae}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a0fd4ce1c70e6c7a6fe59e806e9ca5cae}} 
+std\+::size\+\_\+t {\bfseries local\+\_\+num\+\_\+cols} = 0u
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_abd417b88a5d475177e3374e90046964b}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_abd417b88a5d475177e3374e90046964b}} 
+std\+::size\+\_\+t {\bfseries global\+\_\+num\+\_\+rows} = 0u
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a75c581f330ac9fec856ce164d20ab36d}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a75c581f330ac9fec856ce164d20ab36d}} 
+std\+::size\+\_\+t {\bfseries global\+\_\+num\+\_\+cols} = 0u
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a8146dddcf9fe9e1b6c51ca796aaf2225}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a8146dddcf9fe9e1b6c51ca796aaf2225}} 
+std\+::size\+\_\+t {\bfseries global\+\_\+non\+\_\+zero} = 0u
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_ae0f64c9a75b9d170d826a399369ccb50}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_ae0f64c9a75b9d170d826a399369ccb50}} 
+std\+::size\+\_\+t {\bfseries global\+\_\+outer\+\_\+size} = 0u
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a0055f10ab2b0e37ea418ca09f78608fd}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a0055f10ab2b0e37ea418ca09f78608fd}} 
+M\+P\+I\+\_\+\+Datatype {\bfseries M\+P\+I\+\_\+\+Scalar\+\_\+\+Type} = mpi\+\_\+typeof(\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_adcb7db544db6afce5d4cf6ae161addb0}{Scalar}}\{\})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class Matrix, class Vector, O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+PE O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE$>$\newline
+class apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Sparse\+Matrix$<$ Matrix, Vector, O\+R\+D\+E\+R\+\_\+\+T\+Y\+P\+E $>$}
+
+A class for parallel sparse matrix product. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Matrix} & A sparse matrix class \\
+\hline
+{\em \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}} & The vector type used for the local solution and internal usages. It must have the following methods\+:
+\begin{DoxyItemize}
+\item data()\+: Returns a pointer to the data buffer
+\item resize(std\+::size\+\_\+t)\+: Resizes the vector with the requested length 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_adcb7db544db6afce5d4cf6ae161addb0}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_adcb7db544db6afce5d4cf6ae161addb0}} 
+\index{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}}
+\doxysubsubsection{\texorpdfstring{Scalar}{Scalar}}
+{\footnotesize\ttfamily template$<$class Matrix , class Vector , O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+PE O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE$>$ \\
+using \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Sparse\+Matrix}}$<$ Matrix, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}, O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE $>$\+::\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_adcb7db544db6afce5d4cf6ae161addb0}{Scalar}} =  typename Matrix\+::\+Scalar}
+
+We assume that Matrix defines a type equal to that of the contained element 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a90842ccd4a2cb8be8eac0ce3ea4d729e}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a90842ccd4a2cb8be8eac0ce3ea4d729e}} 
+\index{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}!AllCollectGlobal@{AllCollectGlobal}}
+\index{AllCollectGlobal@{AllCollectGlobal}!apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}}
+\doxysubsubsection{\texorpdfstring{AllCollectGlobal()}{AllCollectGlobal()}}
+{\footnotesize\ttfamily template$<$class Matrix , class Vector , O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+PE O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE$>$ \\
+template$<$typename Collection\+Vector $>$ \\
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Sparse\+Matrix}}$<$ Matrix, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}, O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE $>$\+::All\+Collect\+Global (\begin{DoxyParamCaption}\item[{Collection\+Vector \&}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets the global solution. All processes call it and get the result. The template Collection\+Vector type must implemen {\ttfamily data()} and {\ttfamily resize()} methods as defined in std\+::vector.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Collection\+Vector} & the result vector type\\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+the global solution of the matrix product, in v. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a669f132b7738edcfa7542373124cb0a3}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a669f132b7738edcfa7542373124cb0a3}} 
+\index{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}!collectGlobal@{collectGlobal}}
+\index{collectGlobal@{collectGlobal}!apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}}
+\doxysubsubsection{\texorpdfstring{collectGlobal()}{collectGlobal()}}
+{\footnotesize\ttfamily template$<$class Matrix , class Vector , O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+PE O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE$>$ \\
+template$<$typename Collection\+Vector $>$ \\
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Sparse\+Matrix}}$<$ Matrix, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}, O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE $>$\+::collect\+Global (\begin{DoxyParamCaption}\item[{Collection\+Vector \&}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets the global solution. All processes call it but just process 0 (manager) gets a non empty vector equal to the result. The template Collection\+Vector type must implemen {\ttfamily data()} and {\ttfamily resize()} methods as defined in std\+::vector.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Collection\+Vector} & the result vector type \\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+the global solution of the matrix product (only process 0), in v. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a3e900ebeb23fdb7318e60ee82dd609c5}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a3e900ebeb23fdb7318e60ee82dd609c5}} 
+\index{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}!getLocalMatrix@{getLocalMatrix}}
+\index{getLocalMatrix@{getLocalMatrix}!apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}}
+\doxysubsubsection{\texorpdfstring{getLocalMatrix()}{getLocalMatrix()}}
+{\footnotesize\ttfamily template$<$class Matrix , class Vector , O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+PE O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE$>$ \\
+const auto\& \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Sparse\+Matrix}}$<$ Matrix, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}, O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE $>$\+::get\+Local\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Returns the local matrix assigned to the processor \begin{DoxyReturn}{Returns}
+The local matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_abb68a2c15111e517671ed3763822823c}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_abb68a2c15111e517671ed3763822823c}} 
+\index{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}!product@{product}}
+\index{product@{product}!apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}}
+\doxysubsubsection{\texorpdfstring{product()}{product()}}
+{\footnotesize\ttfamily template$<$class Matrix , class Vector , O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+PE O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE$>$ \\
+template$<$typename Input\+Vector\+Type $>$ \\
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Sparse\+Matrix}}$<$ Matrix, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}, O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE $>$\+::product (\begin{DoxyParamCaption}\item[{Input\+Vector\+Type const \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Performs the local matrix times vector product. For simplicity we do not partition the input vector, which is indeed a global vector.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Input\+Vector\+Type} & The input vector type. It must be complian with the local\+\_\+matrix type in order to compute the product. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em x} & A global vector of type Input\+Vector\+Type. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a029effbd3f3040cfe1056bdd98dc1d30}\label{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix_a029effbd3f3040cfe1056bdd98dc1d30}} 
+\index{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}!setup@{setup}}
+\index{setup@{setup}!apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPISparseMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily template$<$class Matrix , class Vector , O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+PE O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE$>$ \\
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Sparse\+Matrix}}$<$ Matrix, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}, O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE $>$\+::setup (\begin{DoxyParamCaption}\item[{Matrix const \&}]{compressed\+\_\+global\+\_\+sparse\+\_\+matrix,  }\item[{M\+P\+I\+\_\+\+Comm}]{communicator }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+All processes will call setup but only the managing process (with number 0) will actually pass a non-\/empty global matrix. Currently only Eigen\+::\+Sparse\+Matrix class is supported.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em O\+R\+D\+ER} & The input sparse matrix ordering type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em compressed\+\_\+global\+\_\+sparse\+\_\+matrix} & The global matrix in compressed mode (\href{https://en.wikipedia.org/wiki/Sparse_matrix\#Compressed_sparse_row_(CSR,_CRS_or_Yale_format)}{\texttt{ https\+://en.\+wikipedia.\+org/wiki/\+Sparse\+\_\+matrix\#\+Compressed\+\_\+sparse\+\_\+row\+\_\+(\+C\+S\+R,\+\_\+\+C\+R\+S\+\_\+or\+\_\+\+Yale\+\_\+format)}}) \\
+\hline
+{\em communicator} & The M\+PI communicator\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This is not the only way to create a parallel matrix. Alternatively, all processes may directly build the local matrix, for instance reading from a file. In this case, for the setup we need just the number of rows and columns of the global matrix 
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+lib/\mbox{\hyperlink{MPISparseMatrix_8hpp}{M\+P\+I\+Sparse\+Matrix.\+hpp}}\end{DoxyCompactItemize}

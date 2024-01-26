@@ -1,6 +1,7 @@
 /**
  * @file MPIFullMatrix.hpp
  * @brief Header file containing a parallel full matrix definition.
+ * @author Kaixi Matteo Chen
  */
 
 #ifndef MPIFULLMATRIX_HPP
@@ -21,7 +22,8 @@
 
 namespace apsc::LinearAlgebra {
 /*!
- * A class for parallel matrix product
+ * @class MPIFullMatrix
+ * @brief A class for parallel matrix product
  * @tparam Matrix A matrix compliant with that in Matrix.hpp
  * @tparam Vector The vector type used for the local solution and internal
  * usages. It must have the following methods:

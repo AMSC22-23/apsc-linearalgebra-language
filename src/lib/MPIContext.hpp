@@ -2,6 +2,7 @@
  * @file MPIContext.hpp
  * @brief Header file containing the MPIContext class for encapsulating MPI
  * context information.
+ * @author Kaixi Matteo Chen
  */
 
 #ifndef MPICONTEXT_HPP

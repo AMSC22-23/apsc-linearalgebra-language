@@ -1,0 +1,102 @@
+\hypertarget{apsc__language_8hpp}{}\doxysection{apsc\+\_\+language/apsc\+\_\+language.hpp File Reference}
+\label{apsc__language_8hpp}\index{apsc\_language/apsc\_language.hpp@{apsc\_language/apsc\_language.hpp}}
+
+
+Header file defining apsc custom linear algebra language. It aims to ease the developer experience when dealing with linear algebra operations combined with parallel computing using M\+PI.  
+
+
+{\ttfamily \#include $<$bicgstab.\+hpp$>$}\newline
+{\ttfamily \#include $<$mpi.\+h$>$}\newline
+{\ttfamily \#include $<$Eigen/\+Iterative\+Linear\+Solvers$>$}\newline
+{\ttfamily \#include $<$Eigen/\+Sparse$>$}\newline
+{\ttfamily \#include $<$Eigen\+Structure\+Map.\+hpp$>$}\newline
+{\ttfamily \#include $<$Full\+Matrix.\+hpp$>$}\newline
+{\ttfamily \#include $<$M\+P\+I\+Context.\+hpp$>$}\newline
+{\ttfamily \#include $<$M\+P\+I\+Full\+Matrix.\+hpp$>$}\newline
+{\ttfamily \#include $<$M\+P\+I\+Sparse\+Matrix.\+hpp$>$}\newline
+{\ttfamily \#include $<$Matrix/\+Matrix.\+hpp$>$}\newline
+{\ttfamily \#include $<$Parallel/\+Utilities/mpi\+\_\+utils.\+hpp$>$}\newline
+{\ttfamily \#include $<$Parallel/\+Utilities/partitioner.\+hpp$>$}\newline
+{\ttfamily \#include $<$Vector.\+hpp$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$assert.\+hpp$>$}\newline
+{\ttfamily \#include $<$cg.\+hpp$>$}\newline
+{\ttfamily \#include $<$cg\+\_\+mpi.\+hpp$>$}\newline
+{\ttfamily \#include $<$C\+S\+C.\+hpp$>$}\newline
+{\ttfamily \#include $<$cstddef$>$}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$cstring$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$spai.\+hpp$>$}\newline
+{\ttfamily \#include $<$Utils.\+hpp$>$}\newline
+Include dependency graph for apsc\+\_\+language.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{apsc__language_8hpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Sparse\+Matrix$<$ Scalar, O\+T, U\+S\+E\+\_\+\+M\+P\+I $>$}}
+\begin{DoxyCompactList}\small\item\em A class representing a sparse matrix. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1FullMatrix}{apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Full\+Matrix$<$ Scalar, O\+T, U\+S\+E\+\_\+\+M\+P\+I $>$}}
+\begin{DoxyCompactList}\small\item\em A class representing a full matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{apsc__language_8hpp_af76d4b912e57ba8167e0c1c32dc8db59}\label{apsc__language_8hpp_af76d4b912e57ba8167e0c1c32dc8db59}} 
+enum \mbox{\hyperlink{apsc__language_8hpp_af76d4b912e57ba8167e0c1c32dc8db59}{apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Ordering\+Type}} \{ {\bfseries R\+O\+W\+M\+A\+J\+OR} = 0, 
+{\bfseries C\+O\+L\+U\+M\+N\+M\+A\+J\+OR} = 1
+ \}
+\begin{DoxyCompactList}\small\item\em Enum class defing the matrix ordering type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{apsc__language_8hpp_a26ed8e40a36505aa45ecf93cc55043cb}\label{apsc__language_8hpp_a26ed8e40a36505aa45ecf93cc55043cb}} 
+enum \mbox{\hyperlink{apsc__language_8hpp_a26ed8e40a36505aa45ecf93cc55043cb}{apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Iterative\+Solver\+Type}} \{ \newline
+{\bfseries C\+O\+N\+J\+U\+G\+A\+T\+E\+\_\+\+G\+R\+A\+D\+I\+E\+NT} = 0, 
+{\bfseries G\+M\+R\+ES} = 1, 
+{\bfseries S\+P\+A\+I\+\_\+\+G\+M\+R\+ES} = 2, 
+{\bfseries Bi\+C\+G\+S\+T\+AB} = 3, 
+\newline
+{\bfseries S\+P\+A\+I\+\_\+\+Bi\+C\+G\+S\+T\+AB} = 4
+ \}
+\begin{DoxyCompactList}\small\item\em Enum class defing the iterative solver type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Scalar , Ordering\+Type OT = Ordering\+Type\+::\+C\+O\+L\+U\+M\+N\+M\+A\+J\+OR, int U\+S\+E\+\_\+\+M\+PI = 1$>$ }\\std\+::ostream \& \mbox{\hyperlink{apsc__language_8hpp_aed13ebe0c809199b5280915fef5a3064}{apsc\+::\+Linear\+Algebra\+::\+Language\+::operator$<$$<$}} (std\+::ostream \&os, Sparse\+Matrix$<$ Scalar, OT, U\+S\+E\+\_\+\+M\+PI $>$ const \&mat)
+\begin{DoxyCompactList}\small\item\em A class representing a full matrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{apsc__language_8hpp_a6e4fd31ffb30d1d9d565c0b36b3bf6a3}\label{apsc__language_8hpp_a6e4fd31ffb30d1d9d565c0b36b3bf6a3}} 
+{\footnotesize template$<$typename Scalar , Ordering\+Type OT = Ordering\+Type\+::\+C\+O\+L\+U\+M\+N\+M\+A\+J\+OR, int U\+S\+E\+\_\+\+M\+PI = 1$>$ }\\std\+::ostream \& {\bfseries apsc\+::\+Linear\+Algebra\+::\+Language\+::operator$<$$<$} (std\+::ostream \&os, Full\+Matrix$<$ Scalar, OT, U\+S\+E\+\_\+\+M\+PI $>$ \&mat)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file defining apsc custom linear algebra language. It aims to ease the developer experience when dealing with linear algebra operations combined with parallel computing using M\+PI. 
+
+\begin{DoxyAuthor}{Author}
+Kaixi Matteo Chen 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{apsc__language_8hpp_aed13ebe0c809199b5280915fef5a3064}\label{apsc__language_8hpp_aed13ebe0c809199b5280915fef5a3064}} 
+\index{apsc\_language.hpp@{apsc\_language.hpp}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!apsc\_language.hpp@{apsc\_language.hpp}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}}
+{\footnotesize\ttfamily template$<$typename Scalar , Ordering\+Type OT = Ordering\+Type\+::\+C\+O\+L\+U\+M\+N\+M\+A\+J\+OR, int U\+S\+E\+\_\+\+M\+PI = 1$>$ \\
+std\+::ostream\& apsc\+::\+Linear\+Algebra\+::\+Language\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix}{Sparse\+Matrix}}$<$ Scalar, OT, U\+S\+E\+\_\+\+M\+PI $>$ const \&}]{mat }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+A class representing a full matrix. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Scalar} & The scalar type of the matrix elements. \\
+\hline
+{\em OT} & The ordering type of the matrix. \\
+\hline
+{\em U\+S\+E\+\_\+\+M\+PI} & Flag indicating whether M\+PI is used or not. \\
+\hline
+\end{DoxyTemplParams}

@@ -1,0 +1,10 @@
+<map id="preconditioners/parallel/spai/permutation.hpp" name="preconditioners/parallel/spai/permutation.hpp">
+<area shape="rect" id="node1" title="Header file containing a method to create permutation matrices for SPAI." alt="" coords="197,5,373,47"/>
+<area shape="rect" id="node2" href="$assert_8hpp.html" title="Header file containing a definition of an assertion macro." alt="" coords="5,95,96,121"/>
+<area shape="rect" id="node4" title=" " alt="" coords="120,95,187,121"/>
+<area shape="rect" id="node5" title=" " alt="" coords="211,95,274,121"/>
+<area shape="rect" id="node6" title=" " alt="" coords="299,95,360,121"/>
+<area shape="rect" id="node7" title=" " alt="" coords="385,95,450,121"/>
+<area shape="rect" id="node8" title=" " alt="" coords="475,95,541,121"/>
+<area shape="rect" id="node3" title=" " alt="" coords="11,169,91,196"/>
+</map>

@@ -1,0 +1,146 @@
+\hypertarget{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI}{}\doxysection{apsc\+::Linear\+Algebra\+::Preconditioners\+::Approximate\+Inverse\+::S\+P\+AI$<$ Scalar, Full\+Matrix, D\+E\+B\+U\+G\+\_\+\+M\+O\+DE $>$ Class Template Reference}
+\label{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI}\index{apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$@{apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$}}
+
+
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI}{S\+P\+AI}} class.  
+
+
+
+
+{\ttfamily \#include $<$spai.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a7eb3441c08adab1971e50d37b017c5c1}\label{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a7eb3441c08adab1971e50d37b017c5c1}} 
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a7eb3441c08adab1971e50d37b017c5c1}{$\sim$\+S\+P\+AI}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a98a7f6f3d7ee35b266b4e298ade3e111}\label{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a98a7f6f3d7ee35b266b4e298ade3e111}} 
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a98a7f6f3d7ee35b266b4e298ade3e111}{S\+P\+AI}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a0187ebbde768e89b8b2957ec5d43d599}{S\+P\+AI}} (struct \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}}$<$ Scalar $>$ $\ast$A, Scalar tolerance=0.\+01, int max\+\_\+iteration=100, int s=1)
+\begin{DoxyCompactList}\small\item\em Constructor with initialization. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}}$<$ Scalar $>$ \& \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a0f90181a721784aeaedb5f2eb5a1d3a1}{get\+\_\+M}} ()
+\begin{DoxyCompactList}\small\item\em Gets the preconditioner matrix M. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}}$<$ Scalar $>$ \& \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_aa6a713416cfbf7075ff766260fdfb36c}{get\+\_\+M}} () const
+\begin{DoxyCompactList}\small\item\em Gets the preconditioner matrix M (const version). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_ad55a3717fdd98879e8201b1b58f01713}{setup}} (struct \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}}$<$ Scalar $>$ $\ast$A, Scalar tolerance=0.\+01, int max\+Iteration=100, int s=1)
+\begin{DoxyCompactList}\small\item\em Sets up the \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI}{S\+P\+AI}} preconditioner. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a90afd766a2b03e90c235742a3457de8c}\label{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a90afd766a2b03e90c235742a3457de8c}} 
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a90afd766a2b03e90c235742a3457de8c}{setup\+\_\+mpi}} ()
+\begin{DoxyCompactList}\small\item\em Initializes M\+PI settings. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_ad09caf444e79481f963791e56bb30f5d}\label{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_ad09caf444e79481f963791e56bb30f5d}} 
+\mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}}$<$ Scalar $>$ \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_ad09caf444e79481f963791e56bb30f5d}{M}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}} matrix to store the preconditioner. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a3613e2bea4495bf0d11c8dc81ab89f06}\label{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a3613e2bea4495bf0d11c8dc81ab89f06}} 
+int \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a3613e2bea4495bf0d11c8dc81ab89f06}{mpi\+\_\+size}}
+\begin{DoxyCompactList}\small\item\em Number of M\+PI processes. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_aaa538194f074b65f958b1969d53ade6a}\label{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_aaa538194f074b65f958b1969d53ade6a}} 
+int \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_aaa538194f074b65f958b1969d53ade6a}{mpi\+\_\+rank}}
+\begin{DoxyCompactList}\small\item\em Rank of the M\+PI process. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename Scalar, typename Full\+Matrix, int D\+E\+B\+U\+G\+\_\+\+M\+O\+DE = 0$>$\newline
+class apsc\+::\+Linear\+Algebra\+::\+Preconditioners\+::\+Approximate\+Inverse\+::\+S\+P\+A\+I$<$ Scalar, Full\+Matrix, D\+E\+B\+U\+G\+\_\+\+M\+O\+D\+E $>$}
+
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI}{S\+P\+AI}} class. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Scalar} & The scalar type used for the matrix elements. \\
+\hline
+{\em \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix}{Full\+Matrix}}} & Matrix type for full matrices. \\
+\hline
+{\em D\+E\+B\+U\+G\+\_\+\+M\+O\+DE} & Flag to enable debug mode (default\+: 0). \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a0187ebbde768e89b8b2957ec5d43d599}\label{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a0187ebbde768e89b8b2957ec5d43d599}} 
+\index{apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$@{apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$}!SPAI@{SPAI}}
+\index{SPAI@{SPAI}!apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$@{apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$}}
+\doxysubsubsection{\texorpdfstring{SPAI()}{SPAI()}}
+{\footnotesize\ttfamily template$<$typename Scalar , typename Full\+Matrix , int D\+E\+B\+U\+G\+\_\+\+M\+O\+DE = 0$>$ \\
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI}{apsc\+::\+Linear\+Algebra\+::\+Preconditioners\+::\+Approximate\+Inverse\+::\+S\+P\+AI}}$<$ Scalar, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix}{Full\+Matrix}}, D\+E\+B\+U\+G\+\_\+\+M\+O\+DE $>$\+::\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI}{S\+P\+AI}} (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}}$<$ Scalar $>$ $\ast$}]{A,  }\item[{Scalar}]{tolerance = {\ttfamily 0.01},  }\item[{int}]{max\+\_\+iteration = {\ttfamily 100},  }\item[{int}]{s = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor with initialization. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & Pointer to the input matrix. \\
+\hline
+{\em tolerance} & Tolerance for convergence criteria (default\+: 0.\+01). \\
+\hline
+{\em max\+\_\+iteration} & Maximum number of iterations (default\+: 100). \\
+\hline
+{\em s} & Parameter for determining smallest indices (default\+: 1). \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a0f90181a721784aeaedb5f2eb5a1d3a1}\label{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_a0f90181a721784aeaedb5f2eb5a1d3a1}} 
+\index{apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$@{apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$}!get\_M@{get\_M}}
+\index{get\_M@{get\_M}!apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$@{apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$}}
+\doxysubsubsection{\texorpdfstring{get\_M()}{get\_M()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Scalar , typename Full\+Matrix , int D\+E\+B\+U\+G\+\_\+\+M\+O\+DE = 0$>$ \\
+\mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}}$<$Scalar$>$\& \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI}{apsc\+::\+Linear\+Algebra\+::\+Preconditioners\+::\+Approximate\+Inverse\+::\+S\+P\+AI}}$<$ Scalar, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix}{Full\+Matrix}}, D\+E\+B\+U\+G\+\_\+\+M\+O\+DE $>$\+::get\+\_\+M (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the preconditioner matrix M. 
+
+\begin{DoxyReturn}{Returns}
+Reference to the preconditioner matrix M. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_aa6a713416cfbf7075ff766260fdfb36c}\label{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_aa6a713416cfbf7075ff766260fdfb36c}} 
+\index{apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$@{apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$}!get\_M@{get\_M}}
+\index{get\_M@{get\_M}!apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$@{apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$}}
+\doxysubsubsection{\texorpdfstring{get\_M()}{get\_M()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Scalar , typename Full\+Matrix , int D\+E\+B\+U\+G\+\_\+\+M\+O\+DE = 0$>$ \\
+\mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}}$<$Scalar$>$\& \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI}{apsc\+::\+Linear\+Algebra\+::\+Preconditioners\+::\+Approximate\+Inverse\+::\+S\+P\+AI}}$<$ Scalar, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix}{Full\+Matrix}}, D\+E\+B\+U\+G\+\_\+\+M\+O\+DE $>$\+::get\+\_\+M (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the preconditioner matrix M (const version). 
+
+\begin{DoxyReturn}{Returns}
+Const reference to the preconditioner matrix M. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_ad55a3717fdd98879e8201b1b58f01713}\label{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI_ad55a3717fdd98879e8201b1b58f01713}} 
+\index{apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$@{apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$}!setup@{setup}}
+\index{setup@{setup}!apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$@{apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI$<$ Scalar, FullMatrix, DEBUG\_MODE $>$}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily template$<$typename Scalar , typename Full\+Matrix , int D\+E\+B\+U\+G\+\_\+\+M\+O\+DE = 0$>$ \\
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI}{apsc\+::\+Linear\+Algebra\+::\+Preconditioners\+::\+Approximate\+Inverse\+::\+S\+P\+AI}}$<$ Scalar, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix}{Full\+Matrix}}, D\+E\+B\+U\+G\+\_\+\+M\+O\+DE $>$\+::setup (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structapsc_1_1LinearAlgebra_1_1CSC}{C\+SC}}$<$ Scalar $>$ $\ast$}]{A,  }\item[{Scalar}]{tolerance = {\ttfamily 0.01},  }\item[{int}]{max\+Iteration = {\ttfamily 100},  }\item[{int}]{s = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets up the \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI}{S\+P\+AI}} preconditioner. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & Pointer to the input matrix. \\
+\hline
+{\em tolerance} & Tolerance for convergence criteria. \\
+\hline
+{\em max\+Iteration} & Maximum number of iterations. \\
+\hline
+{\em s} & Parameter for determining smallest indices. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+preconditioners/parallel/spai/\mbox{\hyperlink{spai_8hpp}{spai.\+hpp}}\end{DoxyCompactItemize}

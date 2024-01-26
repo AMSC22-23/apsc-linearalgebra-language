@@ -1,6 +1,7 @@
 /**
  * @file MPISparseMatrix.hpp
  * @brief Header file containing a parallel sparse matrix definition.
+ * @author Kaixi Matteo Chen
  */
 
 #ifndef MPISPARSEMATRIX_HPP
@@ -22,7 +23,8 @@
 
 namespace apsc::LinearAlgebra {
 /*!
- * A class for parallel sparse matrix product
+ * @class MPISparseMatrix
+ * @brief A class for parallel sparse matrix product
  * @tparam Matrix A sparse matrix class
  * @tparam Vector The vector type used for the local solution and internal
  * usages. It must have the following methods:

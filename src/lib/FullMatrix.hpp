@@ -2,6 +2,7 @@
  * @file FullMatrix.hpp
  * @brief Header file containing a full matrix definition supporting operation
  * with a template defined vector.
+ * @author Kaixi Matteo Chen
  */
 
 #ifndef FULL_MATRIX_HPP
@@ -19,7 +20,8 @@
 namespace apsc::LinearAlgebra {
 
 /*!
- * A full matrix with vector multiplication support for
+ * @class FullMatrix
+ * @brief A full matrix with vector multiplication support for
  * custom Vector class.
  *
  * The template Vector param type is used only for internal temporary buffers

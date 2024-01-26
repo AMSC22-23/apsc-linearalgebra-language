@@ -2,6 +2,7 @@
  * @file CSC.hpp
  * @brief Header file containing the CSC struct for compressed sparse column
  * (CSC) matrix representation.
+ * @author Kaixi Matteo Chen
  */
 
 #ifndef CSC_HPP

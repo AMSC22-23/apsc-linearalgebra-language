@@ -1,0 +1,205 @@
+\hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix}{}\doxysection{apsc\+::Linear\+Algebra\+::M\+P\+I\+Full\+Matrix$<$ Matrix, Vector, O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE $>$ Class Template Reference}
+\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix}\index{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}}
+
+
+A class for parallel matrix product.  
+
+
+
+
+{\ttfamily \#include $<$M\+P\+I\+Full\+Matrix.\+hpp$>$}
+
+
+
+Collaboration diagram for apsc\+::Linear\+Algebra\+::M\+P\+I\+Full\+Matrix$<$ Matrix, Vector, O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=215pt]{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a2271aa7a0b4bb983cf255e179b032071}{Scalar}} = typename Matrix\+::\+Scalar
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a05de3a2f69bd0697960fb95f10dff82f}{setup}} (Matrix const \&g\+Mat, M\+P\+I\+\_\+\+Comm communic)
+\item 
+{\footnotesize template$<$typename Input\+Vector\+Type $>$ }\\void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a0b9ae9f825d5915b0e3118d6647c11f0}{product}} (Input\+Vector\+Type const \&x)
+\item 
+{\footnotesize template$<$typename Collection\+Vector $>$ }\\void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_afbd98a4ded411f97be837ef159c8a762}{collect\+Global}} (Collection\+Vector \&v) const
+\item 
+{\footnotesize template$<$typename Collection\+Vector $>$ }\\void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a386a6dca02bff979d4c0a4e29fbe5228}{All\+Collect\+Global}} (Collection\+Vector \&v) const
+\item 
+const auto \& \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a3f248982e6253b6ccd093fed460512f8}{get\+Local\+Matrix}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a265c60337f3227e0a88f247f3dfae4f3}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a265c60337f3227e0a88f247f3dfae4f3}} 
+static constexpr int {\bfseries manager} = 0
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_ae234c74139b3e972ec295aa11f000ebe}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_ae234c74139b3e972ec295aa11f000ebe}} 
+M\+P\+I\+\_\+\+Comm {\bfseries mpi\+\_\+comm}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a3cdf1f3b0904bb9049669d84d723d493}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a3cdf1f3b0904bb9049669d84d723d493}} 
+int {\bfseries mpi\+\_\+rank}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_ae83b7b422f260946db3dc47dda2708aa}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_ae83b7b422f260946db3dc47dda2708aa}} 
+int {\bfseries mpi\+\_\+size}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_ab1bb6d58aadb13eac3c4095049bad500}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_ab1bb6d58aadb13eac3c4095049bad500}} 
+std\+::vector$<$ int $>$ {\bfseries counts}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_aa2652ba33f80c07ba5ef7eae361227fb}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_aa2652ba33f80c07ba5ef7eae361227fb}} 
+std\+::vector$<$ int $>$ {\bfseries displacements}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a954c69b00d7ed05d7708e26d2d14f849}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a954c69b00d7ed05d7708e26d2d14f849}} 
+Matrix {\bfseries local\+Matrix}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a5d6b185ebb535d920356c58794778f1f}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a5d6b185ebb535d920356c58794778f1f}} 
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} {\bfseries local\+Product}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a3b6d0d99c8e4a5150377efb69720102f}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a3b6d0d99c8e4a5150377efb69720102f}} 
+std\+::size\+\_\+t {\bfseries local\+\_\+n\+Rows} = 0u
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a91973dab2df5d005895f4059e414e15e}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a91973dab2df5d005895f4059e414e15e}} 
+std\+::size\+\_\+t {\bfseries local\+\_\+n\+Cols} = 0u
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a768b8791a15204d3abf9e854d34076c2}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a768b8791a15204d3abf9e854d34076c2}} 
+std\+::size\+\_\+t {\bfseries global\+\_\+n\+Rows} = 0u
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a3c5b0b3ac44d7770369af3b9fb0156e0}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a3c5b0b3ac44d7770369af3b9fb0156e0}} 
+std\+::size\+\_\+t {\bfseries global\+\_\+n\+Cols} = 0u
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a0c5923d99062afbb73eea7fe9fb698d8}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a0c5923d99062afbb73eea7fe9fb698d8}} 
+M\+P\+I\+\_\+\+Datatype {\bfseries M\+P\+I\+\_\+\+Scalar\+\_\+\+Type} = mpi\+\_\+typeof(\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a2271aa7a0b4bb983cf255e179b032071}{Scalar}}\{\})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class Matrix, class Vector, O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+PE O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE$>$\newline
+class apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Full\+Matrix$<$ Matrix, Vector, O\+R\+D\+E\+R\+\_\+\+T\+Y\+P\+E $>$}
+
+A class for parallel matrix product. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Matrix} & A matrix compliant with that in Matrix.\+hpp \\
+\hline
+{\em \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}} & The vector type used for the local solution and internal usages. It must have the following methods\+:
+\begin{DoxyItemize}
+\item data()\+: Returns a pointer to the data buffer
+\item resize(std\+::size\+\_\+t)\+: Resizes the vector with the requested length It must have also a range constructor as std\+::vector 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a2271aa7a0b4bb983cf255e179b032071}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a2271aa7a0b4bb983cf255e179b032071}} 
+\index{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}}
+\doxysubsubsection{\texorpdfstring{Scalar}{Scalar}}
+{\footnotesize\ttfamily template$<$class Matrix , class Vector , O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+PE O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE$>$ \\
+using \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Full\+Matrix}}$<$ Matrix, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}, O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE $>$\+::\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a2271aa7a0b4bb983cf255e179b032071}{Scalar}} =  typename Matrix\+::\+Scalar}
+
+We assume that Matrix defines a type equal to that of the contained element 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a386a6dca02bff979d4c0a4e29fbe5228}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a386a6dca02bff979d4c0a4e29fbe5228}} 
+\index{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}!AllCollectGlobal@{AllCollectGlobal}}
+\index{AllCollectGlobal@{AllCollectGlobal}!apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}}
+\doxysubsubsection{\texorpdfstring{AllCollectGlobal()}{AllCollectGlobal()}}
+{\footnotesize\ttfamily template$<$class Matrix , class Vector , O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+PE O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE$>$ \\
+template$<$typename Collection\+Vector $>$ \\
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Full\+Matrix}}$<$ Matrix, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}, O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE $>$\+::All\+Collect\+Global (\begin{DoxyParamCaption}\item[{Collection\+Vector \&}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets the global solution. All processes call it and get the result. The template Collection\+Vector type must implemen {\ttfamily data()} and {\ttfamily resize()} methods as defined in std\+::vector.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Collection\+Vector} & the result vector type\\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+the global solution of the matrix product, in v. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_afbd98a4ded411f97be837ef159c8a762}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_afbd98a4ded411f97be837ef159c8a762}} 
+\index{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}!collectGlobal@{collectGlobal}}
+\index{collectGlobal@{collectGlobal}!apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}}
+\doxysubsubsection{\texorpdfstring{collectGlobal()}{collectGlobal()}}
+{\footnotesize\ttfamily template$<$class Matrix , class Vector , O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+PE O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE$>$ \\
+template$<$typename Collection\+Vector $>$ \\
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Full\+Matrix}}$<$ Matrix, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}, O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE $>$\+::collect\+Global (\begin{DoxyParamCaption}\item[{Collection\+Vector \&}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets the global solution. All processes call it but just process 0 (manager) gets a non empty vector equal to the result. The template Collection\+Vector type must implemen {\ttfamily data()} and {\ttfamily resize()} methods as defined in std\+::vector.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Collection\+Vector} & the result vector type \\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+the global solution of the matrix product (only process 0), in v. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a3f248982e6253b6ccd093fed460512f8}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a3f248982e6253b6ccd093fed460512f8}} 
+\index{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}!getLocalMatrix@{getLocalMatrix}}
+\index{getLocalMatrix@{getLocalMatrix}!apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}}
+\doxysubsubsection{\texorpdfstring{getLocalMatrix()}{getLocalMatrix()}}
+{\footnotesize\ttfamily template$<$class Matrix , class Vector , O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+PE O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE$>$ \\
+const auto\& \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Full\+Matrix}}$<$ Matrix, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}, O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE $>$\+::get\+Local\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Returns the local matrix assigned to the processor \begin{DoxyReturn}{Returns}
+The local matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a0b9ae9f825d5915b0e3118d6647c11f0}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a0b9ae9f825d5915b0e3118d6647c11f0}} 
+\index{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}!product@{product}}
+\index{product@{product}!apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}}
+\doxysubsubsection{\texorpdfstring{product()}{product()}}
+{\footnotesize\ttfamily template$<$class Matrix , class Vector , O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+PE O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE$>$ \\
+template$<$typename Input\+Vector\+Type $>$ \\
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Full\+Matrix}}$<$ Matrix, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}, O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE $>$\+::product (\begin{DoxyParamCaption}\item[{Input\+Vector\+Type const \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Performs the local matrix times vector product. For simplicity we do not partition the input vector, which is indeed a global vector.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Input\+Vector\+Type} & The input vector type. It must be complian with the local\+Matrix type in order to compute the product. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em x} & A global vector \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a05de3a2f69bd0697960fb95f10dff82f}\label{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix_a05de3a2f69bd0697960fb95f10dff82f}} 
+\index{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}!setup@{setup}}
+\index{setup@{setup}!apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$@{apsc::LinearAlgebra::MPIFullMatrix$<$ Matrix, Vector, ORDER\_TYPE $>$}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily template$<$class Matrix , class Vector , O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+PE O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE$>$ \\
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Full\+Matrix}}$<$ Matrix, \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}, O\+R\+D\+E\+R\+\_\+\+T\+Y\+PE $>$\+::setup (\begin{DoxyParamCaption}\item[{Matrix const \&}]{g\+Mat,  }\item[{M\+P\+I\+\_\+\+Comm}]{communic }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+All processes will call setup but only the managing process (with number 0) will actually pass a non-\/empty global matrix
+
+
+\begin{DoxyParams}{Parameters}
+{\em g\+Mat} & The global matrix \\
+\hline
+{\em communic} & The M\+PI communicator\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This is not the only way to create a parallel matrix. Alternatively, all processes may directly build the local matrix, for instance reading from a file. In this case, for the setup we need just the number of rows and columns of the global matrix 
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+lib/\mbox{\hyperlink{MPIFullMatrix_8hpp}{M\+P\+I\+Full\+Matrix.\+hpp}}\end{DoxyCompactItemize}

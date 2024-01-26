@@ -1,3 +1,8 @@
+/**
+ * @file assert.hpp
+ * @brief Header file containing a definition of an assertion macro.
+ * @author Kaixi Matteo Chen
+ */
 #ifndef ASSERT_HPP
 #define ASSERT_HPP
 

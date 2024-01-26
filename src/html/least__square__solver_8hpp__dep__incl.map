@@ -1,0 +1,6 @@
+<map id="preconditioners/parallel/spai/least_square_solver.hpp" name="preconditioners/parallel/spai/least_square_solver.hpp">
+<area shape="rect" id="node1" title="Header file containing a least square solver." alt="" coords="5,5,220,47"/>
+<area shape="rect" id="node2" href="$spai_8hpp.html" title="Header file for the SPAI class." alt="" coords="25,184,201,225"/>
+<area shape="rect" id="node4" href="$update__qr_8hpp.html" title="Header file containing a QR factorisation updater for SPAI." alt="" coords="87,95,263,136"/>
+<area shape="rect" id="node3" href="$apsc__language_8hpp.html" title="Header file defining apsc custom linear algebra language. It aims to ease the developer experience wh..." alt="" coords="36,273,189,315"/>
+</map>

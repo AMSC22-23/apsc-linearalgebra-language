@@ -2,6 +2,7 @@
  * @file EigenStructureMap.hpp
  * @brief Header file containing the EigenStructureMap class for mapping custom
  * data to Eigen structures.
+ * @author Kaixi Matteo Chen
  */
 
 #ifndef EIGEN_MATRIX_MAP_HPP

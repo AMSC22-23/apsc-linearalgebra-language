@@ -1,0 +1,6 @@
+<map id="lib/Vector.hpp" name="lib/Vector.hpp">
+<area shape="rect" id="node1" title="Header file containing a full vector definiton." alt="" coords="147,5,257,32"/>
+<area shape="rect" id="node2" href="$MPIFullMatrix_8hpp.html" title="Header file containing a parallel full matrix definition." alt="" coords="5,80,164,107"/>
+<area shape="rect" id="node3" href="$apsc__language_8hpp.html" title="Header file defining apsc custom linear algebra language. It aims to ease the developer experience wh..." alt="" coords="125,155,279,196"/>
+<area shape="rect" id="node4" href="$MPISparseMatrix_8hpp.html" title="Header file containing a parallel sparse matrix definition." alt="" coords="240,80,420,107"/>
+</map>

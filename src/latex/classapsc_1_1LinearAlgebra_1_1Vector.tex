@@ -1,0 +1,490 @@
+\hypertarget{classapsc_1_1LinearAlgebra_1_1Vector}{}\doxysection{apsc\+::Linear\+Algebra\+::Vector$<$ S\+C\+A\+L\+AR $>$ Class Template Reference}
+\label{classapsc_1_1LinearAlgebra_1_1Vector}\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+
+
+A full vector.  
+
+
+
+
+{\ttfamily \#include $<$Vector.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a6265457ff0afb62def015bff55cdf24b}\label{classapsc_1_1LinearAlgebra_1_1Vector_a6265457ff0afb62def015bff55cdf24b}} 
+using {\bfseries Scalar} = S\+C\+A\+L\+AR
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a5a5c9ad06a0c97c282d18defe659de32}{Vector}} (std\+::size\+\_\+t \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_ac1444b2548939a49e007e0b60494ea6a}{size}}=0)
+\item 
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_affdc50f5672bca0c4d1f5f2202130334}{Vector}} (std\+::size\+\_\+t \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_ac1444b2548939a49e007e0b60494ea6a}{size}}, Scalar value)
+\item 
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_ab747cc6e9a2780aab1718d7eeb084ddf}{Vector}} (\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$ Scalar $>$ const \&v)
+\item 
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_ab45f3952bd7fd78410667a54203c86f5}{Vector}} (const Scalar $\ast$\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a5df3293f61a2deaaa8e1e7d3f1423b6b}{begin}}, const std\+::size\+\_\+t length)
+\item 
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a7d0339004733cbec5e6c00f5b4f7511c}{Vector}} (const Scalar $\ast$start, const Scalar $\ast$\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a8230958e7c54586da8a50d8bd53a23be}{end}})
+\item 
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_aea0e30615f1e218aa24668db98415a15}{resize}} (std\+::size\+\_\+t \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_ac1444b2548939a49e007e0b60494ea6a}{size}})
+\item 
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_aad60d2907aa0bc21ae09f5610fdf75f1}{fill}} (Scalar value)
+\item 
+auto \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a1cee5528df989713866cb54f3803f76f}{operator()}} (std\+::size\+\_\+t i) const
+\item 
+auto \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a3e3f91356612109a5a0677438443adc5}{operator\mbox{[}$\,$\mbox{]}}} (std\+::size\+\_\+t i) const
+\item 
+auto \& \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_af331ee8d160a4881059602807004d5b3}{operator()}} (std\+::size\+\_\+t i)
+\item 
+auto \& \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_ada67c700c2aea6be733e0ab6d8b28a71}{operator\mbox{[}$\,$\mbox{]}}} (std\+::size\+\_\+t i)
+\item 
+auto \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_ac1444b2548939a49e007e0b60494ea6a}{size}} () const
+\item 
+decltype(auto) \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a87aec813e304db564e1e40503bc581fd}{data}} () noexcept
+\item 
+decltype(auto) \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a4302c23635e495dae219dcf1e44f70f1}{data}} () const noexcept
+\item 
+auto \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a5df3293f61a2deaaa8e1e7d3f1423b6b}{begin}} () const noexcept
+\item 
+auto \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a8230958e7c54586da8a50d8bd53a23be}{end}} () const noexcept
+\item 
+{\footnotesize template$<$typename Input\+Vector\+Scalar $>$ }\\Scalar \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a1305549e13266154cacfc45e216d9327}{dot}} (\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$ Input\+Vector\+Scalar $>$ const \&v) const
+\item 
+{\footnotesize template$<$typename Input\+Vector\+Scalar $>$ }\\Scalar \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a37541a4a237c84263367c680327501e0}{operator$\ast$}} (\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$ Input\+Vector\+Scalar $>$ const \&v) const
+\item 
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$ Scalar $>$ \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a81fcd4cb1090d046c8857767fac28c8c}{operator$\ast$}} (Scalar value) const
+\item 
+{\footnotesize template$<$typename Input\+Vector\+Scalar $>$ }\\\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$ Scalar $>$ \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_abcaa34b814b09def8dfa11fc9d47af28}{operator+}} (\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$ Input\+Vector\+Scalar $>$ const \&v) const
+\item 
+{\footnotesize template$<$typename Input\+Vector\+Scalar $>$ }\\\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$ Scalar $>$ \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a746d083c1e8365c21e802c670967e01c}{operator-\/}} (\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$ Input\+Vector\+Scalar $>$ const \&v) const
+\item 
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_ac13b09ea291d1a29d1ae6728624769c8}{operator$\ast$=}} (Scalar value)
+\item 
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a6ab7eb7cc2f1b72b2d61d7c439d9070c}{operator=}} (\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$ Scalar $>$ const \&v)
+\item 
+Scalar \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_aa5e1912a80cc03cf7691751171e0c89b}{norm}} () const
+\item 
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_af8d2e6d7cc3368b2c186125c02f4574e}{read\+From\+Stream}} (std\+::istream \&input)
+\item 
+auto \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a51a5e3b0265f7c53c627bd95c845446d}{buffer\+Size}} () const
+\item 
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector_a424d243ada02a76bf36137d282bb2c07}{clear}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a40371245ab30d0ecf4e1b0e30549021c}\label{classapsc_1_1LinearAlgebra_1_1Vector_a40371245ab30d0ecf4e1b0e30549021c}} 
+std\+::size\+\_\+t {\bfseries vector\+\_\+size} = 0u
+\item 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_aae57ae0f51157f1fcc37a20d078d3308}\label{classapsc_1_1LinearAlgebra_1_1Vector_aae57ae0f51157f1fcc37a20d078d3308}} 
+std\+::vector$<$ Scalar $>$ {\bfseries buffer}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename S\+C\+A\+L\+AR$>$\newline
+class apsc\+::\+Linear\+Algebra\+::\+Vector$<$ S\+C\+A\+L\+A\+R $>$}
+
+A full vector. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Scalar} & The type of the element \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a5a5c9ad06a0c97c282d18defe659de32}\label{classapsc_1_1LinearAlgebra_1_1Vector_a5a5c9ad06a0c97c282d18defe659de32}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!Vector@{Vector}}
+\index{Vector@{Vector}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{Vector()}{Vector()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{size = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Constructor may take the size number 
+\begin{DoxyParams}{Parameters}
+{\em size} & Length of the vector \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_affdc50f5672bca0c4d1f5f2202130334}\label{classapsc_1_1LinearAlgebra_1_1Vector_affdc50f5672bca0c4d1f5f2202130334}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!Vector@{Vector}}
+\index{Vector@{Vector}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{Vector()}{Vector()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{size,  }\item[{Scalar}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Constructor may take the size number and the initial fill value 
+\begin{DoxyParams}{Parameters}
+{\em size} & Length of the vector \\
+\hline
+{\em value} & The initial fill value \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_ab747cc6e9a2780aab1718d7eeb084ddf}\label{classapsc_1_1LinearAlgebra_1_1Vector_ab747cc6e9a2780aab1718d7eeb084ddf}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!Vector@{Vector}}
+\index{Vector@{Vector}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{Vector()}{Vector()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$ Scalar $>$ const \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Copy constructor. 
+\begin{DoxyParams}{Parameters}
+{\em v} & The source vector \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_ab45f3952bd7fd78410667a54203c86f5}\label{classapsc_1_1LinearAlgebra_1_1Vector_ab45f3952bd7fd78410667a54203c86f5}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!Vector@{Vector}}
+\index{Vector@{Vector}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{Vector()}{Vector()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} (\begin{DoxyParamCaption}\item[{const Scalar $\ast$}]{begin,  }\item[{const std\+::size\+\_\+t}]{length }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Move constructor. 
+\begin{DoxyParams}{Parameters}
+{\em v} & The source vector \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a7d0339004733cbec5e6c00f5b4f7511c}\label{classapsc_1_1LinearAlgebra_1_1Vector_a7d0339004733cbec5e6c00f5b4f7511c}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!Vector@{Vector}}
+\index{Vector@{Vector}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{Vector()}{Vector()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} (\begin{DoxyParamCaption}\item[{const Scalar $\ast$}]{start,  }\item[{const Scalar $\ast$}]{end }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Range constructor. 
+\begin{DoxyParams}{Parameters}
+{\em begin} & The pointer to the first buffer element (included) \\
+\hline
+{\em end} & The pointer to the last buffer element (excluded) \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a5df3293f61a2deaaa8e1e7d3f1423b6b}\label{classapsc_1_1LinearAlgebra_1_1Vector_a5df3293f61a2deaaa8e1e7d3f1423b6b}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!begin@{begin}}
+\index{begin@{begin}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+auto \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Returns the begin iterator associated to the managed std\+::vector
+
+\begin{DoxyReturn}{Returns}
+The std\+::vector begin iterator 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a51a5e3b0265f7c53c627bd95c845446d}\label{classapsc_1_1LinearAlgebra_1_1Vector_a51a5e3b0265f7c53c627bd95c845446d}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!bufferSize@{bufferSize}}
+\index{bufferSize@{bufferSize}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{bufferSize()}{bufferSize()}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+auto \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::buffer\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+The size of the buffer \begin{DoxyReturn}{Returns}
+the size 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a424d243ada02a76bf36137d282bb2c07}\label{classapsc_1_1LinearAlgebra_1_1Vector_a424d243ada02a76bf36137d282bb2c07}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!clear@{clear}}
+\index{clear@{clear}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Clears the vector completely and frees memory \mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a4302c23635e495dae219dcf1e44f70f1}\label{classapsc_1_1LinearAlgebra_1_1Vector_a4302c23635e495dae219dcf1e44f70f1}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!data@{data}}
+\index{data@{data}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{data()}{data()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+decltype(auto) \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Returns the buffer containing the elements of the vector (const version)
+
+\begin{DoxyNote}{Note}
+I use decltype(auto) becouse I want it to return exactly what std\+::vector\+::data() returns.
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+A pointer to the buffer 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a87aec813e304db564e1e40503bc581fd}\label{classapsc_1_1LinearAlgebra_1_1Vector_a87aec813e304db564e1e40503bc581fd}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!data@{data}}
+\index{data@{data}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{data()}{data()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+decltype(auto) \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Returns the buffer containing the elements of the vector non const version)
+
+\begin{DoxyNote}{Note}
+I use decltype(auto) because I want it to return exactly what std\+::vector\+::data() returns.
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+A pointer to the buffer 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a1305549e13266154cacfc45e216d9327}\label{classapsc_1_1LinearAlgebra_1_1Vector_a1305549e13266154cacfc45e216d9327}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!dot@{dot}}
+\index{dot@{dot}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{dot()}{dot()}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+template$<$typename Input\+Vector\+Scalar $>$ \\
+Scalar \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::dot (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$ Input\+Vector\+Scalar $>$ const \&}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Dot product with a \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}. The return type is coerent with the lhs vector type.
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & a \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}} vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of v$\ast$v 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a8230958e7c54586da8a50d8bd53a23be}\label{classapsc_1_1LinearAlgebra_1_1Vector_a8230958e7c54586da8a50d8bd53a23be}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!end@{end}}
+\index{end@{end}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+auto \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Returns the end iterator associated to the managed std\+::vector
+
+\begin{DoxyReturn}{Returns}
+The std\+::vector end iterator 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_aad60d2907aa0bc21ae09f5610fdf75f1}\label{classapsc_1_1LinearAlgebra_1_1Vector_aad60d2907aa0bc21ae09f5610fdf75f1}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!fill@{fill}}
+\index{fill@{fill}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{fill()}{fill()}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::fill (\begin{DoxyParamCaption}\item[{Scalar}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Fill the buffer with the given value. 
+\begin{DoxyParams}{Parameters}
+{\em value} & The value to be filled \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_aa5e1912a80cc03cf7691751171e0c89b}\label{classapsc_1_1LinearAlgebra_1_1Vector_aa5e1912a80cc03cf7691751171e0c89b}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!norm@{norm}}
+\index{norm@{norm}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{norm()}{norm()}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+Scalar \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::norm (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Euclidean norm.
+
+\begin{DoxyReturn}{Returns}
+The computed euclidean norm. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_af331ee8d160a4881059602807004d5b3}\label{classapsc_1_1LinearAlgebra_1_1Vector_af331ee8d160a4881059602807004d5b3}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!operator()@{operator()}}
+\index{operator()@{operator()}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{operator()()}{operator()()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+auto\& \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::operator() (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Get element v(i). Non const version
+
+It allows to change the element.
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a1cee5528df989713866cb54f3803f76f}\label{classapsc_1_1LinearAlgebra_1_1Vector_a1cee5528df989713866cb54f3803f76f}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!operator()@{operator()}}
+\index{operator()@{operator()}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{operator()()}{operator()()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+auto \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::operator() (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{i }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Get element v(i). Const version 
+\begin{DoxyParams}{Parameters}
+{\em i} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a81fcd4cb1090d046c8857767fac28c8c}\label{classapsc_1_1LinearAlgebra_1_1Vector_a81fcd4cb1090d046c8857767fac28c8c}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$Scalar$>$ \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{Scalar}]{value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Multiplication by a scalar.
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & A scalar value. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of scalar$\ast$v 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a37541a4a237c84263367c680327501e0}\label{classapsc_1_1LinearAlgebra_1_1Vector_a37541a4a237c84263367c680327501e0}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+template$<$typename Input\+Vector\+Scalar $>$ \\
+Scalar \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$ Input\+Vector\+Scalar $>$ const \&}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Multiplication (dot product) with a \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}. The return type is coerent with the lhs vector type.
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & a \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}} vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of v$\ast$v 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_ac13b09ea291d1a29d1ae6728624769c8}\label{classapsc_1_1LinearAlgebra_1_1Vector_ac13b09ea291d1a29d1ae6728624769c8}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!operator$\ast$=@{operator$\ast$=}}
+\index{operator$\ast$=@{operator$\ast$=}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$=()}{operator*=()}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::operator$\ast$= (\begin{DoxyParamCaption}\item[{Scalar}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Multiplication with a Scalar.
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & a scalar value. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_abcaa34b814b09def8dfa11fc9d47af28}\label{classapsc_1_1LinearAlgebra_1_1Vector_abcaa34b814b09def8dfa11fc9d47af28}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!operator+@{operator+}}
+\index{operator+@{operator+}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+template$<$typename Input\+Vector\+Scalar $>$ \\
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$Scalar$>$ \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::operator+ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$ Input\+Vector\+Scalar $>$ const \&}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Addition with a \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}. The return type is coerent with the lhs vector type.
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & a \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}} vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of v1+v2 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a746d083c1e8365c21e802c670967e01c}\label{classapsc_1_1LinearAlgebra_1_1Vector_a746d083c1e8365c21e802c670967e01c}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/()}{operator-()}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+template$<$typename Input\+Vector\+Scalar $>$ \\
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$Scalar$>$ \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::operator-\/ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$ Input\+Vector\+Scalar $>$ const \&}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Subtraction with a \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}. The return type is coerent with the lhs vector type.
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & a \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}} vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of v1-\/v2 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a6ab7eb7cc2f1b72b2d61d7c439d9070c}\label{classapsc_1_1LinearAlgebra_1_1Vector_a6ab7eb7cc2f1b72b2d61d7c439d9070c}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}}$<$ Scalar $>$ const \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Assignment operator.
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & The input vector. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_ada67c700c2aea6be733e0ab6d8b28a71}\label{classapsc_1_1LinearAlgebra_1_1Vector_ada67c700c2aea6be733e0ab6d8b28a71}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+auto\& \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Get element v\mbox{[}i\mbox{]}. Non const version
+
+It allows to change the element.
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_a3e3f91356612109a5a0677438443adc5}\label{classapsc_1_1LinearAlgebra_1_1Vector_a3e3f91356612109a5a0677438443adc5}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+auto \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{i }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Get element v\mbox{[}i\mbox{]}. Const version 
+\begin{DoxyParams}{Parameters}
+{\em i} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_af8d2e6d7cc3368b2c186125c02f4574e}\label{classapsc_1_1LinearAlgebra_1_1Vector_af8d2e6d7cc3368b2c186125c02f4574e}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!readFromStream@{readFromStream}}
+\index{readFromStream@{readFromStream}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{readFromStream()}{readFromStream()}}
+{\footnotesize\ttfamily template$<$typename Scalar $>$ \\
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ Scalar $>$\+::read\+From\+Stream (\begin{DoxyParamCaption}\item[{std\+::istream \&}]{input }\end{DoxyParamCaption})}
+
+To read from a file (or any input stream) The input format is nrows ncols a\+\_\+00 a\+\_\+01 a\+\_\+02 .. a\+\_\+10 a\+\_\+11 ...
+
+\begin{DoxyNote}{Note}
+that carriage returns are in fact ignored. Tokens may be separated by any blank character, as usual in text streams. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em input} & The input stream to read from \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_aea0e30615f1e218aa24668db98415a15}\label{classapsc_1_1LinearAlgebra_1_1Vector_aea0e30615f1e218aa24668db98415a15}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!resize@{resize}}
+\index{resize@{resize}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{resize()}{resize()}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::resize (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Sets size value 
+\begin{DoxyParams}{Parameters}
+{\em new\+\_\+size} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Vector_ac1444b2548939a49e007e0b60494ea6a}\label{classapsc_1_1LinearAlgebra_1_1Vector_ac1444b2548939a49e007e0b60494ea6a}} 
+\index{apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}!size@{size}}
+\index{size@{size}!apsc::LinearAlgebra::Vector$<$ SCALAR $>$@{apsc::LinearAlgebra::Vector$<$ SCALAR $>$}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily template$<$typename S\+C\+A\+L\+AR $>$ \\
+auto \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{apsc\+::\+Linear\+Algebra\+::\+Vector}}$<$ S\+C\+A\+L\+AR $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Vector}{Vector}} size \begin{DoxyReturn}{Returns}
+the vector size 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+lib/\mbox{\hyperlink{Vector_8hpp}{Vector.\+hpp}}\end{DoxyCompactItemize}

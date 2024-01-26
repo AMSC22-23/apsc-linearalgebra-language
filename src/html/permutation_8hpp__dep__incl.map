@@ -1,0 +1,6 @@
+<map id="preconditioners/parallel/spai/permutation.hpp" name="preconditioners/parallel/spai/permutation.hpp">
+<area shape="rect" id="node1" title="Header file containing a method to create permutation matrices for SPAI." alt="" coords="5,5,181,47"/>
+<area shape="rect" id="node2" href="$update__qr_8hpp.html" title="Header file containing a QR factorisation updater for SPAI." alt="" coords="5,95,181,136"/>
+<area shape="rect" id="node3" href="$spai_8hpp.html" title="Header file for the SPAI class." alt="" coords="5,184,181,225"/>
+<area shape="rect" id="node4" href="$apsc__language_8hpp.html" title="Header file defining apsc custom linear algebra language. It aims to ease the developer experience wh..." alt="" coords="17,273,170,315"/>
+</map>

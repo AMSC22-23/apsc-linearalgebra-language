@@ -1,0 +1,12 @@
+<map id="lib/FullMatrix.hpp" name="lib/FullMatrix.hpp">
+<area shape="rect" id="node1" title="Header file containing a full matrix definition supporting operation with a template defined vector." alt="" coords="297,5,432,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,155,108,181"/>
+<area shape="rect" id="node3" href="$EigenStructureMap_8hpp.html" title="Header file containing the EigenStructureMap class for mapping custom data to Eigen structures." alt="" coords="154,80,327,107"/>
+<area shape="rect" id="node4" title=" " alt="" coords="132,155,203,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="319,155,411,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="402,80,541,107"/>
+<area shape="rect" id="node8" href="$assert_8hpp.html" title="Header file containing a definition of an assertion macro." alt="" coords="565,80,655,107"/>
+<area shape="rect" id="node10" title=" " alt="" coords="679,80,749,107"/>
+<area shape="rect" id="node5" title=" " alt="" coords="227,155,294,181"/>
+<area shape="rect" id="node9" title=" " alt="" coords="570,155,650,181"/>
+</map>
