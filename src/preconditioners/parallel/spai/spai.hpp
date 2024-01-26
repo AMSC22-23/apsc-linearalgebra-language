@@ -10,7 +10,7 @@
 
 #include "Parallel/Utilities/mpi_utils.hpp"
 #include "assert.hpp"
-#include "csc.hpp"
+#include "CSC.hpp"
 #include "least_sqaure_solver.hpp"
 #include "update_qr.hpp"
 

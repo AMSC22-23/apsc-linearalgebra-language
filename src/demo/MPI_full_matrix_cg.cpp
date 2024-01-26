@@ -69,9 +69,8 @@ int main(int argc, char *argv[]) {
   auto r = apsc::LinearAlgebra::Utils::Solvers::ConjugateGradient::solve_MPI<
       decltype(PA), decltype(b), double, decltype(e)>(
       PA, b, e, MPIContext(mpi_comm, mpi_rank, mpi_size),
-      objective_context(objective_id, mpi_size,
-                        "objective" + std::to_string(objective_id) +
-                            "_MPISIZE" + std::to_string(mpi_size) + ".log"),
+      ObjectiveContext(objective_id, mpi_size,
+                        "MPI_full_matrix_cg_MPISIZE" + std::to_string(mpi_size) + ".log"),
       1);
 #else
   // Setup the preconditioner, all the processes for now..

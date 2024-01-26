@@ -9,7 +9,7 @@
 #include <cstring>
 
 #include "assert.hpp"
-#include "csc.hpp"
+#include "CSC.hpp"
 #include "least_sqaure_solver.hpp"
 #include "permutation.hpp"
 

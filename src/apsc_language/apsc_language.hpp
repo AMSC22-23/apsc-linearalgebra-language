@@ -22,13 +22,13 @@
 #include <assert.hpp>
 #include <cg.hpp>
 #include <cg_mpi.hpp>
-#include <csc.hpp>
+#include <CSC.hpp>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
 #include <iostream>
 #include <spai.hpp>
-#include <utils.hpp>
+#include <Utils.hpp>
 
 namespace apsc::LinearAlgebra {
 namespace Language {

@@ -2,18 +2,18 @@
 #include <stdint.h>
 
 #include <Eigen/Sparse>
-#include <FullMatrix.hpp>
 #include <MPIContext.hpp>
 #include <MPIFullMatrix.hpp>
 #include <MPISparseMatrix.hpp>
 #include <Matrix/Matrix.hpp>
+#include <FullMatrix.hpp>
 #include <Parallel/Utilities/partitioner.hpp>
 #include <Vector.hpp>
-#include <csc.hpp>
+#include <CSC.hpp>
 #include <iostream>
 #include <spai.hpp>
 #include <string>
-#include <utils.hpp>
+#include <Utils.hpp>
 
 #include "assert.hpp"
 
@@ -119,8 +119,8 @@ int main(int argc, char* argv[]) {
   CSC_A.map_external_buffer(A.outerIndexPtr(), A.valuePtr(), A.innerIndexPtr(),
                             A.rows(), A.cols(), A.nonZeros());
 
-  apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<
-      double, Eigen::MatrixXd, 1>
+  apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<double,
+                                                           Eigen::MatrixXd, 1>
       precond(&CSC_A, tol, max_iter, 1);
   auto& M = precond.get_M();
   const Eigen::Map<Eigen::SparseMatrix<double>> eigen_M =
@@ -157,7 +157,7 @@ int main(int argc, char* argv[]) {
           decltype(AM), decltype(b), double, decltype(e), 0>(
           AM, b, y, e, GMRES_MAX_ITER(global_size),
           MPIContext(mpi_comm, mpi_rank, mpi_size),
-          objective_context(
+          ObjectiveContext(
               0, mpi_size,
               std::string("sequential_gmres_with_precon_matrix_AM") +
                   std::string("_epsilon") + std::to_string(tol) +
@@ -191,7 +191,7 @@ int main(int argc, char* argv[]) {
           decltype(A), decltype(b), double, decltype(e)>(
           A, b, x, e, GMRES_MAX_ITER(global_size),
           MPIContext(mpi_comm, mpi_rank, mpi_size),
-          objective_context(
+          ObjectiveContext(
               0, mpi_size,
               std::string("sequential_gmres_with_no_precon_matrix_A") +
                   std::string("_epsilon") + std::to_string(tol) +
@@ -223,9 +223,9 @@ int main(int argc, char* argv[]) {
 
       // Define an MPI version of AM
       apsc::LinearAlgebra::MPISparseMatrix<decltype(AM), decltype(e),
-                                           decltype(AM)::IsRowMajor
-                                               ? apsc::ORDERINGTYPE::ROWWISE
-                                               : apsc::ORDERINGTYPE::COLUMNWISE>
+                            decltype(AM)::IsRowMajor
+                                ? apsc::ORDERINGTYPE::ROWWISE
+                                : apsc::ORDERINGTYPE::COLUMNWISE>
           PAM;
       PAM.setup(AM, mpi_comm);
 
@@ -235,7 +235,7 @@ int main(int argc, char* argv[]) {
           decltype(PAM), decltype(b), double, decltype(e), 0>(
           PAM, b, y, e, GMRES_MAX_ITER(global_size),
           MPIContext(mpi_comm, mpi_rank, mpi_size),
-          objective_context(
+          ObjectiveContext(
               0, mpi_size,
               std::string("parallel_gmres_with_precon_matrix_AM") +
                   std::string("_epsilon") + std::to_string(tol) +
@@ -267,9 +267,9 @@ int main(int argc, char* argv[]) {
 
       // Define an MPI version of A
       apsc::LinearAlgebra::MPISparseMatrix<decltype(A), decltype(e),
-                                           decltype(A)::IsRowMajor
-                                               ? apsc::ORDERINGTYPE::ROWWISE
-                                               : apsc::ORDERINGTYPE::COLUMNWISE>
+                            decltype(A)::IsRowMajor
+                                ? apsc::ORDERINGTYPE::ROWWISE
+                                : apsc::ORDERINGTYPE::COLUMNWISE>
           PA;
       PA.setup(A, mpi_comm);
 
@@ -277,7 +277,7 @@ int main(int argc, char* argv[]) {
           decltype(PA), decltype(b), double, decltype(e)>(
           PA, b, x, e, GMRES_MAX_ITER(global_size),
           MPIContext(mpi_comm, mpi_rank, mpi_size),
-          objective_context(
+          ObjectiveContext(
               0, mpi_size,
               std::string("parallel_gmres_with_no_precon_matrix_A") +
                   std::string("_epsilon") + std::to_string(tol) +

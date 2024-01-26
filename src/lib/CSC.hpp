@@ -1,7 +1,6 @@
 /**
  * @file CSC.hpp
- * @brief Header file containing the CSC struct for compressed sparse column
- * (CSC) matrix representation.
+ * @brief Header file containing the CSC struct for compressed sparse column (CSC) matrix representation.
  */
 
 #ifndef CSC_HPP
@@ -20,7 +19,8 @@
 #include "EigenStructureMap.hpp"
 #include "Parallel/Utilities/mpi_utils.hpp"
 #include "assert.hpp"
-namespace apsc::LinearAlgebra {
+namespace apsc::LinearAlgebra
+{
 /**
  * @struct CSC
  * @brief Struct representing a compressed sparse column (CSC) matrix.
@@ -28,22 +28,19 @@ namespace apsc::LinearAlgebra {
  */
 template <typename Scalar>
 struct CSC {
-  int m = 0;                /**< Number of rows. */
-  int n = 0;                /**< Number of columns. */
-  int non_zeros = 0;        /**< Number of non-zero elements. */
-  int* offset = nullptr;    /**< Array of column offsets. */
-  Scalar* values = nullptr; /**< Array of non-zero values. */
-  int* flat_row_index =
-      nullptr; /**< Array of row indices for non-zero values. */
-  uint8_t initialised =
-      0; /**< Flag indicating whether the struct is initialised. */
-  uint8_t external_buffer =
-      0; /**< Flag indicating whether an external buffer is used. */
+  int m = 0;                      /**< Number of rows. */
+  int n = 0;                      /**< Number of columns. */
+  int non_zeros = 0;              /**< Number of non-zero elements. */
+  int* offset = nullptr;          /**< Array of column offsets. */
+  Scalar* values = nullptr;       /**< Array of non-zero values. */
+  int* flat_row_index = nullptr;  /**< Array of row indices for non-zero values. */
+  uint8_t initialised = 0;        /**< Flag indicating whether the struct is initialised. */
+  uint8_t external_buffer = 0;    /**< Flag indicating whether an external buffer is used. */
   /**
    * @brief Default constructor.
    */
   CSC() = default;
-  /**
+   /**
    * @brief Destructor.
    */
   ~CSC() { destoy(); }
@@ -72,8 +69,10 @@ struct CSC {
    * @param cols The number of matrix columns.
    */
   void allocate(const int nnz, const int rows, const int cols) {
-    m = rows, n = cols, non_zeros = nnz;
-    offset = (int*)malloc(sizeof(int) * (cols + 1));
+    m = rows,
+    n = cols,
+    non_zeros = nnz;
+    offset = (int*)malloc(sizeof(int) * (cols+1));
     flat_row_index = (int*)malloc(sizeof(int) * (nnz));
     values = (Scalar*)malloc(sizeof(Scalar) * (nnz));
     initialised = 1;
@@ -390,6 +389,6 @@ struct CSC {
     printf("\n");
   }
 };
-}  // namespace apsc::LinearAlgebra
+}
 
 #endif

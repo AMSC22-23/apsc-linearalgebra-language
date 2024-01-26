@@ -15,7 +15,7 @@
 #include <type_traits>
 #include <vector>
 
-#include "utils.hpp"
+#include "Utils.hpp"
 // To avoid stupid warnings if I do not use openmp
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"

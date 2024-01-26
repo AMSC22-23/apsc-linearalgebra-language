@@ -16,7 +16,7 @@
  * @class objective_context
  * @brief Class for managing objective-related information and reporting.
  */
-class objective_context {
+class ObjectiveContext {
  private:
   uint8_t m_objective_number;     /**< The objective number. */
   uint8_t m_mpi_sie;              /**< The MPI size. */
@@ -34,7 +34,7 @@ class objective_context {
   /**
    * @brief Default constructor.
    */
-  objective_context() = default;
+  ObjectiveContext() = default;
   /**
    * @brief Constructor.
    * @param objective_number The objective number.
@@ -43,7 +43,7 @@ class objective_context {
    * @param problem_name The name of the problem (optional, default is an empty
    * string).
    */
-  objective_context(const uint8_t objective_number, const uint8_t mpi_size,
+  ObjectiveContext(const uint8_t objective_number, const uint8_t mpi_size,
                     const std::string report_file_name,
                     const std::string problem_name = "")
       : m_objective_number(objective_number),

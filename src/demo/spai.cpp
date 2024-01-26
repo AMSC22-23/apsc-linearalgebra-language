@@ -63,8 +63,8 @@ int main(int argc, char* argv[]) {
                               A.nonZeros());
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<
-        double, Eigen::MatrixXd, 1>
+    apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<double,
+                                                             Eigen::MatrixXd, 1>
         precond(&CSC_A, tol, max_iter, 1);
     MPI_Barrier(MPI_COMM_WORLD);
     std::chrono::high_resolution_clock::time_point end =

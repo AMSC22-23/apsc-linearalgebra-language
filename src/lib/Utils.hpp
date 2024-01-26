@@ -11,7 +11,7 @@
 #include <fstream>
 #include <gmres.hpp>
 #include <iostream>
-#include <objective_context.hpp>
+#include <ObjectiveContext.hpp>
 #include <string>
 #include <type_traits>
 #include <unsupported/Eigen/SparseExtra>
@@ -26,7 +26,8 @@ using std::endl;
 #define GMRES_MAX_ITER(i) (20 * i)
 #define GMRES_TOL 1e-8;
 
-namespace apsc::LinearAlgebra {
+namespace apsc::LinearAlgebra
+{
 namespace Utils {
 template <typename Mat, typename Scalar>
 void default_spd_fill(Mat &m) {
@@ -126,7 +127,7 @@ namespace GMRES {
 template <typename MPILhs, typename Rhs, typename Scalar, typename ExactSol,
           int SHOW_ERROR_NORM = 1, typename... Preconditioner>
 int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
-          const MPIContext mpi_ctx, objective_context obj_ctx,
+          const MPIContext mpi_ctx, ObjectiveContext obj_ctx,
           Preconditioner &...P) {
   constexpr std::size_t P_size = sizeof...(P);
   static_assert(P_size < 2, "Please specify max 1 preconditioner");
@@ -148,7 +149,7 @@ int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
         std::chrono::high_resolution_clock::now();
     auto result =
         apsc::LinearAlgebra::LinearSolvers::Sequential::GMRES<MPILhs, Rhs,
-                                                              decltype(id)>(
+                                                          decltype(id)>(
             A, x, b, id, restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
@@ -179,8 +180,10 @@ int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
   } else {
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    auto result = apsc::LinearAlgebra::LinearSolvers::Sequential::GMRES<
-        MPILhs, Rhs, Preconditioner...>(A, x, b, P..., restart, max_iter, tol);
+    auto result =
+        apsc::LinearAlgebra::LinearSolvers::Sequential::GMRES<MPILhs, Rhs,
+                                                          Preconditioner...>(
+            A, x, b, P..., restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
     long long diff =
@@ -213,7 +216,7 @@ int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
 template <typename MPILhs, typename Rhs, typename Scalar, typename ExactSol,
           int SHOW_ERROR_NORM = 1, typename... Preconditioner>
 int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
-              const MPIContext mpi_ctx, objective_context obj_ctx,
+              const MPIContext mpi_ctx, ObjectiveContext obj_ctx,
               Preconditioner &...P) {
   constexpr std::size_t P_size = sizeof...(P);
   static_assert(P_size < 2, "Please specify max 1 preconditioner");
@@ -233,9 +236,9 @@ int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
     auto id = Eigen::IdentityPreconditioner();
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    auto result = apsc::LinearAlgebra::LinearSolvers::MPI::GMRES<MPILhs, Rhs,
-                                                                 decltype(id)>(
-        A, x, b, id, restart, max_iter, tol);
+    auto result =
+        apsc::LinearAlgebra::LinearSolvers::MPI::GMRES<MPILhs, Rhs, decltype(id)>(
+            A, x, b, id, restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
     long long diff =
@@ -273,10 +276,9 @@ int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
   } else {
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    auto result =
-        apsc::LinearAlgebra::LinearSolvers::MPI::GMRES<MPILhs, Rhs,
-                                                       Preconditioner...>(
-            A, x, b, P..., restart, max_iter, tol);
+    auto result = apsc::LinearAlgebra::LinearSolvers::MPI::GMRES<MPILhs, Rhs,
+                                                             Preconditioner...>(
+        A, x, b, P..., restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
     long long diff =
@@ -319,7 +321,7 @@ namespace ConjugateGradient {
 template <typename MPILhs, typename Rhs, typename Scalar, typename ExactSol,
           typename... Preconditioner>
 int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
-              objective_context obj_ctx = {}, bool produce_out_file = 1,
+              ObjectiveContext obj_ctx = {}, bool produce_out_file = 1,
               Preconditioner... P) {
   constexpr std::size_t P_size = sizeof...(P);
   static_assert(P_size < 2, "Please specify max 1 preconditioner");
@@ -340,8 +342,7 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
     auto result =
-        apsc::LinearAlgebra::LinearSolvers::MPI::CG_no_precon<MPILhs, Rhs,
-                                                              Scalar>(
+        apsc::LinearAlgebra::LinearSolvers::MPI::CG_no_precon<MPILhs, Rhs, Scalar>(
             A, x, b, max_iter, tol, mpi_ctx, MPI_DOUBLE);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
