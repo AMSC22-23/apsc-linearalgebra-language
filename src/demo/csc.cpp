@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
-#include <Eigen/Sparse>
 #include <CSC.hpp>
+#include <Eigen/Sparse>
 #include <iostream>
 
 #include "EigenStructureMap.hpp"

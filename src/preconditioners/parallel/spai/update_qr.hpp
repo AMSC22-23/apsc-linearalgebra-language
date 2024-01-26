@@ -8,8 +8,8 @@
 #include <cstdlib>
 #include <cstring>
 
-#include "assert.hpp"
 #include "CSC.hpp"
+#include "assert.hpp"
 #include "least_sqaure_solver.hpp"
 #include "permutation.hpp"
 

@@ -225,6 +225,6 @@ int GMRES(SparseMatrix &A, Vector &x, const Vector &b, const Preconditioner &M,
 }
 }  // namespace MPI
 }  // namespace LinearSolvers
-}  // namespace LinearAlgebra
+}  // namespace apsc::LinearAlgebra
 
 #endif

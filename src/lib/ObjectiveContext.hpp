@@ -44,8 +44,8 @@ class ObjectiveContext {
    * string).
    */
   ObjectiveContext(const uint8_t objective_number, const uint8_t mpi_size,
-                    const std::string report_file_name,
-                    const std::string problem_name = "")
+                   const std::string report_file_name,
+                   const std::string problem_name = "")
       : m_objective_number(objective_number),
         m_mpi_sie(mpi_size),
         m_report_file_name(report_file_name),

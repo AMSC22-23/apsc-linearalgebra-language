@@ -20,8 +20,7 @@
 #include <array>
 #include <vector>
 
-namespace apsc::LinearAlgebra
-{
+namespace apsc::LinearAlgebra {
 /*!
  * A class for parallel sparse matrix product
  * @tparam Matrix A sparse matrix class
@@ -313,6 +312,6 @@ class MPISparseMatrix {
   // default constructor, with Scalar{}
   MPI_Datatype MPI_Scalar_Type = mpi_typeof(Scalar{});
 };
-}  // apsc::LinearAlgebra
+}  // namespace apsc::LinearAlgebra
 
 #endif /* MPISPARSEMATRIX_HPP */

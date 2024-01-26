@@ -24,8 +24,8 @@
 #include <cstddef>
 #include <type_traits>
 
-#include "Matrix/Matrix.hpp"
 #include "FullMatrix.hpp"
+#include "Matrix/Matrix.hpp"
 #include "Vector.hpp"
 
 namespace apsc::LinearAlgebra {
@@ -85,5 +85,5 @@ int CG(const Matrix &A, Vector &x, const Vector &b, const Preconditioner &M,
 
 }  // namespace Sequential
 }  // namespace LinearSolvers
-}  // namespace LinearAlgebra
+}  // namespace apsc::LinearAlgebra
 #endif

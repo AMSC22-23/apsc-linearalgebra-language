@@ -28,8 +28,8 @@
 //*****************************************************************
 #include <mpi.h>
 
-#include <MPIContext.hpp>
 #include <FullMatrix.hpp>
+#include <MPIContext.hpp>
 
 #define DEBUG 0
 
@@ -192,5 +192,5 @@ int CG_no_precon(Matrix &A, Vector &x, const Vector &b, int &max_iter,
 
 }  // namespace MPI
 }  // namespace LinearSolvers
-}  // namespace LinearAlgebra
+}  // namespace apsc::LinearAlgebra
 #endif

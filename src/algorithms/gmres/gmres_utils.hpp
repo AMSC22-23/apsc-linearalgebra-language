@@ -45,6 +45,6 @@ void apply_plane_rotation(Real &dx, Real &dy, Real &cs, Real &sn) {
 }
 }  // namespace GMRESUtils
 }  // namespace LinearSolvers
-}  // namespace LinearAlgebra
+}  // namespace apsc::LinearAlgebra
 
 #endif

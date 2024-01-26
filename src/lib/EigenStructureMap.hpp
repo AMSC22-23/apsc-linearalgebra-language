@@ -1,6 +1,7 @@
 /**
  * @file EigenStructureMap.hpp
- * @brief Header file containing the EigenStructureMap class for mapping custom data to Eigen structures.
+ * @brief Header file containing the EigenStructureMap class for mapping custom
+ * data to Eigen structures.
  */
 
 #ifndef EIGEN_MATRIX_MAP_HPP
@@ -11,8 +12,7 @@
 #include <cstdint>
 #include <type_traits>
 
-namespace apsc::LinearAlgebra
-{
+namespace apsc::LinearAlgebra {
 /**
  * @class EigenStructureMap
  * @brief A full Eigen-compatible matrix class with custom-handled buffer data.
@@ -27,7 +27,8 @@ template <typename EigenStructure, typename Scalar,
 class EigenStructureMap {
  public:
   /**
-   * @brief Creates an EigenStructureMap object from the given data buffer and size.
+   * @brief Creates an EigenStructureMap object from the given data buffer and
+   * size.
    * @param m The data buffer.
    * @param size The size of the buffer.
    * @return An EigenStructureMap object mapped to the given buffer.
@@ -42,7 +43,8 @@ class EigenStructureMap {
     return EigenStructureMap<EigenStructure, Scalar, MappedMatrix>(data, size);
   }
   /**
-   * @brief Creates an EigenStructureMap object from the given data buffer, rows, and columns.
+   * @brief Creates an EigenStructureMap object from the given data buffer,
+   * rows, and columns.
    * @param m The data buffer.
    * @param rows Number of rows.
    * @param cols Number of columns.
@@ -59,13 +61,16 @@ class EigenStructureMap {
                                                                    cols);
   }
   /**
-   * @brief Creates an EigenStructureMap object from the given data pointers and matrix dimensions.
+   * @brief Creates an EigenStructureMap object from the given data pointers and
+   * matrix dimensions.
    * @tparam IndexType The type of indices.
    * @param rows Number of rows.
    * @param cols Number of columns.
    * @param nnz Number of non-zero elements.
-   * @param outer_size_ptr Pointer to the outer size (row size for compressed matrices).
-   * @param inner_size_ptr Pointer to the inner size (column size for compressed matrices).
+   * @param outer_size_ptr Pointer to the outer size (row size for compressed
+   * matrices).
+   * @param inner_size_ptr Pointer to the inner size (column size for compressed
+   * matrices).
    * @param value_ptr Pointer to the values of non-zero elements.
    * @return An EigenStructureMap object mapped to the given data.
    */
@@ -77,14 +82,16 @@ class EigenStructureMap {
         rows, cols, nnz, outer_size_ptr, inner_size_ptr, value_ptr);
   }
   /**
-   * @brief Constructs an EigenStructureMap object from the given data buffer and size.
+   * @brief Constructs an EigenStructureMap object from the given data buffer
+   * and size.
    * @param data The data buffer.
    * @param size The size of the buffer.
    */
   EigenStructureMap(Scalar *data, const std::size_t size)
       : structure_map(data, size) {}
   /**
-   * @brief Constructs an EigenStructureMap object from the given data buffer, rows, and columns.
+   * @brief Constructs an EigenStructureMap object from the given data buffer,
+   * rows, and columns.
    * @param data The data buffer.
    * @param rows Number of rows.
    * @param cols Number of columns.
@@ -109,6 +116,6 @@ class EigenStructureMap {
                       value_ptr) {}
 };
 
-}
+}  // namespace apsc::LinearAlgebra
 
 #endif  // EIGEN_MATRIX_MAP_HPP

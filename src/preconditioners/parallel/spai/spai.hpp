@@ -2,15 +2,15 @@
 #define CSPAI_H
 
 #include <mpi.h>
-#include <cstdlib>
 
 #include <Eigen/Dense>
 #include <cmath>
 #include <cstdio>
+#include <cstdlib>
 
+#include "CSC.hpp"
 #include "Parallel/Utilities/mpi_utils.hpp"
 #include "assert.hpp"
-#include "CSC.hpp"
 #include "least_sqaure_solver.hpp"
 #include "update_qr.hpp"
 
@@ -197,7 +197,8 @@ class SPAI {
       residualNorm = sqrt(residualNorm);
 
       // While norm of residual > tolerance do
-      while ((iteration == 0) || (residualNorm > tolerance && maxIteration > iteration)) {
+      while ((iteration == 0) ||
+             (residualNorm > tolerance && maxIteration > iteration)) {
         iteration++;
 
         // Variables

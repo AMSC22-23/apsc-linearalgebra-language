@@ -8,8 +8,8 @@
 
 #include <EigenStructureMap.hpp>
 
-#include "assert.hpp"
 #include "CSC.hpp"
+#include "assert.hpp"
 
 namespace apsc::LinearAlgebra {
 namespace Preconditioners {

@@ -1,19 +1,19 @@
 #include <mpi.h>
 #include <stdint.h>
 
+#include <CSC.hpp>
 #include <Eigen/Sparse>
+#include <FullMatrix.hpp>
 #include <MPIContext.hpp>
 #include <MPIFullMatrix.hpp>
 #include <MPISparseMatrix.hpp>
 #include <Matrix/Matrix.hpp>
-#include <FullMatrix.hpp>
 #include <Parallel/Utilities/partitioner.hpp>
+#include <Utils.hpp>
 #include <Vector.hpp>
-#include <CSC.hpp>
 #include <iostream>
 #include <spai.hpp>
 #include <string>
-#include <Utils.hpp>
 
 #include "assert.hpp"
 
@@ -119,8 +119,8 @@ int main(int argc, char* argv[]) {
   CSC_A.map_external_buffer(A.outerIndexPtr(), A.valuePtr(), A.innerIndexPtr(),
                             A.rows(), A.cols(), A.nonZeros());
 
-  apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<double,
-                                                           Eigen::MatrixXd, 1>
+  apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<
+      double, Eigen::MatrixXd, 1>
       precond(&CSC_A, tol, max_iter, 1);
   auto& M = precond.get_M();
   const Eigen::Map<Eigen::SparseMatrix<double>> eigen_M =
@@ -223,9 +223,9 @@ int main(int argc, char* argv[]) {
 
       // Define an MPI version of AM
       apsc::LinearAlgebra::MPISparseMatrix<decltype(AM), decltype(e),
-                            decltype(AM)::IsRowMajor
-                                ? apsc::ORDERINGTYPE::ROWWISE
-                                : apsc::ORDERINGTYPE::COLUMNWISE>
+                                           decltype(AM)::IsRowMajor
+                                               ? apsc::ORDERINGTYPE::ROWWISE
+                                               : apsc::ORDERINGTYPE::COLUMNWISE>
           PAM;
       PAM.setup(AM, mpi_comm);
 
@@ -235,12 +235,12 @@ int main(int argc, char* argv[]) {
           decltype(PAM), decltype(b), double, decltype(e), 0>(
           PAM, b, y, e, GMRES_MAX_ITER(global_size),
           MPIContext(mpi_comm, mpi_rank, mpi_size),
-          ObjectiveContext(
-              0, mpi_size,
-              std::string("parallel_gmres_with_precon_matrix_AM") +
-                  std::string("_epsilon") + std::to_string(tol) +
-                  std::string("_MPISIZE") + std::to_string(mpi_size) + ".log",
-              std::string(argv[1])));
+          ObjectiveContext(0, mpi_size,
+                           std::string("parallel_gmres_with_precon_matrix_AM") +
+                               std::string("_epsilon") + std::to_string(tol) +
+                               std::string("_MPISIZE") +
+                               std::to_string(mpi_size) + ".log",
+                           std::string(argv[1])));
       ASSERT(r == 0, "A*M*y = b solver failed, can not retrieve the solution x"
                          << std::endl);
       x = eigen_M * y;
@@ -267,9 +267,9 @@ int main(int argc, char* argv[]) {
 
       // Define an MPI version of A
       apsc::LinearAlgebra::MPISparseMatrix<decltype(A), decltype(e),
-                            decltype(A)::IsRowMajor
-                                ? apsc::ORDERINGTYPE::ROWWISE
-                                : apsc::ORDERINGTYPE::COLUMNWISE>
+                                           decltype(A)::IsRowMajor
+                                               ? apsc::ORDERINGTYPE::ROWWISE
+                                               : apsc::ORDERINGTYPE::COLUMNWISE>
           PA;
       PA.setup(A, mpi_comm);
 

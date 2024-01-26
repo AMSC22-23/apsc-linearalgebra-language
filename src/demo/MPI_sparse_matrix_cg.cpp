@@ -8,9 +8,9 @@
 #include <MPISparseMatrix.hpp>
 #include <Matrix/Matrix.hpp>
 #include <Parallel/Utilities/partitioner.hpp>
+#include <Utils.hpp>
 #include <Vector.hpp>
 #include <iostream>
-#include <Utils.hpp>
 
 #define DEBUG 0
 #define USE_PRECONDITIONER 0
@@ -112,9 +112,10 @@ int main(int argc, char *argv[]) {
   auto r = apsc::LinearAlgebra::Utils::Solvers::ConjugateGradient::solve_MPI<
       decltype(PA), decltype(b), double, decltype(e)>(
       PA, b, e, MPIContext(mpi_comm, mpi_rank, mpi_size),
-      ObjectiveContext(objective_id, mpi_size,
-                        "MPI_sparse_matrix_cg_MPISIZE" + std::to_string(mpi_size) + ".log",
-                        std::string(argv[1])));
+      ObjectiveContext(
+          objective_id, mpi_size,
+          "MPI_sparse_matrix_cg_MPISIZE" + std::to_string(mpi_size) + ".log",
+          std::string(argv[1])));
 #else
   // Setup the preconditioner, all the processes for now..
   // TODO

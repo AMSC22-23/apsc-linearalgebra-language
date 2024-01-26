@@ -288,9 +288,9 @@ int main(int argc, char* argv[]) {
         apsc::LinearAlgebra::Language::IterativeSolverType::CONJUGATE_GRADIENT>(
         b);
     if (mpi_runner.mpi_rank == 0) {
-      std::cout
-          << "=============== Testing CG iterative linear solver ==============="
-          << std::endl;
+      std::cout << "=============== Testing CG iterative linear solver "
+                   "==============="
+                << std::endl;
       std::cout << "Linear solver between:" << std::endl
                 << M << "and" << std::endl
                 << b << std::endl
@@ -343,11 +343,13 @@ int main(int argc, char* argv[]) {
     e.resize(test_size);
     e.fill(1.0);
     b = M * e;
-    x = M.solve_iterative<apsc::LinearAlgebra::Language::IterativeSolverType::CONJUGATE_GRADIENT>(b);
+    x = M.solve_iterative<
+        apsc::LinearAlgebra::Language::IterativeSolverType::CONJUGATE_GRADIENT>(
+        b);
     if (mpi_runner.mpi_rank == 0) {
-      std::cout
-          << "=============== Testing CG iterative linear solver ==============="
-          << std::endl;
+      std::cout << "=============== Testing CG iterative linear solver "
+                   "==============="
+                << std::endl;
       std::cout << "Problem size: " << test_size << std::endl;
       std::cout << "Error norm: " << (x - e).norm() << std::endl;
       std::cout << "Iterations: " << M.solver_iterations() << std::endl;
@@ -367,12 +369,11 @@ int main(int argc, char* argv[]) {
     e.fill(1.0);
     b = M * e;
     x = M.solve_iterative<
-        apsc::LinearAlgebra::Language::IterativeSolverType::GMRES>(
-        b);
+        apsc::LinearAlgebra::Language::IterativeSolverType::GMRES>(b);
     if (mpi_runner.mpi_rank == 0) {
-      std::cout
-          << "=============== Testing GMRES iterative linear solver ==============="
-          << std::endl;
+      std::cout << "=============== Testing GMRES iterative linear solver "
+                   "==============="
+                << std::endl;
       std::cout << "Problem size: " << size << std::endl;
       std::cout << "Error norm: " << (x - e).norm() << std::endl;
       std::cout << "Iterations: " << M.solver_iterations() << std::endl;
@@ -386,12 +387,11 @@ int main(int argc, char* argv[]) {
     MPI_Barrier(mpi_runner.communicator);
 
     x = M.solve_iterative<
-        apsc::LinearAlgebra::Language::IterativeSolverType::SPAI_GMRES>(
-        b);
+        apsc::LinearAlgebra::Language::IterativeSolverType::SPAI_GMRES>(b);
     if (mpi_runner.mpi_rank == 0) {
-      std::cout
-          << "=============== Testing SPAI_GMRES iterative linear solver ==============="
-          << std::endl;
+      std::cout << "=============== Testing SPAI_GMRES iterative linear solver "
+                   "==============="
+                << std::endl;
       std::cout << "Problem size: " << size << std::endl;
       std::cout << "Error norm: " << (x - e).norm() << std::endl;
       std::cout << "Iterations: " << M.solver_iterations() << std::endl;
