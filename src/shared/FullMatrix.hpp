@@ -1,6 +1,7 @@
 /**
  * @file FullMatrix.hpp
- * @brief Header file containing a full matrix definition supporting operation with a template defined vector.
+ * @brief Header file containing a full matrix definition supporting operation
+ * with a template defined vector.
  */
 
 #ifndef FULL_MATRIX_HPP

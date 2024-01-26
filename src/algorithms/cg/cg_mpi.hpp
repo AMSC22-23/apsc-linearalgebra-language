@@ -44,18 +44,6 @@ int CG(Matrix &A, Vector &x, const Vector &b, const Preconditioner &M,
     "If the precondioner does not exploit MPI this method may perform worse that the iterative solution"
   using Real = typename Matrix::Scalar;
 
-  static_assert(
-      (std::is_base_of_v<
-           apsc::LinearAlgebra::FullMatrix<
-               Scalar, Vector, apsc::LinearAlgebra::ORDERING::COLUMNMAJOR>,
-           Preconditioner> ||
-       std::is_base_of_v<
-           apsc::LinearAlgebra::FullMatrix<
-               Scalar, Vector, apsc::LinearAlgebra::ORDERING::ROWMAJOR>,
-           Preconditioner>),
-      "The input Preconditioner class does not derive from "
-      "FullMatrix");
-
   const int mpi_rank = mpi_ctx.mpi_rank();
   const MPI_Comm mpi_comm = mpi_ctx.mpi_comm();
 

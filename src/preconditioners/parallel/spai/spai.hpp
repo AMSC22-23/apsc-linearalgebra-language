@@ -483,6 +483,6 @@ class SPAI {
 };
 }  // namespace ApproximateInverse
 }  // namespace Preconditioners
-}  // namespace LinearAlgebra
+}  // namespace apsc::LinearAlgebra
 
 #endif

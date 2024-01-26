@@ -1,6 +1,7 @@
 /**
  * @file MPIContext.hpp
- * @brief Header file containing the MPIContext class for encapsulating MPI context information.
+ * @brief Header file containing the MPIContext class for encapsulating MPI
+ * context information.
  */
 
 #ifndef MPICONTEXT_HPP
@@ -38,9 +39,9 @@ class MPIContext {
   int mpi_size() const { return m_mpi_size; }
 
  private:
-  MPI_Comm m_mpi_comm;  /**< MPI communicator. */
-  int m_mpi_rank;       /**< Rank of the MPI process. */
-  int m_mpi_size;       /**< Size of the MPI communicator. */
+  MPI_Comm m_mpi_comm; /**< MPI communicator. */
+  int m_mpi_rank;      /**< Rank of the MPI process. */
+  int m_mpi_size;      /**< Size of the MPI communicator. */
 };
 
 #endif  // MPICONTEXT_HPP

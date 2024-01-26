@@ -34,18 +34,6 @@ namespace Sequential {
 template <class Matrix, class Vector, class Preconditioner, typename Scalar>
 int CG(const Matrix &A, Vector &x, const Vector &b, const Preconditioner &M,
        int &max_iter, typename Vector::Scalar &tol) {
-  static_assert(
-      (std::is_base_of_v<
-           apsc::LinearAlgebra::FullMatrix<
-               Scalar, Vector, apsc::LinearAlgebra::ORDERING::COLUMNMAJOR>,
-           Preconditioner> ||
-       std::is_base_of_v<
-           apsc::LinearAlgebra::FullMatrix<
-               Scalar, Vector, apsc::LinearAlgebra::ORDERING::ROWMAJOR>,
-           Preconditioner>),
-      "The input Preconditioner class does not derive from "
-      "FullMatrix");
-
   using Real = typename Matrix::Scalar;
   Real resid;
   Vector p(b.size());

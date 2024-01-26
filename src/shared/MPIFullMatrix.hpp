@@ -19,8 +19,7 @@
 #include <Vector.hpp>
 #include <vector>
 
-namespace apsc::LinearAlgebra
-{
+namespace apsc::LinearAlgebra {
 /*!
  * A class for parallel matrix product
  * @tparam Matrix A matrix compliant with that in Matrix.hpp
@@ -238,6 +237,6 @@ class MPIFullMatrix {
   // default constructor, withScalar{}
   MPI_Datatype MPI_Scalar_Type = mpi_typeof(Scalar{});
 };
-}  // end namespace apsc
+}  // namespace apsc::LinearAlgebra
 
 #endif /* MPIFULLMATRIX_HPP */

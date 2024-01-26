@@ -301,6 +301,6 @@ int update_QR(struct CSC<Scalar> *A, Scalar **AHat, Scalar **Q, Scalar **R,
 }  // namespace Utils
 }  // namespace ApproximateInverse
 }  // namespace Preconditioners
-}  // namespace LinearAlgebra
+}  // namespace apsc::LinearAlgebra
 
 #endif

@@ -26,8 +26,7 @@ using std::endl;
 #define GMRES_MAX_ITER(i) (20 * i)
 #define GMRES_TOL 1e-8;
 
-namespace apsc::LinearAlgebra
-{
+namespace apsc::LinearAlgebra {
 namespace Utils {
 template <typename Mat, typename Scalar>
 void default_spd_fill(Mat &m) {
@@ -149,7 +148,7 @@ int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
         std::chrono::high_resolution_clock::now();
     auto result =
         apsc::LinearAlgebra::LinearSolvers::Sequential::GMRES<MPILhs, Rhs,
-                                                          decltype(id)>(
+                                                              decltype(id)>(
             A, x, b, id, restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
@@ -180,10 +179,8 @@ int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
   } else {
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    auto result =
-        apsc::LinearAlgebra::LinearSolvers::Sequential::GMRES<MPILhs, Rhs,
-                                                          Preconditioner...>(
-            A, x, b, P..., restart, max_iter, tol);
+    auto result = apsc::LinearAlgebra::LinearSolvers::Sequential::GMRES<
+        MPILhs, Rhs, Preconditioner...>(A, x, b, P..., restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
     long long diff =
@@ -236,9 +233,9 @@ int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
     auto id = Eigen::IdentityPreconditioner();
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    auto result =
-        apsc::LinearAlgebra::LinearSolvers::MPI::GMRES<MPILhs, Rhs, decltype(id)>(
-            A, x, b, id, restart, max_iter, tol);
+    auto result = apsc::LinearAlgebra::LinearSolvers::MPI::GMRES<MPILhs, Rhs,
+                                                                 decltype(id)>(
+        A, x, b, id, restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
     long long diff =
@@ -276,9 +273,10 @@ int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
   } else {
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
-    auto result = apsc::LinearAlgebra::LinearSolvers::MPI::GMRES<MPILhs, Rhs,
-                                                             Preconditioner...>(
-        A, x, b, P..., restart, max_iter, tol);
+    auto result =
+        apsc::LinearAlgebra::LinearSolvers::MPI::GMRES<MPILhs, Rhs,
+                                                       Preconditioner...>(
+            A, x, b, P..., restart, max_iter, tol);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();
     long long diff =
@@ -342,7 +340,8 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
     std::chrono::high_resolution_clock::time_point begin =
         std::chrono::high_resolution_clock::now();
     auto result =
-        apsc::LinearAlgebra::LinearSolvers::MPI::CG_no_precon<MPILhs, Rhs, Scalar>(
+        apsc::LinearAlgebra::LinearSolvers::MPI::CG_no_precon<MPILhs, Rhs,
+                                                              Scalar>(
             A, x, b, max_iter, tol, mpi_ctx, MPI_DOUBLE);
     std::chrono::high_resolution_clock::time_point end =
         std::chrono::high_resolution_clock::now();

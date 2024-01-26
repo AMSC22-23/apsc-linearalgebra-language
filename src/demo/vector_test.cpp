@@ -11,11 +11,10 @@ int main(int argc, char *argv[]) {
 
   constexpr unsigned size = 10;
   Vector<double> e(size, 1.0);
-  FullMatrix<double, decltype(e),
-                       apsc::LinearAlgebra::ORDERING::ROWMAJOR>
-      A(size, size);
-  Utils::default_spd_fill<
-      FullMatrix<double, decltype(e), ORDERING::ROWMAJOR>, double>(A);
+  FullMatrix<double, decltype(e), apsc::LinearAlgebra::ORDERING::ROWMAJOR> A(
+      size, size);
+  Utils::default_spd_fill<FullMatrix<double, decltype(e), ORDERING::ROWMAJOR>,
+                          double>(A);
 
   Vector<double> b = A * e;
 

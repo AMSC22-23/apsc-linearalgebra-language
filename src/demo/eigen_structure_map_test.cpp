@@ -17,12 +17,10 @@ int main(int argc, char* argv[]) {
 
   {
     constexpr unsigned size = 5;
-    FullMatrix<double, Vector<double>,
-                         apsc::LinearAlgebra::ORDERING::ROWMAJOR>
+    FullMatrix<double, Vector<double>, apsc::LinearAlgebra::ORDERING::ROWMAJOR>
         A(size, size);
     Utils::default_spd_fill<
-        FullMatrix<double, Vector<double>, ORDERING::ROWMAJOR>,
-        double>(A);
+        FullMatrix<double, Vector<double>, ORDERING::ROWMAJOR>, double>(A);
 
     auto mapped_A = EigenStructureMap<Eigen::Matrix<double, size, size>, double,
                                       decltype(A)>::create_map(A, size, size);

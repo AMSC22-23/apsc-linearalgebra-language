@@ -2,11 +2,11 @@
 #include <stdint.h>
 
 #include <Eigen/Sparse>
+#include <FullMatrix.hpp>
 #include <MPIContext.hpp>
 #include <MPIFullMatrix.hpp>
 #include <MPISparseMatrix.hpp>
 #include <Matrix/Matrix.hpp>
-#include <FullMatrix.hpp>
 #include <Parallel/Utilities/partitioner.hpp>
 #include <Vector.hpp>
 #include <csc.hpp>
@@ -119,8 +119,8 @@ int main(int argc, char* argv[]) {
   CSC_A.map_external_buffer(A.outerIndexPtr(), A.valuePtr(), A.innerIndexPtr(),
                             A.rows(), A.cols(), A.nonZeros());
 
-  apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<double,
-                                                           Eigen::MatrixXd, 1>
+  apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<
+      double, Eigen::MatrixXd, 1>
       precond(&CSC_A, tol, max_iter, 1);
   auto& M = precond.get_M();
   const Eigen::Map<Eigen::SparseMatrix<double>> eigen_M =
@@ -223,9 +223,9 @@ int main(int argc, char* argv[]) {
 
       // Define an MPI version of AM
       apsc::LinearAlgebra::MPISparseMatrix<decltype(AM), decltype(e),
-                            decltype(AM)::IsRowMajor
-                                ? apsc::ORDERINGTYPE::ROWWISE
-                                : apsc::ORDERINGTYPE::COLUMNWISE>
+                                           decltype(AM)::IsRowMajor
+                                               ? apsc::ORDERINGTYPE::ROWWISE
+                                               : apsc::ORDERINGTYPE::COLUMNWISE>
           PAM;
       PAM.setup(AM, mpi_comm);
 
@@ -267,9 +267,9 @@ int main(int argc, char* argv[]) {
 
       // Define an MPI version of A
       apsc::LinearAlgebra::MPISparseMatrix<decltype(A), decltype(e),
-                            decltype(A)::IsRowMajor
-                                ? apsc::ORDERINGTYPE::ROWWISE
-                                : apsc::ORDERINGTYPE::COLUMNWISE>
+                                           decltype(A)::IsRowMajor
+                                               ? apsc::ORDERINGTYPE::ROWWISE
+                                               : apsc::ORDERINGTYPE::COLUMNWISE>
           PA;
       PA.setup(A, mpi_comm);
 

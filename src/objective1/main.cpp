@@ -40,12 +40,10 @@ int main(int argc, char *argv[]) {
 
   constexpr unsigned size = 10;
   cout << "Creating a test matrix..." << endl;
-  FullMatrix<double, Vector<double>,
-                       apsc::LinearAlgebra::ORDERING::COLUMNMAJOR>
+  FullMatrix<double, Vector<double>, apsc::LinearAlgebra::ORDERING::COLUMNMAJOR>
       A(size, size);
   Utils::default_spd_fill<
-      FullMatrix<double, Vector<double>, ORDERING::COLUMNMAJOR>,
-      double>(A);
+      FullMatrix<double, Vector<double>, ORDERING::COLUMNMAJOR>, double>(A);
 
   cout << "Creating a test rhs..." << endl;
   Vector<double> e(size, 1.0);

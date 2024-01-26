@@ -64,6 +64,6 @@ void solve_least_square(CSC<Scalar> *A, Scalar *Q, Scalar *R, Scalar **mHat_k,
 }  // namespace Utils
 }  // namespace ApproximateInverse
 }  // namespace Preconditioners
-}  // namespace LinearAlgebra
+}  // namespace apsc::LinearAlgebra
 
 #endif

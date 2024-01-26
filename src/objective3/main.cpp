@@ -2,11 +2,11 @@
 #include <stdint.h>
 
 #include <Eigen/Sparse>
+#include <FullMatrix.hpp>
 #include <MPIContext.hpp>
 #include <MPIFullMatrix.hpp>
 #include <MPISparseMatrix.hpp>
 #include <Matrix/Matrix.hpp>
-#include <FullMatrix.hpp>
 #include <Parallel/Utilities/partitioner.hpp>
 #include <Vector.hpp>
 #include <iostream>
@@ -98,9 +98,9 @@ int main(int argc, char *argv[]) {
   MPI_Bcast(b.data(), global_rows, MPI_DOUBLE, 0, mpi_comm);
 
   apsc::LinearAlgebra::MPISparseMatrix<decltype(A), decltype(e),
-                        decltype(A)::IsRowMajor
-                            ? apsc::ORDERINGTYPE::ROWWISE
-                            : apsc::ORDERINGTYPE::COLUMNWISE>
+                                       decltype(A)::IsRowMajor
+                                           ? apsc::ORDERINGTYPE::ROWWISE
+                                           : apsc::ORDERINGTYPE::COLUMNWISE>
       PA;
   PA.setup(A, mpi_comm);
 #if (DEBUG == 1)

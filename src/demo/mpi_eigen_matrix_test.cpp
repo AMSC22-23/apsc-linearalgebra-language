@@ -41,8 +41,9 @@ int main(int argc, char *argv[]) {
 
   // Create the MPI full matrix
   apsc::LinearAlgebra::MPIFullMatrix<decltype(A), decltype(x),
-                  decltype(A)::IsRowMajor ? apsc::ORDERINGTYPE::ROWWISE
-                                          : apsc::ORDERINGTYPE::COLUMNWISE>
+                                     decltype(A)::IsRowMajor
+                                         ? apsc::ORDERINGTYPE::ROWWISE
+                                         : apsc::ORDERINGTYPE::COLUMNWISE>
       PA;
   PA.setup(A, mpi_comm);
   int rank = 0;

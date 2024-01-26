@@ -5,28 +5,29 @@
  * operations combined with parallel computing using MPI.
  * @author Kaixi Matteo Chen
  */
-#include "Parallel/Utilities/mpi_utils.hpp"
-#include "csc.hpp"
-#include "spai.hpp"
 #include <mpi.h>
 
 #include <Eigen/IterativeLinearSolvers>
 #include <Eigen/Sparse>
+#include <EigenStructureMap.hpp>
+#include <FullMatrix.hpp>
 #include <MPIContext.hpp>
 #include <MPIFullMatrix.hpp>
 #include <MPISparseMatrix.hpp>
 #include <Matrix/Matrix.hpp>
-#include <FullMatrix.hpp>
+#include <Parallel/Utilities/mpi_utils.hpp>
 #include <Parallel/Utilities/partitioner.hpp>
 #include <Vector.hpp>
 #include <algorithm>
 #include <assert.hpp>
 #include <cg.hpp>
 #include <cg_mpi.hpp>
+#include <csc.hpp>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
 #include <iostream>
+#include <spai.hpp>
 #include <utils.hpp>
 
 namespace apsc::LinearAlgebra {
@@ -141,10 +142,11 @@ class SparseMatrix {
   /**
    * @brief Solves the linear system iteratively.
    * @param rhs Right-hand side vector.
-   * @param gmres_restart The gmres method restart param, by default set to a high value indicating no restart.
+   * @param gmres_restart The gmres method restart param, by default set to a
+   * high value indicating no restart.
    * @return Solution vector.
    */
-  template<IterativeSolverType Solver>
+  template <IterativeSolverType Solver>
   Vector solve_iterative(Vector rhs) {
     Vector x(rhs.size());
     x.fill(static_cast<Scalar>(0.0));
@@ -158,12 +160,14 @@ class SparseMatrix {
             decltype(parallel_sparse_matrix), decltype(rhs), Scalar>(
             parallel_sparse_matrix, x, rhs, max_iter, tol,
             MPIContext(communicator, mpi_rank), MPI_DOUBLE);
+        solver_iter = max_iter;
       } else {
         // Create identity preconditioner
         auto I = Eigen::IdentityPreconditioner();
         solver_info = apsc::LinearAlgebra::LinearSolvers::Sequential::CG<
             decltype(eigen_sparse_matrix), decltype(rhs), decltype(I), Scalar>(
             eigen_sparse_matrix, x, rhs, I, max_iter, tol);
+        solver_iter = max_iter;
       }
     } else if (Solver == IterativeSolverType::GMRES) {
       // Maybe parametrise this
@@ -174,50 +178,120 @@ class SparseMatrix {
       if constexpr (USE_MPI) {
         solver_info = apsc::LinearAlgebra::LinearSolvers::MPI::GMRES<
             decltype(parallel_sparse_matrix), decltype(rhs), decltype(I)>(
-            parallel_sparse_matrix, x, rhs, I, gmres_restart, max_iter, tol);
+            parallel_sparse_matrix, x, rhs, I,
+            gmres_restart == GMRES_NO_RESTART ? max_iter : gmres_restart,
+            max_iter, tol);
+        solver_iter = max_iter;
       } else {
         solver_info = apsc::LinearAlgebra::LinearSolvers::Sequential::GMRES<
             decltype(eigen_sparse_matrix), decltype(rhs), decltype(I)>(
-            eigen_sparse_matrix, x, rhs, I, gmres_restart, max_iter, tol);
+            eigen_sparse_matrix, x, rhs, I,
+            gmres_restart == GMRES_NO_RESTART ? max_iter : gmres_restart,
+            max_iter, tol);
+        solver_iter = max_iter;
       }
     } else if (Solver == IterativeSolverType::SPAI_GMRES) {
       // Maybe parametrise this
       int max_iter = GMRES_MAX_ITER(rhs.size());
       Scalar tol = GMRES_TOL;
       auto I = Eigen::IdentityPreconditioner();
-      // Create the spai preconditioner
       int rows, cols, nnz;
-      spai_setup(rows, cols, nnz);
+
+      // ============== SPAI creation ==============
+      // If MPI is used, we have to Bcast A matrix to all processes:
+      // - First, we retrive the sparse matrix data structure locally
+      // - Then we use those and create the local A matrix leveraging
+      // EigenStructureMap<>
+
+      // Retrive eigen index type
+      using Index = std::remove_const_t<typename std::remove_reference<
+          decltype(eigen_sparse_matrix.innerIndexPtr()[0])>::type>;
+      Index* iidx_ptr = 0;
+      Index* oidx_ptr = 0;
+      Scalar* value_ptr = 0;
+      if constexpr (USE_MPI) {
+        cols = eigen_sparse_matrix.cols();
+        rows = eigen_sparse_matrix.rows();
+        nnz = eigen_sparse_matrix.nonZeros();
+        MPI_Bcast(&cols, 1, MPI_INT, 0, communicator);
+        MPI_Bcast(&rows, 1, MPI_INT, 0, communicator);
+        MPI_Bcast(&nnz, 1, MPI_INT, 0, communicator);
+        iidx_ptr = new int[nnz];
+        oidx_ptr = new int[cols + 1];
+        value_ptr = new Scalar[nnz];
+        ASSERT(iidx_ptr != nullptr, "Memory allocation failed" << std::endl);
+        ASSERT(oidx_ptr != nullptr, "Memory allocation failed" << std::endl);
+        ASSERT(value_ptr != nullptr, "Memory allocation failed" << std::endl);
+        if (mpi_rank == 0) {
+          // Yes, master rank will have duplicated A's memory buffers...
+          memcpy(iidx_ptr, eigen_sparse_matrix.innerIndexPtr(),
+                 sizeof(Index) * nnz);
+          memcpy(oidx_ptr, eigen_sparse_matrix.outerIndexPtr(),
+                 sizeof(Index) * (cols + 1));
+          memcpy(value_ptr, eigen_sparse_matrix.valuePtr(),
+                 sizeof(Scalar) * nnz);
+        }
+        MPI_Barrier(communicator);
+        MPI_Bcast(iidx_ptr, nnz, mpi_typeof(Index{}), 0, communicator);
+        MPI_Bcast(oidx_ptr, cols + 1, mpi_typeof(Index{}), 0, communicator);
+        MPI_Bcast(value_ptr, nnz, mpi_typeof(Scalar{}), 0, communicator);
+      }
+      if constexpr (USE_MPI) {
+        spai_setup(rows, cols, nnz, oidx_ptr, iidx_ptr, value_ptr);
+      } else {
+        spai_setup();
+      }
       auto& M = spai.get_M();
       auto eigen_M = M.template to_eigen<decltype(eigen_sparse_matrix)>(M.n);
 
+      // ============== Solve ==============
       // Algebra:
       // AMy = b
       // x = My
-      Vector y;
+      Vector y(cols);
+      y.fill(static_cast<Scalar>(0));
       if constexpr (USE_MPI) {
-        // Before creating the AM matrix we need to broadcast A to all processes
-        decltype(eigen_sparse_matrix.innerIndexPtr()[0])* iidx_ptr; 
-        decltype(eigen_sparse_matrix.outerIndexPtr()[0])* oidx_ptr; 
-        decltype(eigen_sparse_matrix.valuePtr()[0])* value_ptr; 
-
-        decltype(eigen_sparse_matrix) AM = eigen_sparse_matrix * eigen_M;  
-        // Here we need to create the paralle AM matrix;
-        solver_info = apsc::LinearAlgebra::LinearSolvers::Sequential::GMRES<
-            decltype(AM), decltype(rhs), decltype(I)>(
-            AM, y, rhs, I, gmres_restart, max_iter, tol);
-        ASSERT(solver_info == 0, "GMRES internal failed during A * M = b" << std::endl);
+        // Create the local A matrix with no memory overhead
+        auto local_eigen_sparse_matrix =
+            EigenStructureMap<decltype(eigen_sparse_matrix),
+                              Scalar>::create_map(rows, cols, nnz, oidx_ptr,
+                                                  iidx_ptr, value_ptr)
+                .structure();
+        // Define A * M
+        decltype(eigen_sparse_matrix) A_x_M =
+            local_eigen_sparse_matrix * eigen_M;
+        // Define the parallel A * M matrix
+        decltype(parallel_sparse_matrix) parallel_A_x_M;
+        parallel_A_x_M.setup(A_x_M, communicator);
+        // Finally solve...
+        solver_info = apsc::LinearAlgebra::LinearSolvers::MPI::GMRES<
+            decltype(parallel_A_x_M), decltype(rhs), decltype(I)>(
+            parallel_A_x_M, y, rhs, I,
+            gmres_restart == GMRES_NO_RESTART ? max_iter : gmres_restart,
+            max_iter, tol);
+        solver_iter = max_iter;
+        ASSERT(solver_info == 0,
+               "GMRES internal failed during A * M = b" << std::endl);
         x = eigen_M * y;
+
+        // Free memory
+        delete[] iidx_ptr;
+        delete[] oidx_ptr;
+        delete[] value_ptr;
       } else {
-        decltype(eigen_sparse_matrix) AM = eigen_sparse_matrix * eigen_M;  
+        decltype(eigen_sparse_matrix) A_x_M = eigen_sparse_matrix * eigen_M;
         solver_info = apsc::LinearAlgebra::LinearSolvers::Sequential::GMRES<
-            decltype(AM), decltype(rhs), decltype(I)>(
-            AM, y, rhs, I, gmres_restart, max_iter, tol);
-        ASSERT(solver_info == 0, "GMRES internal failed during A * M = b" << std::endl);
+            decltype(A_x_M), decltype(rhs), decltype(I)>(
+            A_x_M, y, rhs, I,
+            gmres_restart == GMRES_NO_RESTART ? max_iter : gmres_restart,
+            max_iter, tol);
+        solver_iter = max_iter;
+        ASSERT(solver_info == 0,
+               "GMRES internal failed during A * M = b" << std::endl);
         x = eigen_M * y;
       }
     }
- 
+
     return x;
   }
   /**
@@ -226,6 +300,8 @@ class SparseMatrix {
    * @return Solution vector.
    */
   Vector solve_direct(Vector& rhs) {
+    // Reset to avoid wrong calls
+    solver_iter = 0;
     Eigen::BiCGSTAB<decltype(eigen_sparse_matrix)> solver;
     Vector x;
     if constexpr (USE_MPI) {
@@ -296,12 +372,33 @@ class SparseMatrix {
    */
   int solver_success() const { return solver_info; }
   /**
+   * @brief Retrieves the solver iteration count.
+   * @return The solver iteration count.
+   */
+  int solver_iterations() const { return solver_iter; }
+  /**
+   * @brief Update the GMRES restart value.
+   * @param restart The restart value.
+   */
+  void set_gmres_restart(const int restart) { gmres_restart = restart; }
+  /**
+   * @brief Update the SPAI tolerance value.
+   * @param tol The tolerance value.
+   */
+  void set_spai_tol(const Scalar tol) { spai_tol = tol; }
+  /**
+   * @brief Update the SPAI max iterations value.
+   * @param iters The max iterations value.
+   */
+  void set_spai_max_iters(const int iters) { spai_max_iter = iters; }
+  /**
    * @brief Stream the matrix to an output stream
    * @param os A reference to an output stream.
    */
   void stream_to(std::ostream& os) const { os << eigen_sparse_matrix; }
 
  protected:
+  static int constexpr GMRES_NO_RESTART = INT_MAX;
   /**
    * @brief MPI size.
    */
@@ -319,9 +416,13 @@ class SparseMatrix {
    */
   int solver_info = 0;
   /**
+   * @brief Linear solver iteration count.
+   */
+  int solver_iter = 0;
+  /**
    * @brief GMRES restart.
    */
-  int gmres_restart = 1e6;
+  int gmres_restart = GMRES_NO_RESTART;
   /**
    * @brief SPAI tolerance.
    */
@@ -344,43 +445,44 @@ class SparseMatrix {
                                                   : ORDERINGTYPE::ROWWISE>
       parallel_sparse_matrix;
   /**
-   * @brief SPAI preconditioner (https://epubs.siam.org/doi/10.1137/S1064827594276552).
+   * @brief SPAI preconditioner
+   * (https://epubs.siam.org/doi/10.1137/S1064827594276552).
    */
   apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI<
       Scalar, Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>, 0>
       spai;
   /**
+   * @brief Setup the SPAI preconditioner.
+   */
+  void spai_setup() {
+    static_assert(USE_MPI == 0, "Wrong SPAI setup method called");
+    CSC<Scalar> csc_matrix;
+    // Setup the csc matrix
+    csc_matrix.map_external_buffer(
+        eigen_sparse_matrix.outerIndexPtr(), eigen_sparse_matrix.valuePtr(),
+        eigen_sparse_matrix.innerIndexPtr(), eigen_sparse_matrix.rows(),
+        eigen_sparse_matrix.cols(), eigen_sparse_matrix.nonZeros());
+    csc_matrix.print();
+    // Compute the approximate inverse
+    spai.setup(&csc_matrix, spai_tol, spai_max_iter);
+  }
+  /**
    * @brief Setup the SPAI preconditioner. Due to current implementation
    * limitations, the sparse matrix must be broadcasted to every process.
+   * This function expects that the incoming buffers are already filled up.
    * Only master rank will contain the correct approximate inverse.
+   * @param rows The sparse matrix rows.
+   * @param cols The sparse matrix columns.
+   * @param nnx The sparse non zero elements.
    */
-  void spai_setup(int& r, int& c, int& nz) {
+  void spai_setup(const int rows, const int cols, const int nnz,
+                  int* external_offset, int* external_flat_row_data,
+                  Scalar* external_values) {
     using Index = decltype(eigen_sparse_matrix.innerIndexPtr()[0]);
     CSC<Scalar> csc_matrix;
     // Setup the csc matrix
-    if constexpr (USE_MPI) {
-      int cols = eigen_sparse_matrix.cols();
-      int rows = eigen_sparse_matrix.rows();
-      int nnz = eigen_sparse_matrix.nonZeros();
-      MPI_Bcast(&cols, 1, MPI_INT, 0, communicator);
-      MPI_Bcast(&rows, 1, MPI_INT, 0, communicator);
-      MPI_Bcast(&nnz, 1, MPI_INT, 0, communicator);
-      MPI_Barrier(communicator);
-      // Save rows and cols and nnz for later
-      r = rows; c = cols; nz = nnz; 
-      if (mpi_rank == 0) {
-        csc_matrix.map_external_buffer(eigen_sparse_matrix.outerIndexPtr(), eigen_sparse_matrix.valuePtr(), eigen_sparse_matrix.innerIndexPtr(), eigen_sparse_matrix.rows(), eigen_sparse_matrix.cols(), eigen_sparse_matrix.nonZeros()); 
-      } else {
-        csc_matrix.allocate(nnz, rows, cols);
-      }
-      MPI_Barrier(communicator);
-      MPI_Bcast(csc_matrix.offset, csc_matrix.n + 1, MPI_INT, 0, communicator);
-      MPI_Bcast(csc_matrix.flat_row_index, csc_matrix.non_zeros, MPI_INT, 0, communicator);
-      MPI_Bcast(csc_matrix.values, csc_matrix.non_zeros, mpi_typeof(Scalar{}), 0, communicator);
-    } else {
-      csc_matrix.map_external_buffer(eigen_sparse_matrix.outerIndexPtr(), eigen_sparse_matrix.valuePtr(), eigen_sparse_matrix.innerIndexPtr(), eigen_sparse_matrix.rows(), eigen_sparse_matrix.cols(), eigen_sparse_matrix.nonZeros());
-    }
-
+    csc_matrix.map_external_buffer(external_offset, external_values,
+                                   external_flat_row_data, rows, cols, nnz);
     // Compute the approximate inverse
     spai.setup(&csc_matrix, spai_tol, spai_max_iter);
   }
@@ -608,6 +710,11 @@ class FullMatrix {
    */
   int solver_success() const { return solver_info; }
   /**
+   * @brief Retrieves the solver iteration count.
+   * @return The solver iteration count.
+   */
+  int solver_iterations() const { return solver_iters; }
+  /**
    * @brief Stream the matrix to an output stream
    * @param os A reference to an output stream.
    */
@@ -639,18 +746,24 @@ class FullMatrix {
    */
   int solver_info = 0;
   /**
+   * @brief Linear solver iteration count.
+   */
+  int solver_iters = 0;
+  /**
    * @brief Instance of a full matrix.
    */
   apsc::LinearAlgebra::FullMatrix<double, Vector<double>,
-                       OT == OrderingType::COLUMNMAJOR ? ORDERING::COLUMNMAJOR
-                                                       : ORDERING::ROWMAJOR>
+                                  OT == OrderingType::COLUMNMAJOR
+                                      ? ORDERING::COLUMNMAJOR
+                                      : ORDERING::ROWMAJOR>
       full_matirx;
   /**
    * @brief Instance of a MPI full matrix.
    */
   apsc::LinearAlgebra::MPIFullMatrix<decltype(full_matirx), Vector<Scalar>,
-            OT == OrderingType::COLUMNMAJOR ? ORDERINGTYPE::COLUMNWISE
-                                            : ORDERINGTYPE::ROWWISE>
+                                     OT == OrderingType::COLUMNMAJOR
+                                         ? ORDERINGTYPE::COLUMNWISE
+                                         : ORDERINGTYPE::ROWWISE>
       paralle_full_matrix;
   /**
    * @brief Eigen sparse matrix helper to load a matrix from file.

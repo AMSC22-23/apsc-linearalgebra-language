@@ -75,6 +75,6 @@ void create_permutation(int* I, int* J, int n1, int n2, Scalar* Pr,
 }  // namespace Utils
 }  // namespace ApproximateInverse
 }  // namespace Preconditioners
-}  // namespace LinearAlgebra
+}  // namespace apsc::LinearAlgebra
 
 #endif

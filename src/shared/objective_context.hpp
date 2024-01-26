@@ -1,6 +1,7 @@
 /**
  * @file objective_context.hpp
- * @brief Header file containing the objective_context class for managing objective-related information and reporting.
+ * @brief Header file containing the objective_context class for managing
+ * objective-related information and reporting.
  */
 
 #ifndef OBJECTIVE_CONTEXT_HPP
@@ -17,8 +18,8 @@
  */
 class objective_context {
  private:
-  uint8_t m_objective_number;    /**< The objective number. */
-  uint8_t m_mpi_sie;             /**< The MPI size. */
+  uint8_t m_objective_number;     /**< The objective number. */
+  uint8_t m_mpi_sie;              /**< The MPI size. */
   std::string m_report_file_name; /**< The name of the report file. */
   std::string m_problem_name;     /**< The name of the problem. */
   std::ofstream m_report_file;    /**< Output file stream for reporting. */
@@ -39,7 +40,8 @@ class objective_context {
    * @param objective_number The objective number.
    * @param mpi_size The MPI size.
    * @param report_file_name The name of the report file.
-   * @param problem_name The name of the problem (optional, default is an empty string).
+   * @param problem_name The name of the problem (optional, default is an empty
+   * string).
    */
   objective_context(const uint8_t objective_number, const uint8_t mpi_size,
                     const std::string report_file_name,

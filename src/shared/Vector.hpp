@@ -20,8 +20,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 
-namespace apsc::LinearAlgebra
-{
+namespace apsc::LinearAlgebra {
 /*!
  * A full vector
  * @tparam Scalar The type of the element
