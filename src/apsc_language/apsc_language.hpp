@@ -43,7 +43,7 @@ template <typename Scalar, OrderingType OT = OrderingType::COLUMNMAJOR,
           int USE_MPI = 1>
 class SparseMatrix {
  public:
-  using Vector = Eigen::VectorX<Scalar>;
+  using Vector = Eigen::Matrix<Scalar, Eigen::Dynamic, 1>;
   /**
    * @brief Constructor for SparseMatrix.
    */
