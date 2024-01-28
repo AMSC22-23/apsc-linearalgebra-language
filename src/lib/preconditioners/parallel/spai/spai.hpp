@@ -101,7 +101,7 @@ class SPAI {
     ASSERT(A->initialised, "Input matrix not initialised");
     M.create_diagonal(A->m, A->n, static_cast<Scalar>(1));
 
-    // m_k = column in M
+    // k = column in M
     for (int k = mpi_rank; k < M.n; k += mpi_size) {
       // variables
       int n1 = 0;
