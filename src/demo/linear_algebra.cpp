@@ -104,7 +104,7 @@ int main(int argc, char* argv[]) {
 
     // Iterative solver
     // create exact solution vector
-    apsc::LinearAlgebra::Vector<double> e(size, 1.0);
+    apsc::LinearAlgebra::Language::FullMatrix<double>::VectorX e(size, 1.0);
     // Done in parallel!
     b = M * e;
     // Iterative solvers runs in parallel!
@@ -256,7 +256,7 @@ int main(int argc, char* argv[]) {
     MPI_Bcast(&size, 1, MPI_INT, 0, MPI_COMM_WORLD);
     // Here we need to use a compatible vector with the sparse matrix class in
     // order to perform algbraic operations
-    apsc::LinearAlgebra::Language::SparseMatrix<double>::Vector b(size);
+    apsc::LinearAlgebra::Language::SparseMatrix<double>::VectorX b(size);
     b.fill(1.0);
     // Done in parallel!
     auto matmul = M * b;
@@ -279,7 +279,7 @@ int main(int argc, char* argv[]) {
 
     // Iterative solver
     // create exact solution vector
-    apsc::LinearAlgebra::Language::SparseMatrix<double>::Vector e(size);
+    apsc::LinearAlgebra::Language::SparseMatrix<double>::VectorX e(size);
     e.fill(1.0);
     // Done in parallel!
     b = M * e;
