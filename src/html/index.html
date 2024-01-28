@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>apsc Linear Algebra Language: matvetiterative-chen</title>
+<title>apsc Linear Algebra Language: apsc Linear Algebra Language</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,59 +63,212 @@ $(function() {
 
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">matvetiterative-chen </div>  </div>
+<div class="title">apsc Linear Algebra Language </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Iterative linerar solvers based on distribuited matrix vector multiplication (MPI)</p>
-<p>A parallel MPI implementation of different iterative schemes.</p>
+<div class="textblock"><p>This is a C++ header-only library designed for efficient manipulation of full and sparse matrices using MPI (Message Passing Interface) techniques. This library abstracts away the complexities of MPI programming, providing users with a simple yet powerful interface for performing parallel matrix operations.</p>
+<p>The following algebraic objects are available:</p><ul>
+<li>[x] Full matrix</li>
+<li>[x] Sparse matrix</li>
+<li>[x] Full vector</li>
+</ul>
+<p>The following algebraic operations are available on <code>FullMatrix</code>:</p><ul>
+<li>[x] Addition, subtraciton, multiplication</li>
+<li>[x] Frobenius norm</li>
+<li>[x] Multiplication with a compatible vector</li>
+</ul>
+<p>The following algebraic operations are available on <code>SparseMatrix</code>:</p><ul>
+<li>[x] Addition, subtraciton, multiplication</li>
+<li>[x] Frobenius norm</li>
+<li>[x] Multiplication with a compatible vector</li>
+</ul>
+<p>The following iterative linear solvers are available for <code>FullMatrix</code></p><ul>
+<li>[x] Conjugate gradient (with no preconditioner)</li>
+</ul>
+<p>The following direct linear solvers (decompositions) are available for <code>FullMatrix</code></p><ul>
+<li>[x] QR</li>
+</ul>
+<p>The following iterative linear solvers are available for <code>SparseMatrix</code></p><ul>
+<li>[x] Conjugate gradient (with no preconditioner)</li>
+<li>[x] GMRES (with no preconditioner)</li>
+<li>[x] GMRES + SPAI preconditioner</li>
+<li>[x] BiCGSTAB (with no preconditioner)</li>
+<li>[x] BiCGSTAB + SPAI preconditioner</li>
+</ul>
+<p>Currently, the following direct linear solvers (decompositions) are available for <code>SparseMatrix</code></p><ul>
+<li>[x] QR</li>
+</ul>
+<p>Let's introduce its usage by walking in an example! We will be using a sparse matrix to show case the language features, but the same concepts can be applied to full matrices too.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
-Supported Iterative schemes</h1>
-<ul>
-<li>[x] Conjugate Gradient</li>
+Installation</h1>
+<p>This library is based on the following external parties:</p><ul>
+<li><code>MPI</code></li>
+<li><code>Eigen</code> &gt;= <code>3.39</code></li>
+</ul>
+<p>Please be sure to have them installed.</p>
+<p>The following docker container is recommended: <code>pcafrica/mk</code>, see <a href="https://github.com/HPC-Courses/AMSC-Labs/tree/main/Labs/2023-24/lab00-setup">here</a></p>
+<p>This library depends on the following submodules:</p><ul>
+<li><a href="https://github.com/HPC-Courses/AMSC-CodeExamples">AMSC Code Examples</a> You can initialise it by running: <div class="fragment"><div class="line">git submodule update --init --recursive</div>
+</div><!-- fragment --></li>
 </ul>
 <h1><a class="anchor" id="autotoc_md2"></a>
-Supported preconditioners</h1>
-<h1><a class="anchor" id="autotoc_md3"></a>
-Setup</h1>
-<p>Initialise submodules</p>
-<div class="fragment"><div class="line">git submodule update --init --recursive</div>
+Project setup</h1>
+<p>You can create a directory named <code>your_project</code> under <code>src</code> and place your <code>cpp</code> and <code>hpp</code> file inside. Then you can create the <code>CMake</code> configuration file by following this template <code>CMakeLists.txt</code> for the compilation step with <code>make</code>: </p><div class="fragment"><div class="line">cmake_minimum_required(VERSION 3.12.0)</div>
+<div class="line">project(demo LANGUAGES CXX C)</div>
+<div class="line"> </div>
+<div class="line">include(./cmake_shared/cmake-common.cmake)</div>
+<div class="line"> </div>
+<div class="line">set(CMAKE_EXPORT_COMPILE_COMMANDS ON)</div>
+<div class="line"> </div>
+<div class="line"># Find MPI package</div>
+<div class="line">find_package(MPI REQUIRED)</div>
+<div class="line"> </div>
+<div class="line">SET(EIGEN3_DIR_LOCAL $ENV{EIGEN3_INCLUDE_DIR})        #local installation</div>
+<div class="line">SET(EIGEN3_DIR_PCAFRICA $ENV{mkEigenInc})             #pcafrica/mk module</div>
+<div class="line"> </div>
+<div class="line">include_directories(${CMAKE_CURRENT_SOURCE_DIR}/AMSC-CodeExamples/Examples/src/</div>
+<div class="line">  ${CMAKE_CURRENT_SOURCE_DIR}/lib/ ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/</div>
+<div class="line">  ${CMAKE_CURRENT_SOURCE_DIR}/lib/algorithms/cg/</div>
+<div class="line">  ${CMAKE_CURRENT_SOURCE_DIR}/lib/algorithms/gmres/</div>
+<div class="line">  ${CMAKE_CURRENT_SOURCE_DIR}/lib/algorithms/bicg/</div>
+<div class="line">  ${CMAKE_CURRENT_SOURCE_DIR}/lib/preconditioners/parallel/spai/</div>
+<div class="line">  ${EIGEN3_DIR_LOCAL} ${EIGEN3_DIR_PCAFRICA})</div>
+<div class="line">include_directories(SYSTEM ${MPI_INCLUDE_PATH})</div>
+<div class="line"> </div>
+<div class="line">#Define executables</div>
+<div class="line">add_executable(main demo/main.cpp)</div>
+<div class="line">target_link_libraries(main MPI::MPI_CXX)</div>
+</div><!-- fragment --><p>Note that you have to export the following variable path if you are using a local enviroenment: </p><div class="fragment"><div class="line">export EIGEN3_INCLUDE_DIR=installation/path/include</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md3"></a>
+Demo</h1>
+<p>Let's walk into a demo to showcase the language capabilities!</p>
+<p>First define a <code>main.cpp</code> file in the directory <code>src/demo</code> and include the header library: </p><div class="fragment"><div class="line">#include &lt;apsc_language.hpp&gt;</div>
+<div class="line"> </div>
+<div class="line">int main(int argc, char* argv[]) {</div>
+<div class="line">    return 0;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>If <code>MPI</code> is used, declare the MPI handling object that will take care of it initialisation and finalisation: </p><div class="fragment"><div class="line">apsc::LinearAlgebra::Utils::MPIUtils::MPIRunner mpi_runner(&amp;argc, &amp;argv);</div>
+</div><!-- fragment --><p>Let's create a sparse, MPI parallel matrix: </p><div class="fragment"><div class="line">apsc::LinearAlgebra::Language::SparseMatrix&lt;</div>
+<div class="line">    double, </div>
+<div class="line">    apsc::LinearAlgebra::Language::OrderingType::COLUMNMAJOR,</div>
+<div class="line">    1&gt; M;</div>
+</div><!-- fragment --><p>load a <code>mtx</code> matrix from file: </p><div class="fragment"><div class="line">M.load_from_file(&quot;matrix.mtx&quot;);</div>
+</div><!-- fragment --><p>Note that the relative path should be from the directory where the binary is executed.</p>
+<p>Let's see how the matrix is split between MPI processes in an impicit way: </p><div class="fragment"><div class="line">if (mpi_runner.mpi_rank == 0) {</div>
+<div class="line">  std::cout</div>
+<div class="line">      &lt;&lt; &quot;=============== Testing file load and MPI split ===============&quot;</div>
+<div class="line">      &lt;&lt; std::endl;</div>
+<div class="line">  std::cout &lt;&lt; &quot;loaded full matrix:&quot; &lt;&lt; std::endl &lt;&lt; M &lt;&lt; std::endl;</div>
+<div class="line">  std::cout &lt;&lt; std::endl &lt;&lt; std::endl;</div>
+<div class="line">  std::cout &lt;&lt; &quot;split matrix over MPI processes:&quot; &lt;&lt; std::endl;</div>
+<div class="line">}</div>
+<div class="line">M.show_mpi_split();</div>
+</div><!-- fragment --><p>To modify or resize the matrix, the <code>operator()</code> and <code>resize()</code> method can be used: </p><div class="fragment"><div class="line">M(0, 0) = 10.0;</div>
+<div class="line">M.resize(M.rows() + 1, M.cols() + 1);</div>
+</div><!-- fragment --><p>If any changes are made to the matrix, remember to update the <code>MPI</code> configuration by calling: </p><div class="fragment"><div class="line">M.setup_mpi();</div>
+</div><!-- fragment --><p>as for efficiency reasons, the split is not called automatically at every single changes.</p>
+<p>We are ready to test a common linear algebra operation, the matrix vector multiplication. Let's define a compatible vector type with the matrix type we are using, it can be retrieved automatically with: </p><div class="fragment"><div class="line">apsc::LinearAlgebra::Language::SparseMatrix&lt;double&gt;::VectorX b(size);</div>
+</div><!-- fragment --><p>then: </p><div class="fragment"><div class="line">b.fill(1.0);</div>
+<div class="line">auto matmul = M * b;</div>
+</div><!-- fragment --><p><em><b>Note</b></em>: the vector must be allocated in all the <code>MPI</code> processes, this means that the vector size should be broadcasted to all the processes.</p>
+<p>One of the most common operations, Iterative linear solvers: </p><div class="fragment"><div class="line">auto x = M.solve_iterative&lt;apsc::LinearAlgebra::Language::IterativeSolverType::CONJUGATE_GRADIENT&gt;(b);</div>
+<div class="line">x = M.solve_iterative&lt;apsc::LinearAlgebra::Language::IterativeSolverType::GMRES&gt;(b);</div>
+<div class="line">x = M.solve_iterative&lt;apsc::LinearAlgebra::Language::IterativeSolverType::BiCGSTAB&gt;(b);</div>
+<div class="line">x = M.solve_iterative&lt;apsc::LinearAlgebra::Language::IterativeSolverType::SPAI_GMRES&gt;(b);</div>
+<div class="line">x = M.solve_iterative&lt;apsc::LinearAlgebra::Language::IterativeSolverType::SPAI_BiCGSTAB&gt;(b);</div>
+</div><!-- fragment --><p>or direct solvers: </p><div class="fragment"><div class="line">x = M.solve_direct(b);</div>
+</div><!-- fragment --><p>The language user doesn't have to think about <code>MPI</code> synchronisation processes while performing operations over <code>FullMatrix</code> and <code>SparseMatrix</code>. All the operations between matrices and vectors are made in parallel while possible (<code>mpi_size</code> &gt;= 2). Iterative linear systems are solved in parallel too.</p>
+<p>The parallel speedup that can be achieved is dependent from the class type (<code>FullMatrix</code> vs <code>SparseMatrix</code>). In particular when using a sparse format, the non zero elements and the matrix size are relevant information when choosing the parallelization setup.</p>
+<p>A few benchmarks can be found under <code>src/logs</code>.</p>
+<p>Please note that in some cases, only the master <code>mpi_rank</code> will receive the correct vector or matrix hence do not take as exact any matrix or vector created by the library in non master ranks (please see <code><a class="el" href="apsc__language_8hpp.html" title="Header file defining apsc custom linear algebra language. It aims to ease the developer experience wh...">apsc_language.hpp</a></code> documentation for more). If you need any information in a non master rank, manual data passing must be done.</p>
+<p>Now we are ready to compile and run: </p><div class="fragment"><div class="line">cd src/demo</div>
+<div class="line">mkdir build</div>
+<div class="line">cd build</div>
+<div class="line">cmake ..</div>
+<div class="line">make</div>
+<div class="line">mpirun -n 1 main</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md4"></a>
-Compilation</h1>
-<p>This repository is intended to be used inside the <code>pcafrica/mk</code> docker image env. See <a href="https://github.com/HPC-Courses/AMSC-Labs/tree/main/Labs/2023-24/lab00-setup">here</a> for the configuration. If so, you don't need to take additional steps.</p>
-<p>In case you want to run the project locally, you have to:</p><ul>
-<li>Export the <code>Eigen</code> include directory path under the env variable <code>$EIGEN3_INCLUDE_DIR</code>.</li>
-<li>Have <code>MPI</code> installed (Note: we had no issued using version <code>3.1</code> of <code>MPI</code>, newer versions might not compatible)</li>
-</ul>
-<p>Then:</p>
-<div class="fragment"><div class="line">- cd src</div>
-<div class="line">- mkdir build</div>
-<div class="line">- cd build</div>
-<div class="line">- cmake ..</div>
-<div class="line">- make [-j n]</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md5"></a>
-Run &lt;tt&gt;objective1&lt;/tt&gt;</h1>
-<div class="fragment"><div class="line">./your_executable</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md6"></a>
-Run &lt;tt&gt;objective2&lt;/tt&gt;</h1>
-<div class="fragment"><div class="line">mpirun -n [your_core_number] objective2 [problem_size]</div>
-</div><!-- fragment --><p>For example: </p><div class="fragment"><div class="line">mpirun -n 2 objective2 1000</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md7"></a>
-Run &lt;tt&gt;objective3&lt;/tt&gt;</h1>
-<div class="fragment"><div class="line">mpirun -n [your_core_number] objective3 [input_file]</div>
-</div><!-- fragment --><p>For example (launched from <code>build</code> directory): </p><div class="fragment"><div class="line">mpirun -n 2 objective3 ../inputs/0_05fill_size9604.mtx </div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md8"></a>
-File format</h1>
-<p>In order to maintain a consistent format please format your files with </p><div class="fragment"><div class="line">clang-format -style=Google --sort-includes -i path/to/file</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md9"></a>
 MPI docker errors</h1>
 <p>You might experience a strange error when launching <code>MPI</code> inside the suggested docker container image: </p><div class="fragment"><div class="line">Read -1, expected &lt;someNumber&gt;, errno =1</div>
 </div><!-- fragment --><p>Please refer to <a href="https://github.com/feelpp/docker/issues/26">this</a>.</p>
-<h1><a class="anchor" id="autotoc_md10"></a>
-A note on Eigen usage</h1>
-<p>In order to maintain back compability with the <code>Eigen</code> version inside the offical supported docker image (<code>pcafrica/mk</code>), <code>Eigen 3.4</code> or above features must not be used.</p>
+<h1><a class="anchor" id="autotoc_md5"></a>
+&lt;tt&gt;apsc::LinearAlgebra::Language&lt;/tt&gt;</h1>
+<p>Now let's navigate inside this namespace to understand how the language is built.</p>
+<h2><a class="anchor" id="autotoc_md6"></a>
+&lt;tt&gt;apsc::LinearAlgebra::Language::FullMatrix&lt;/tt&gt;</h2>
+<p>This implicit parallel full matrix implementation leverages two main components: <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1FullMatrix.html" title="A full matrix with vector multiplication support for custom Vector class.">apsc::LinearAlgebra::FullMatrix</a></code> and <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1MPIFullMatrix.html" title="A class for parallel matrix product.">apsc::LinearAlgebra::MPIFullMatrix</a></code>. <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1FullMatrix.html" title="A full matrix with vector multiplication support for custom Vector class.">apsc::LinearAlgebra::FullMatrix</a></code> is initalized only in the master rank (hence only the master rank will have the matrix data) while <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1MPIFullMatrix.html" title="A class for parallel matrix product.">apsc::LinearAlgebra::MPIFullMatrix</a></code> is initialised in each <code>MPI</code> process. By calling the <code>setup_mpi()</code> method, the underlying classes will perform the required split.</p>
+<p>When a methd is called on the <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1FullMatrix.html" title="A class representing a full matrix.">apsc::LinearAlgebra::Language::FullMatrix</a></code>, it automatically choose if <code>MPI</code> is used or not hence the library undertands the right matrix to use in each case.</p>
+<p>At each matrix modification, by calling the same method as before, all the updates will be shared with all <code>MPI</code> processes (if used).</p>
+<p>This full matrix class offeres two linear solvers, one is with a direct method (by using QR factorisation) and the second one is an iterative Conjugate Gradient method. The first uses the solver mehtod of <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1FullMatrix.html" title="A full matrix with vector multiplication support for custom Vector class.">apsc::LinearAlgebra::FullMatrix</a></code> wich leverages <code>Eigen</code> library and no parallelisation are available. The latter uses a paralell Conjuagte Gradient method hence this enhancement is implicit by using the language library. Currently no parallel preconditioners are available.</p>
+<p>More specific information can be found inside the source file.</p>
+<h2><a class="anchor" id="autotoc_md7"></a>
+&lt;tt&gt;apsc::LinearAlgebra::Language::SparseMatrix&lt;/tt&gt;</h2>
+<p>This implicit parallel sparse matrix implementation leverages two main components: <code>Eigen::SparseMatrix</code> and <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1MPISparseMatrix.html" title="A class for parallel sparse matrix product.">apsc::LinearAlgebra::MPISparseMatrix</a></code>. <code>Eigen::SparseMatrix</code> is initalized only in the master rank (hence only the master rank will have the matrix data) while <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1MPISparseMatrix.html" title="A class for parallel sparse matrix product.">apsc::LinearAlgebra::MPISparseMatrix</a></code> is initialised in each <code>MPI</code> process. By calling the <code>setup_mpi()</code> method, the underlying classes will perform the required split.</p>
+<p>When a methd is called on the <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html" title="A class representing a sparse matrix.">apsc::LinearAlgebra::Language::SparseMatrix</a></code>, it automatically choose if <code>MPI</code> is used or not hence the library undertands the right matrix to use in each case.</p>
+<p>At each matrix modification, by calling the same method as before, all the updates will be shared with all <code>MPI</code> processes (if used).</p>
+<p>This sparse matrix class offeres one direct linear solver:</p><ul>
+<li><code>Eigen::SolverQR&lt;&gt;</code> and five different types of iterative solvers:</li>
+<li>Conjugate Gradient</li>
+<li>GMRES</li>
+<li>GMRES + SPAI preconditioner</li>
+<li>BiCGSTAB</li>
+<li>BiCGSTAB + SPAI preconditioner</li>
+</ul>
+<p>The <code>SPAI</code> preconditioner setup is not very trivial and we highly suggest to go through the source file in order to understand more.</p>
+<p>More specific information can be found inside the source file.</p>
+<h1><a class="anchor" id="autotoc_md8"></a>
+Benchmarks</h1>
+<h2><a class="anchor" id="autotoc_md9"></a>
+MPI parallelisation</h2>
+<p>The parallelisation speed up analysis for full and sparse matices can be found by running the python scripts under <code>src/logs</code>.</p>
+<p>The take home message is that while full matrices can leverage a multiprocess system in a very good way, sparse matrices operations deeply depends on the matix non zero elements. The number of processes, hence how big local data structures are as local CPU cache and communication prices are a few big actors in retrieving the speedup amount.</p>
+<h2><a class="anchor" id="autotoc_md10"></a>
+SPAI preconditioner</h2>
+<p>Currently this preconditioner has been used by changing the original linear system from: [ Ax = b ] to [ AMy = b ] [ x = My ]</p>
+<p>The preconditioner setup follow the work in (<a href="https://epubs.siam.org/doi/10.1137/S1064827594276552">https://epubs.siam.org/doi/10.1137/S1064827594276552</a>).</p>
+<p>If <code>MPI</code> is used, the setup process is done in parallel by splitting the matrix column work.</p>
+<p>Below some benchmarks can be found by using different <code>epsilon</code> values and the GMRES algorithm:</p>
+<p><code>orsirr_1</code> </p><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Epsilon </th><th class="markdownTableHeadNone">GMRES  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">0.6 </td><td class="markdownTableBodyNone">iter  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">0.3 </td><td class="markdownTableBodyNone">iters  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">0.1 </td><td class="markdownTableBodyNone">iters  </td></tr>
+</table>
+<p><code>orsirr_2</code> </p><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Epsilon </th><th class="markdownTableHeadNone">GMRES  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">0.6 </td><td class="markdownTableBodyNone">iter  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">0.3 </td><td class="markdownTableBodyNone">iters  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">0.1 </td><td class="markdownTableBodyNone">iters  </td></tr>
+</table>
+<p><code>orsreg_1</code> </p><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Epsilon </th><th class="markdownTableHeadNone">GMRES  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">0.6 </td><td class="markdownTableBodyNone">iter  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">0.3 </td><td class="markdownTableBodyNone">iters  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">0.1 </td><td class="markdownTableBodyNone">iters  </td></tr>
+</table>
 <h1><a class="anchor" id="autotoc_md11"></a>
-Valgrind</h1>
-<div class="fragment"><div class="line">valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt [your_executable]</div>
+Section for library maintainers</h1>
+<h2><a class="anchor" id="autotoc_md12"></a>
+File format</h2>
+<p>In order to maintain a consistent format please format your files with </p><div class="fragment"><div class="line">clang-format -style=Google --sort-includes -i path/to/file</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md13"></a>
+A note on Eigen usage</h2>
+<p>In order to maintain back compability with the <code>Eigen</code> version inside the offical supported docker image (<code>pcafrica/mk</code>), <code>Eigen 3.4</code> or above features must not be used.</p>
+<h2><a class="anchor" id="autotoc_md14"></a>
+Valgrind</h2>
+<p>Compile the binary with the debug flag <code>-g3</code>, and then: </p><div class="fragment"><div class="line">valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt [your_executable]</div>
 </div><!-- fragment --> </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->

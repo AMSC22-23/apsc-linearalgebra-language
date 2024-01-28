@@ -66,24 +66,24 @@ $(function() {
 <div class="title">Custom Classes for Linear Algebra Operations </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md13"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md16"></a>
 &lt;tt&gt;EigenStructureMap.hpp&lt;/tt&gt;</h1>
 <p><code>EigenStructureMap</code> is a helper class designed to facilitate the usage of <code>Eigen</code> matrix class methods on non-<code>Eigen</code> matrices, such as <code>MatrixWithVecSupport</code>. This class allows you to leverage the powerful functionalities of <code>Eigen</code> without the need for memory movements when operating on non-<code>Eigen</code> data.</p>
 <p>For comprehensive details and usage examples, please refer to the official <a href="http://www.eigen.tuxfamily.org/dox/group__TutorialMapClass.html">Eigen documentation on Mapping External Structures</a>. The key concept behind <code>EigenStructureMap</code> is to seamlessly apply <code>Eigen</code> methods to non-<code>Eigen</code> data, ensuring efficient and memory-friendly operations.</p>
-<h1><a class="anchor" id="autotoc_md14"></a>
+<h1><a class="anchor" id="autotoc_md17"></a>
 &lt;tt&gt;MatrixWithVecSupport.hpp&lt;/tt&gt;</h1>
 <p><code>MatrixWithVecSupport</code> extends the functionality of <code>AMSC-CodeExamples/Examples/src/Matrix/Matrix.hpp</code>. This full matrix class introduces support for the <code>operator*</code> to facilitate matrix-vector multiplication with <code><a class="el" href="Vector_8hpp.html" title="Header file containing a full vector definiton.">Vector.hpp</a></code> objects. Additionally, it includes a <code>solve</code> method, providing a straightforward approach to solving linear systems using direct solvers.</p>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md18"></a>
 &lt;tt&gt;Vector.hpp&lt;/tt&gt;</h1>
 <p><code>Vector</code> is a comprehensive vector class definition inspired by <code>AMSC-CodeExamples/Examples/src/Matrix/Matrix.hpp</code>. It currently supports multiplication operations, specifically when performing matrix-vector multiplications between instances of <code>MatrixWithVecSupport.hpp</code> and <code><a class="el" href="Vector_8hpp.html" title="Header file containing a full vector definiton.">Vector.hpp</a></code>.</p>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<h1><a class="anchor" id="autotoc_md19"></a>
 &lt;tt&gt;MPIMatrix.hpp&lt;/tt&gt;</h1>
 <p>This <code>MPI</code> compatible matrix class is inspired by <code>AMSC-CodeExamples/Examples/src/Parallel/MPI/PMatirx.hpp</code>. This updated class can use a custom <code>Vector</code> class as local solution buffer and can collect the result in a custom <code>Vector</code> class.</p>
 <p>The only restrictions are:</p><ul>
 <li><code>Vector</code> must implement <code>data()</code> method in order to expose a pointer to its buffer.</li>
 <li><code>Vector</code> must implement <code>resize()</code> method in order to be resized when needed.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md17"></a>
+<h1><a class="anchor" id="autotoc_md20"></a>
 Demo Files</h1>
 <p>You can find them in <code>matvetcg-chen-zhang-guo/src/demo</code>.</p>
 <p>A set of demonstration <code>cpp</code> files is provided to showcase the usage of these objects. Feel free to explore the demos to gain a better understanding of how these custom classes can be effectively employed in your linear algebra operations. </p>

@@ -87,18 +87,16 @@ Collaboration diagram for apsc::LinearAlgebra::Language::SparseMatrix&lt; Scalar
 <div class="dyncontent">
 <div class="center"><img src="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix__coll__graph.png" border="0" usemap="#apsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_3_01Scalar_00_01OT_00_01USE__MPI_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="apsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_3_01Scalar_00_01OT_00_01USE__MPI_01_4_coll__map" id="apsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_3_01Scalar_00_01OT_00_01USE__MPI_01_4_coll__map">
-<area shape="rect" title="A class representing a sparse matrix." alt="" coords="837,81,1024,137"/>
-<area shape="rect" href="classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI.html" title=" " alt="" coords="347,5,588,91"/>
-<area shape="rect" href="classapsc_1_1LinearAlgebra_1_1MPISparseMatrix.html" title=" " alt="" coords="299,115,636,229"/>
-<area shape="rect" href="classapsc_1_1LinearAlgebra_1_1Vector.html" title="A full vector." alt="" coords="5,151,159,193"/>
+<area shape="rect" title="A class representing a sparse matrix." alt="" coords="555,27,741,83"/>
+<area shape="rect" href="classapsc_1_1LinearAlgebra_1_1MPISparseMatrix.html" title=" " alt="" coords="5,5,353,105"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a043aab700824695e4e7fb9ae6d859109"><td class="memItemLeft" align="right" valign="top"><a id="a043aab700824695e4e7fb9ae6d859109"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>Vector</b> = Eigen::Matrix&lt; Scalar, Eigen::Dynamic, 1 &gt;</td></tr>
-<tr class="separator:a043aab700824695e4e7fb9ae6d859109"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f7d8f9907a969f1ac8d1d6639384d15"><td class="memItemLeft" align="right" valign="top"><a id="a3f7d8f9907a969f1ac8d1d6639384d15"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>VectorX</b> = Eigen::Matrix&lt; Scalar, Eigen::Dynamic, 1 &gt;</td></tr>
+<tr class="separator:a3f7d8f9907a969f1ac8d1d6639384d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -116,19 +114,19 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a7079c54ce1f361092afabbcc52ac8616"><td class="memItemLeft" align="right" valign="top">Scalar&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a7079c54ce1f361092afabbcc52ac8616">operator()</a> (const int i, const int j) const</td></tr>
 <tr class="memdesc:a7079c54ce1f361092afabbcc52ac8616"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accesses elements of the matrix for read-only purposes.  <a href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a7079c54ce1f361092afabbcc52ac8616">More...</a><br /></td></tr>
 <tr class="separator:a7079c54ce1f361092afabbcc52ac8616"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a872e8e9532ae627d709dda130dcf0565"><td class="memItemLeft" align="right" valign="top">Vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a872e8e9532ae627d709dda130dcf0565">operator*</a> (Vector const &amp;vec)</td></tr>
-<tr class="memdesc:a872e8e9532ae627d709dda130dcf0565"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs matrix-vector multiplication.  <a href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a872e8e9532ae627d709dda130dcf0565">More...</a><br /></td></tr>
-<tr class="separator:a872e8e9532ae627d709dda130dcf0565"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa1f55578664a008a9271e8556d7cf4e"><td class="memItemLeft" align="right" valign="top">VectorX&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#aaa1f55578664a008a9271e8556d7cf4e">operator*</a> (VectorX const &amp;vec)</td></tr>
+<tr class="memdesc:aaa1f55578664a008a9271e8556d7cf4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs matrix-vector multiplication.  <a href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#aaa1f55578664a008a9271e8556d7cf4e">More...</a><br /></td></tr>
+<tr class="separator:aaa1f55578664a008a9271e8556d7cf4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7007f8ed15e46f19f627e641edac8670"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a7007f8ed15e46f19f627e641edac8670">resize</a> (const int <a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a2875e7fb309b53326d0b1ed1bdf6fffb">rows</a>, const int <a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a24d0f159037f0e99d7bcf8bb86272f0c">cols</a>)</td></tr>
 <tr class="memdesc:a7007f8ed15e46f19f627e641edac8670"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes the matrix.  <a href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a7007f8ed15e46f19f627e641edac8670">More...</a><br /></td></tr>
 <tr class="separator:a7007f8ed15e46f19f627e641edac8670"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b7ab9221b82d8df9868dae4c174459d"><td class="memTemplParams" colspan="2">template&lt;IterativeSolverType Solver&gt; </td></tr>
-<tr class="memitem:a0b7ab9221b82d8df9868dae4c174459d"><td class="memTemplItemLeft" align="right" valign="top">Vector&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a0b7ab9221b82d8df9868dae4c174459d">solve_iterative</a> (Vector rhs)</td></tr>
-<tr class="memdesc:a0b7ab9221b82d8df9868dae4c174459d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves the linear system iteratively.  <a href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a0b7ab9221b82d8df9868dae4c174459d">More...</a><br /></td></tr>
-<tr class="separator:a0b7ab9221b82d8df9868dae4c174459d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fc1731798783f5b3f9260db7b75db26"><td class="memItemLeft" align="right" valign="top">Vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a4fc1731798783f5b3f9260db7b75db26">solve_direct</a> (Vector &amp;rhs)</td></tr>
-<tr class="memdesc:a4fc1731798783f5b3f9260db7b75db26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves the linear system directly.  <a href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a4fc1731798783f5b3f9260db7b75db26">More...</a><br /></td></tr>
-<tr class="separator:a4fc1731798783f5b3f9260db7b75db26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a984215c75a4525b93b8ab34d52c99ed9"><td class="memTemplParams" colspan="2">template&lt;IterativeSolverType Solver&gt; </td></tr>
+<tr class="memitem:a984215c75a4525b93b8ab34d52c99ed9"><td class="memTemplItemLeft" align="right" valign="top">VectorX&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a984215c75a4525b93b8ab34d52c99ed9">solve_iterative</a> (VectorX rhs)</td></tr>
+<tr class="memdesc:a984215c75a4525b93b8ab34d52c99ed9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves the linear system iteratively.  <a href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a984215c75a4525b93b8ab34d52c99ed9">More...</a><br /></td></tr>
+<tr class="separator:a984215c75a4525b93b8ab34d52c99ed9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b3fa50c9b6b045e8f0427e3e859fcf5"><td class="memItemLeft" align="right" valign="top">VectorX&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a1b3fa50c9b6b045e8f0427e3e859fcf5">solve_direct</a> (VectorX &amp;rhs)</td></tr>
+<tr class="memdesc:a1b3fa50c9b6b045e8f0427e3e859fcf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves the linear system directly using QR factorization. Only master rank will collect the result vector.  <a href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a1b3fa50c9b6b045e8f0427e3e859fcf5">More...</a><br /></td></tr>
+<tr class="separator:a1b3fa50c9b6b045e8f0427e3e859fcf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b1aafe2ce404b17e4045db0f898bf8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a5b1aafe2ce404b17e4045db0f898bf8f">load_from_file</a> (std::string file_name)</td></tr>
 <tr class="memdesc:a5b1aafe2ce404b17e4045db0f898bf8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads the matrix data from a file.  <a href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a5b1aafe2ce404b17e4045db0f898bf8f">More...</a><br /></td></tr>
 <tr class="separator:a5b1aafe2ce404b17e4045db0f898bf8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -212,12 +210,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 Eigen::SparseMatrix&lt; double, OT==OrderingType::COLUMNMAJOR ? Eigen::ColMajor :Eigen::RowMajor &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#aae4756fcd57d3c242f90e0f1efa37c0c">eigen_sparse_matrix</a></td></tr>
 <tr class="memdesc:aae4756fcd57d3c242f90e0f1efa37c0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instance of a sparse matrix. <br /></td></tr>
 <tr class="separator:aae4756fcd57d3c242f90e0f1efa37c0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06b39aa26971b9f5445aaaeac53f7a13"><td class="memItemLeft" align="right" valign="top"><a id="a06b39aa26971b9f5445aaaeac53f7a13"></a>
-<a class="el" href="classapsc_1_1LinearAlgebra_1_1MPISparseMatrix.html">MPISparseMatrix</a>&lt; decltype(<a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#aae4756fcd57d3c242f90e0f1efa37c0c">eigen_sparse_matrix</a>), Vector, OT==OrderingType::COLUMNMAJOR ? ORDERINGTYPE::COLUMNWISE :ORDERINGTYPE::ROWWISE &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a06b39aa26971b9f5445aaaeac53f7a13">parallel_sparse_matrix</a></td></tr>
-<tr class="memdesc:a06b39aa26971b9f5445aaaeac53f7a13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instance of a MPI sparse matrix. <br /></td></tr>
-<tr class="separator:a06b39aa26971b9f5445aaaeac53f7a13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5aa571ba632ad6e3a56f25825c6a0fc1"><td class="memItemLeft" align="right" valign="top"><a id="a5aa571ba632ad6e3a56f25825c6a0fc1"></a>
+<a class="el" href="classapsc_1_1LinearAlgebra_1_1MPISparseMatrix.html">MPISparseMatrix</a>&lt; decltype(<a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#aae4756fcd57d3c242f90e0f1efa37c0c">eigen_sparse_matrix</a>), VectorX, OT==OrderingType::COLUMNMAJOR ? ORDERINGTYPE::COLUMNWISE :ORDERINGTYPE::ROWWISE &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a5aa571ba632ad6e3a56f25825c6a0fc1">parallel_sparse_matrix</a></td></tr>
+<tr class="memdesc:a5aa571ba632ad6e3a56f25825c6a0fc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instance of a MPI sparse matrix. <br /></td></tr>
+<tr class="separator:a5aa571ba632ad6e3a56f25825c6a0fc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a071ae645bbb277e4d556a7fa0a1646d2"><td class="memItemLeft" align="right" valign="top"><a id="a071ae645bbb277e4d556a7fa0a1646d2"></a>
-<a class="el" href="classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI.html">apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI</a>&lt; Scalar, Eigen::Matrix&lt; Scalar, Eigen::Dynamic, Eigen::Dynamic &gt;, 0 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a071ae645bbb277e4d556a7fa0a1646d2">spai</a></td></tr>
+apsc::LinearAlgebra::Preconditioners::ApproximateInverse::SPAI&lt; Scalar, Eigen::Matrix&lt; Scalar, Eigen::Dynamic, Eigen::Dynamic &gt;, 0 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html#a071ae645bbb277e4d556a7fa0a1646d2">spai</a></td></tr>
 <tr class="memdesc:a071ae645bbb277e4d556a7fa0a1646d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">SPAI preconditioner (<a href="https://epubs.siam.org/doi/10.1137/S1064827594276552">https://epubs.siam.org/doi/10.1137/S1064827594276552</a>). <br /></td></tr>
 <tr class="separator:a071ae645bbb277e4d556a7fa0a1646d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -433,8 +431,8 @@ template&lt;typename Scalar , OrderingType OT = OrderingType::COLUMNMAJOR, int U
 
 </div>
 </div>
-<a id="a872e8e9532ae627d709dda130dcf0565"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a872e8e9532ae627d709dda130dcf0565">&#9670;&nbsp;</a></span>operator*()</h2>
+<a id="aaa1f55578664a008a9271e8556d7cf4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa1f55578664a008a9271e8556d7cf4e">&#9670;&nbsp;</a></span>operator*()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -445,9 +443,9 @@ template&lt;typename Scalar , OrderingType OT = OrderingType::COLUMNMAJOR, int U
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Vector <a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html">apsc::LinearAlgebra::Language::SparseMatrix</a>&lt; Scalar, OT, USE_MPI &gt;::operator* </td>
+          <td class="memname">VectorX <a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html">apsc::LinearAlgebra::Language::SparseMatrix</a>&lt; Scalar, OT, USE_MPI &gt;::operator* </td>
           <td>(</td>
-          <td class="paramtype">Vector const &amp;&#160;</td>
+          <td class="paramtype">VectorX const &amp;&#160;</td>
           <td class="paramname"><em>vec</em></td><td>)</td>
           <td></td>
         </tr>
@@ -655,8 +653,8 @@ template&lt;typename Scalar , OrderingType OT = OrderingType::COLUMNMAJOR, int U
 
 </div>
 </div>
-<a id="a4fc1731798783f5b3f9260db7b75db26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4fc1731798783f5b3f9260db7b75db26">&#9670;&nbsp;</a></span>solve_direct()</h2>
+<a id="a1b3fa50c9b6b045e8f0427e3e859fcf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b3fa50c9b6b045e8f0427e3e859fcf5">&#9670;&nbsp;</a></span>solve_direct()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -667,9 +665,9 @@ template&lt;typename Scalar , OrderingType OT = OrderingType::COLUMNMAJOR, int U
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Vector <a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html">apsc::LinearAlgebra::Language::SparseMatrix</a>&lt; Scalar, OT, USE_MPI &gt;::solve_direct </td>
+          <td class="memname">VectorX <a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html">apsc::LinearAlgebra::Language::SparseMatrix</a>&lt; Scalar, OT, USE_MPI &gt;::solve_direct </td>
           <td>(</td>
-          <td class="paramtype">Vector &amp;&#160;</td>
+          <td class="paramtype">VectorX &amp;&#160;</td>
           <td class="paramname"><em>rhs</em></td><td>)</td>
           <td></td>
         </tr>
@@ -681,7 +679,7 @@ template&lt;typename Scalar , OrderingType OT = OrderingType::COLUMNMAJOR, int U
 </table>
 </div><div class="memdoc">
 
-<p>Solves the linear system directly. </p>
+<p>Solves the linear system directly using QR factorization. Only master rank will collect the result vector. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">rhs</td><td>Right-hand side vector. </td></tr>
@@ -692,8 +690,8 @@ template&lt;typename Scalar , OrderingType OT = OrderingType::COLUMNMAJOR, int U
 
 </div>
 </div>
-<a id="a0b7ab9221b82d8df9868dae4c174459d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b7ab9221b82d8df9868dae4c174459d">&#9670;&nbsp;</a></span>solve_iterative()</h2>
+<a id="a984215c75a4525b93b8ab34d52c99ed9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a984215c75a4525b93b8ab34d52c99ed9">&#9670;&nbsp;</a></span>solve_iterative()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -706,9 +704,9 @@ template&lt;IterativeSolverType Solver&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Vector <a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html">apsc::LinearAlgebra::Language::SparseMatrix</a>&lt; Scalar, OT, USE_MPI &gt;::solve_iterative </td>
+          <td class="memname">VectorX <a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html">apsc::LinearAlgebra::Language::SparseMatrix</a>&lt; Scalar, OT, USE_MPI &gt;::solve_iterative </td>
           <td>(</td>
-          <td class="paramtype">Vector&#160;</td>
+          <td class="paramtype">VectorX&#160;</td>
           <td class="paramname"><em>rhs</em></td><td>)</td>
           <td></td>
         </tr>
@@ -901,7 +899,7 @@ template&lt;typename Scalar , OrderingType OT = OrderingType::COLUMNMAJOR, int U
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>apsc_language/<a class="el" href="apsc__language_8hpp_source.html">apsc_language.hpp</a></li>
+<li>lib/<a class="el" href="apsc__language_8hpp_source.html">apsc_language.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

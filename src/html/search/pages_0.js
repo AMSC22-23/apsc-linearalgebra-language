@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['custom_20classes_20for_20linear_20algebra_20operations_240',['Custom Classes for Linear Algebra Operations',['../md_lib_README.html',1,'']]]
+  ['apsc_20linear_20algebra_20language_216',['apsc Linear Algebra Language',['../index.html',1,'']]]
 ];

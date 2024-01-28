@@ -1,7 +1,7 @@
 <map id="apsc::LinearAlgebra::Language::FullMatrix&lt; Scalar, OT, USE_MPI &gt;" name="apsc::LinearAlgebra::Language::FullMatrix&lt; Scalar, OT, USE_MPI &gt;">
-<area shape="rect" id="node1" title="A class representing a full matrix." alt="" coords="947,94,1129,150"/>
-<area shape="rect" id="node2" href="$classapsc_1_1LinearAlgebra_1_1MPIFullMatrix.html" title=" " alt="" coords="335,5,771,105"/>
-<area shape="rect" id="node3" href="$classapsc_1_1LinearAlgebra_1_1Vector.html" title=" " alt="" coords="28,35,179,76"/>
-<area shape="rect" id="node4" href="$classapsc_1_1LinearAlgebra_1_1FullMatrix.html" title=" " alt="" coords="389,130,716,245"/>
+<area shape="rect" id="node1" title="A class representing a full matrix." alt="" coords="868,94,1051,150"/>
+<area shape="rect" id="node2" href="$classapsc_1_1LinearAlgebra_1_1MPIFullMatrix.html" title=" " alt="" coords="335,5,692,105"/>
+<area shape="rect" id="node3" href="$classapsc_1_1LinearAlgebra_1_1Vector.html" title="A full vector." alt="" coords="27,35,180,76"/>
+<area shape="rect" id="node4" href="$classapsc_1_1LinearAlgebra_1_1FullMatrix.html" title=" " alt="" coords="350,130,677,245"/>
 <area shape="rect" id="node5" title=" " alt="" coords="5,174,201,201"/>
 </map>

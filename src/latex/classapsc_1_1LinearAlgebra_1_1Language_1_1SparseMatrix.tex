@@ -21,8 +21,8 @@ Collaboration diagram for apsc\+::Linear\+Algebra\+::Language\+::Sparse\+Matrix$
 \doxysubsection*{Public Types}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a043aab700824695e4e7fb9ae6d859109}\label{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a043aab700824695e4e7fb9ae6d859109}} 
-using {\bfseries Vector} = Eigen\+::\+Matrix$<$ Scalar, Eigen\+::\+Dynamic, 1 $>$
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a3f7d8f9907a969f1ac8d1d6639384d15}\label{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a3f7d8f9907a969f1ac8d1d6639384d15}} 
+using {\bfseries VectorX} = Eigen\+::\+Matrix$<$ Scalar, Eigen\+::\+Dynamic, 1 $>$
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
@@ -37,14 +37,14 @@ Scalar \& \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatri
 \begin{DoxyCompactList}\small\item\em Accesses elements of the matrix for modification. \end{DoxyCompactList}\item 
 Scalar \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a7079c54ce1f361092afabbcc52ac8616}{operator()}} (const int i, const int j) const
 \begin{DoxyCompactList}\small\item\em Accesses elements of the matrix for read-\/only purposes. \end{DoxyCompactList}\item 
-Vector \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a872e8e9532ae627d709dda130dcf0565}{operator$\ast$}} (Vector const \&vec)
+VectorX \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_aaa1f55578664a008a9271e8556d7cf4e}{operator$\ast$}} (VectorX const \&vec)
 \begin{DoxyCompactList}\small\item\em Performs matrix-\/vector multiplication. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a7007f8ed15e46f19f627e641edac8670}{resize}} (const int \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a2875e7fb309b53326d0b1ed1bdf6fffb}{rows}}, const int \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a24d0f159037f0e99d7bcf8bb86272f0c}{cols}})
 \begin{DoxyCompactList}\small\item\em Resizes the matrix. \end{DoxyCompactList}\item 
-{\footnotesize template$<$Iterative\+Solver\+Type Solver$>$ }\\Vector \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a0b7ab9221b82d8df9868dae4c174459d}{solve\+\_\+iterative}} (Vector rhs)
+{\footnotesize template$<$Iterative\+Solver\+Type Solver$>$ }\\VectorX \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a984215c75a4525b93b8ab34d52c99ed9}{solve\+\_\+iterative}} (VectorX rhs)
 \begin{DoxyCompactList}\small\item\em Solves the linear system iteratively. \end{DoxyCompactList}\item 
-Vector \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a4fc1731798783f5b3f9260db7b75db26}{solve\+\_\+direct}} (Vector \&rhs)
-\begin{DoxyCompactList}\small\item\em Solves the linear system directly. \end{DoxyCompactList}\item 
+VectorX \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a1b3fa50c9b6b045e8f0427e3e859fcf5}{solve\+\_\+direct}} (VectorX \&rhs)
+\begin{DoxyCompactList}\small\item\em Solves the linear system directly using QR factorization. Only master rank will collect the result vector. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a5b1aafe2ce404b17e4045db0f898bf8f}{load\+\_\+from\+\_\+file}} (std\+::string file\+\_\+name)
 \begin{DoxyCompactList}\small\item\em Loads the matrix data from a file. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a9a19c47ece33a3f11a5d54c2e0c8010e}\label{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a9a19c47ece33a3f11a5d54c2e0c8010e}} 
@@ -106,11 +106,11 @@ int \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a773
 \mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_aae4756fcd57d3c242f90e0f1efa37c0c}\label{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_aae4756fcd57d3c242f90e0f1efa37c0c}} 
 Eigen\+::\+Sparse\+Matrix$<$ double, OT==Ordering\+Type\+::\+C\+O\+L\+U\+M\+N\+M\+A\+J\+OR ? Eigen\+::\+Col\+Major \+:Eigen\+::\+Row\+Major $>$ \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_aae4756fcd57d3c242f90e0f1efa37c0c}{eigen\+\_\+sparse\+\_\+matrix}}
 \begin{DoxyCompactList}\small\item\em Instance of a sparse matrix. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a06b39aa26971b9f5445aaaeac53f7a13}\label{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a06b39aa26971b9f5445aaaeac53f7a13}} 
-\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix}{M\+P\+I\+Sparse\+Matrix}}$<$ decltype(\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_aae4756fcd57d3c242f90e0f1efa37c0c}{eigen\+\_\+sparse\+\_\+matrix}}), Vector, OT==Ordering\+Type\+::\+C\+O\+L\+U\+M\+N\+M\+A\+J\+OR ? O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+P\+E\+::\+C\+O\+L\+U\+M\+N\+W\+I\+SE \+:O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+P\+E\+::\+R\+O\+W\+W\+I\+SE $>$ \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a06b39aa26971b9f5445aaaeac53f7a13}{parallel\+\_\+sparse\+\_\+matrix}}
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a5aa571ba632ad6e3a56f25825c6a0fc1}\label{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a5aa571ba632ad6e3a56f25825c6a0fc1}} 
+\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix}{M\+P\+I\+Sparse\+Matrix}}$<$ decltype(\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_aae4756fcd57d3c242f90e0f1efa37c0c}{eigen\+\_\+sparse\+\_\+matrix}}), VectorX, OT==Ordering\+Type\+::\+C\+O\+L\+U\+M\+N\+M\+A\+J\+OR ? O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+P\+E\+::\+C\+O\+L\+U\+M\+N\+W\+I\+SE \+:O\+R\+D\+E\+R\+I\+N\+G\+T\+Y\+P\+E\+::\+R\+O\+W\+W\+I\+SE $>$ \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a5aa571ba632ad6e3a56f25825c6a0fc1}{parallel\+\_\+sparse\+\_\+matrix}}
 \begin{DoxyCompactList}\small\item\em Instance of a M\+PI sparse matrix. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a071ae645bbb277e4d556a7fa0a1646d2}\label{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a071ae645bbb277e4d556a7fa0a1646d2}} 
-\mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Preconditioners_1_1ApproximateInverse_1_1SPAI}{apsc\+::\+Linear\+Algebra\+::\+Preconditioners\+::\+Approximate\+Inverse\+::\+S\+P\+AI}}$<$ Scalar, Eigen\+::\+Matrix$<$ Scalar, Eigen\+::\+Dynamic, Eigen\+::\+Dynamic $>$, 0 $>$ \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a071ae645bbb277e4d556a7fa0a1646d2}{spai}}
+apsc\+::\+Linear\+Algebra\+::\+Preconditioners\+::\+Approximate\+Inverse\+::\+S\+P\+AI$<$ Scalar, Eigen\+::\+Matrix$<$ Scalar, Eigen\+::\+Dynamic, Eigen\+::\+Dynamic $>$, 0 $>$ \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a071ae645bbb277e4d556a7fa0a1646d2}{spai}}
 \begin{DoxyCompactList}\small\item\em S\+P\+AI preconditioner (\href{https://epubs.siam.org/doi/10.1137/S1064827594276552}{\texttt{ https\+://epubs.\+siam.\+org/doi/10.\+1137/\+S1064827594276552}}). \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Static Protected Attributes}
 \begin{DoxyCompactItemize}
@@ -224,12 +224,12 @@ Accesses elements of the matrix for read-\/only purposes.
 \begin{DoxyReturn}{Returns}
 Value of the matrix element. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a872e8e9532ae627d709dda130dcf0565}\label{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a872e8e9532ae627d709dda130dcf0565}} 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_aaa1f55578664a008a9271e8556d7cf4e}\label{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_aaa1f55578664a008a9271e8556d7cf4e}} 
 \index{apsc::LinearAlgebra::Language::SparseMatrix$<$ Scalar, OT, USE\_MPI $>$@{apsc::LinearAlgebra::Language::SparseMatrix$<$ Scalar, OT, USE\_MPI $>$}!operator$\ast$@{operator$\ast$}}
 \index{operator$\ast$@{operator$\ast$}!apsc::LinearAlgebra::Language::SparseMatrix$<$ Scalar, OT, USE\_MPI $>$@{apsc::LinearAlgebra::Language::SparseMatrix$<$ Scalar, OT, USE\_MPI $>$}}
 \doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}}
 {\footnotesize\ttfamily template$<$typename Scalar , Ordering\+Type OT = Ordering\+Type\+::\+C\+O\+L\+U\+M\+N\+M\+A\+J\+OR, int U\+S\+E\+\_\+\+M\+PI = 1$>$ \\
-Vector \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Sparse\+Matrix}}$<$ Scalar, OT, U\+S\+E\+\_\+\+M\+PI $>$\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{Vector const \&}]{vec }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+VectorX \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Sparse\+Matrix}}$<$ Scalar, OT, U\+S\+E\+\_\+\+M\+PI $>$\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{VectorX const \&}]{vec }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -323,16 +323,16 @@ Update the S\+P\+AI tolerance value.
 {\em tol} & The tolerance value. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a4fc1731798783f5b3f9260db7b75db26}\label{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a4fc1731798783f5b3f9260db7b75db26}} 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a1b3fa50c9b6b045e8f0427e3e859fcf5}\label{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a1b3fa50c9b6b045e8f0427e3e859fcf5}} 
 \index{apsc::LinearAlgebra::Language::SparseMatrix$<$ Scalar, OT, USE\_MPI $>$@{apsc::LinearAlgebra::Language::SparseMatrix$<$ Scalar, OT, USE\_MPI $>$}!solve\_direct@{solve\_direct}}
 \index{solve\_direct@{solve\_direct}!apsc::LinearAlgebra::Language::SparseMatrix$<$ Scalar, OT, USE\_MPI $>$@{apsc::LinearAlgebra::Language::SparseMatrix$<$ Scalar, OT, USE\_MPI $>$}}
 \doxysubsubsection{\texorpdfstring{solve\_direct()}{solve\_direct()}}
 {\footnotesize\ttfamily template$<$typename Scalar , Ordering\+Type OT = Ordering\+Type\+::\+C\+O\+L\+U\+M\+N\+M\+A\+J\+OR, int U\+S\+E\+\_\+\+M\+PI = 1$>$ \\
-Vector \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Sparse\+Matrix}}$<$ Scalar, OT, U\+S\+E\+\_\+\+M\+PI $>$\+::solve\+\_\+direct (\begin{DoxyParamCaption}\item[{Vector \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+VectorX \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Sparse\+Matrix}}$<$ Scalar, OT, U\+S\+E\+\_\+\+M\+PI $>$\+::solve\+\_\+direct (\begin{DoxyParamCaption}\item[{VectorX \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
-Solves the linear system directly. 
+Solves the linear system directly using QR factorization. Only master rank will collect the result vector. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -342,13 +342,13 @@ Solves the linear system directly.
 \begin{DoxyReturn}{Returns}
 Solution vector. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a0b7ab9221b82d8df9868dae4c174459d}\label{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a0b7ab9221b82d8df9868dae4c174459d}} 
+\mbox{\Hypertarget{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a984215c75a4525b93b8ab34d52c99ed9}\label{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix_a984215c75a4525b93b8ab34d52c99ed9}} 
 \index{apsc::LinearAlgebra::Language::SparseMatrix$<$ Scalar, OT, USE\_MPI $>$@{apsc::LinearAlgebra::Language::SparseMatrix$<$ Scalar, OT, USE\_MPI $>$}!solve\_iterative@{solve\_iterative}}
 \index{solve\_iterative@{solve\_iterative}!apsc::LinearAlgebra::Language::SparseMatrix$<$ Scalar, OT, USE\_MPI $>$@{apsc::LinearAlgebra::Language::SparseMatrix$<$ Scalar, OT, USE\_MPI $>$}}
 \doxysubsubsection{\texorpdfstring{solve\_iterative()}{solve\_iterative()}}
 {\footnotesize\ttfamily template$<$typename Scalar , Ordering\+Type OT = Ordering\+Type\+::\+C\+O\+L\+U\+M\+N\+M\+A\+J\+OR, int U\+S\+E\+\_\+\+M\+PI = 1$>$ \\
 template$<$Iterative\+Solver\+Type Solver$>$ \\
-Vector \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Sparse\+Matrix}}$<$ Scalar, OT, U\+S\+E\+\_\+\+M\+PI $>$\+::solve\+\_\+iterative (\begin{DoxyParamCaption}\item[{Vector}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+VectorX \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Sparse\+Matrix}}$<$ Scalar, OT, U\+S\+E\+\_\+\+M\+PI $>$\+::solve\+\_\+iterative (\begin{DoxyParamCaption}\item[{VectorX}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -432,4 +432,4 @@ Stream the matrix to an output stream.
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-apsc\+\_\+language/\mbox{\hyperlink{apsc__language_8hpp}{apsc\+\_\+language.\+hpp}}\end{DoxyCompactItemize}
+lib/\mbox{\hyperlink{apsc__language_8hpp}{apsc\+\_\+language.\+hpp}}\end{DoxyCompactItemize}

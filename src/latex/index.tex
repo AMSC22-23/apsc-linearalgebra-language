@@ -1,78 +1,320 @@
-Iterative linerar solvers based on distribuited matrix vector multiplication (M\+PI)
+This is a C++ header-\/only library designed for efficient manipulation of full and sparse matrices using M\+PI (Message Passing Interface) techniques. This library abstracts away the complexities of M\+PI programming, providing users with a simple yet powerful interface for performing parallel matrix operations.
 
-A parallel M\+PI implementation of different iterative schemes.\hypertarget{index_autotoc_md1}{}\doxysection{Supported Iterative schemes}\label{index_autotoc_md1}
-
+The following algebraic objects are available\+:
 \begin{DoxyItemize}
-\item \mbox{[}x\mbox{]} Conjugate Gradient
-\end{DoxyItemize}\hypertarget{index_autotoc_md2}{}\doxysection{Supported preconditioners}\label{index_autotoc_md2}
-\hypertarget{index_autotoc_md3}{}\doxysection{Setup}\label{index_autotoc_md3}
-Initialise submodules
+\item \mbox{[}x\mbox{]} Full matrix
+\item \mbox{[}x\mbox{]} Sparse matrix
+\item \mbox{[}x\mbox{]} Full vector
+\end{DoxyItemize}
 
+The following algebraic operations are available on {\ttfamily Full\+Matrix}\+:
+\begin{DoxyItemize}
+\item \mbox{[}x\mbox{]} Addition, subtraciton, multiplication
+\item \mbox{[}x\mbox{]} Frobenius norm
+\item \mbox{[}x\mbox{]} Multiplication with a compatible vector
+\end{DoxyItemize}
 
+The following algebraic operations are available on {\ttfamily Sparse\+Matrix}\+:
+\begin{DoxyItemize}
+\item \mbox{[}x\mbox{]} Addition, subtraciton, multiplication
+\item \mbox{[}x\mbox{]} Frobenius norm
+\item \mbox{[}x\mbox{]} Multiplication with a compatible vector
+\end{DoxyItemize}
+
+The following iterative linear solvers are available for {\ttfamily Full\+Matrix}
+\begin{DoxyItemize}
+\item \mbox{[}x\mbox{]} Conjugate gradient (with no preconditioner)
+\end{DoxyItemize}
+
+The following direct linear solvers (decompositions) are available for {\ttfamily Full\+Matrix}
+\begin{DoxyItemize}
+\item \mbox{[}x\mbox{]} QR
+\end{DoxyItemize}
+
+The following iterative linear solvers are available for {\ttfamily Sparse\+Matrix}
+\begin{DoxyItemize}
+\item \mbox{[}x\mbox{]} Conjugate gradient (with no preconditioner)
+\item \mbox{[}x\mbox{]} G\+M\+R\+ES (with no preconditioner)
+\item \mbox{[}x\mbox{]} G\+M\+R\+ES + S\+P\+AI preconditioner
+\item \mbox{[}x\mbox{]} Bi\+C\+G\+S\+T\+AB (with no preconditioner)
+\item \mbox{[}x\mbox{]} Bi\+C\+G\+S\+T\+AB + S\+P\+AI preconditioner
+\end{DoxyItemize}
+
+Currently, the following direct linear solvers (decompositions) are available for {\ttfamily Sparse\+Matrix}
+\begin{DoxyItemize}
+\item \mbox{[}x\mbox{]} QR
+\end{DoxyItemize}
+
+Let\textquotesingle{}s introduce its usage by walking in an example! We will be using a sparse matrix to show case the language features, but the same concepts can be applied to full matrices too.\hypertarget{index_autotoc_md1}{}\doxysection{Installation}\label{index_autotoc_md1}
+This library is based on the following external parties\+:
+\begin{DoxyItemize}
+\item {\ttfamily M\+PI}
+\item {\ttfamily Eigen} $>$= {\ttfamily 3.\+39}
+\end{DoxyItemize}
+
+Please be sure to have them installed.
+
+The following docker container is recommended\+: {\ttfamily pcafrica/mk}, see \href{https://github.com/HPC-Courses/AMSC-Labs/tree/main/Labs/2023-24/lab00-setup}{\texttt{ here}}
+
+This library depends on the following submodules\+:
+\begin{DoxyItemize}
+\item \href{https://github.com/HPC-Courses/AMSC-CodeExamples}{\texttt{ A\+M\+SC Code Examples}} You can initialise it by running\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{git submodule update -\/-\/init -\/-\/recursive}
 \end{DoxyCode}
-\hypertarget{index_autotoc_md4}{}\doxysection{Compilation}\label{index_autotoc_md4}
-This repository is intended to be used inside the {\ttfamily pcafrica/mk} docker image env. See \href{https://github.com/HPC-Courses/AMSC-Labs/tree/main/Labs/2023-24/lab00-setup}{\texttt{ here}} for the configuration. If so, you don\textquotesingle{}t need to take additional steps.
 
-In case you want to run the project locally, you have to\+:
-\begin{DoxyItemize}
-\item Export the {\ttfamily Eigen} include directory path under the env variable {\ttfamily \$\+E\+I\+G\+E\+N3\+\_\+\+I\+N\+C\+L\+U\+D\+E\+\_\+\+D\+IR}.
-\item Have {\ttfamily M\+PI} installed (Note\+: we had no issued using version {\ttfamily 3.\+1} of {\ttfamily M\+PI}, newer versions might not compatible)
-\end{DoxyItemize}
-
-Then\+:
-
-
+\end{DoxyItemize}\hypertarget{index_autotoc_md2}{}\doxysection{Project setup}\label{index_autotoc_md2}
+You can create a directory named {\ttfamily your\+\_\+project} under {\ttfamily src} and place your {\ttfamily cpp} and {\ttfamily hpp} file inside. Then you can create the {\ttfamily C\+Make} configuration file by following this template {\ttfamily C\+Make\+Lists.\+txt} for the compilation step with {\ttfamily make}\+: 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{-\/ cd src}
-\DoxyCodeLine{-\/ mkdir build}
-\DoxyCodeLine{-\/ cd build}
-\DoxyCodeLine{-\/ cmake ..}
-\DoxyCodeLine{-\/ make [-\/j n]}
-\end{DoxyCode}
-\hypertarget{index_autotoc_md5}{}\doxysection{Run $<$tt$>$objective1$<$/tt$>$}\label{index_autotoc_md5}
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{./your\_executable}
-\end{DoxyCode}
-\hypertarget{index_autotoc_md6}{}\doxysection{Run $<$tt$>$objective2$<$/tt$>$}\label{index_autotoc_md6}
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{mpirun -\/n [your\_core\_number] objective2 [problem\_size]}
-\end{DoxyCode}
-
-
-For example\+: 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{mpirun -\/n 2 objective2 1000}
-\end{DoxyCode}
-\hypertarget{index_autotoc_md7}{}\doxysection{Run $<$tt$>$objective3$<$/tt$>$}\label{index_autotoc_md7}
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{mpirun -\/n [your\_core\_number] objective3 [input\_file]}
+\DoxyCodeLine{cmake\_minimum\_required(VERSION 3.12.0)}
+\DoxyCodeLine{project(demo LANGUAGES CXX C)}
+\DoxyCodeLine{}
+\DoxyCodeLine{include(./cmake\_shared/cmake-\/common.cmake)}
+\DoxyCodeLine{}
+\DoxyCodeLine{set(CMAKE\_EXPORT\_COMPILE\_COMMANDS ON)}
+\DoxyCodeLine{}
+\DoxyCodeLine{\# Find MPI package}
+\DoxyCodeLine{find\_package(MPI REQUIRED)}
+\DoxyCodeLine{}
+\DoxyCodeLine{SET(EIGEN3\_DIR\_LOCAL \$ENV\{EIGEN3\_INCLUDE\_DIR\})        \#local installation}
+\DoxyCodeLine{SET(EIGEN3\_DIR\_PCAFRICA \$ENV\{mkEigenInc\})             \#pcafrica/mk module}
+\DoxyCodeLine{}
+\DoxyCodeLine{include\_directories(\$\{CMAKE\_CURRENT\_SOURCE\_DIR\}/AMSC-\/CodeExamples/Examples/src/}
+\DoxyCodeLine{  \$\{CMAKE\_CURRENT\_SOURCE\_DIR\}/lib/ \$\{CMAKE\_CURRENT\_SOURCE\_DIR\}/algorithms/}
+\DoxyCodeLine{  \$\{CMAKE\_CURRENT\_SOURCE\_DIR\}/lib/algorithms/cg/}
+\DoxyCodeLine{  \$\{CMAKE\_CURRENT\_SOURCE\_DIR\}/lib/algorithms/gmres/}
+\DoxyCodeLine{  \$\{CMAKE\_CURRENT\_SOURCE\_DIR\}/lib/algorithms/bicg/}
+\DoxyCodeLine{  \$\{CMAKE\_CURRENT\_SOURCE\_DIR\}/lib/preconditioners/parallel/spai/}
+\DoxyCodeLine{  \$\{EIGEN3\_DIR\_LOCAL\} \$\{EIGEN3\_DIR\_PCAFRICA\})}
+\DoxyCodeLine{include\_directories(SYSTEM \$\{MPI\_INCLUDE\_PATH\})}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#Define executables}
+\DoxyCodeLine{add\_executable(main demo/main.cpp)}
+\DoxyCodeLine{target\_link\_libraries(main MPI::MPI\_CXX)}
 \end{DoxyCode}
 
 
-For example (launched from {\ttfamily build} directory)\+: 
+Note that you have to export the following variable path if you are using a local enviroenment\+: 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{mpirun -\/n 2 objective3 ../inputs/0\_05fill\_size9604.mtx }
+\DoxyCodeLine{export EIGEN3\_INCLUDE\_DIR=installation/path/include}
 \end{DoxyCode}
-\hypertarget{index_autotoc_md8}{}\doxysection{File format}\label{index_autotoc_md8}
-In order to maintain a consistent format please format your files with 
+\hypertarget{index_autotoc_md3}{}\doxysection{Demo}\label{index_autotoc_md3}
+Let\textquotesingle{}s walk into a demo to showcase the language capabilities!
+
+First define a {\ttfamily main.\+cpp} file in the directory {\ttfamily src/demo} and include the header library\+: 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{clang-\/format -\/style=Google -\/-\/sort-\/includes -\/i path/to/file}
+\DoxyCodeLine{\#include <apsc\_language.hpp>}
+\DoxyCodeLine{}
+\DoxyCodeLine{int main(int argc, char* argv[]) \{}
+\DoxyCodeLine{    return 0;}
+\DoxyCodeLine{\}}
 \end{DoxyCode}
-\hypertarget{index_autotoc_md9}{}\doxysection{M\+P\+I docker errors}\label{index_autotoc_md9}
+
+
+If {\ttfamily M\+PI} is used, declare the M\+PI handling object that will take care of it initialisation and finalisation\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{apsc::LinearAlgebra::Utils::MPIUtils::MPIRunner mpi\_runner(\&argc, \&argv);}
+\end{DoxyCode}
+
+
+Let\textquotesingle{}s create a sparse, M\+PI parallel matrix\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{apsc::LinearAlgebra::Language::SparseMatrix<}
+\DoxyCodeLine{    double, }
+\DoxyCodeLine{    apsc::LinearAlgebra::Language::OrderingType::COLUMNMAJOR,}
+\DoxyCodeLine{    1> M;}
+\end{DoxyCode}
+
+
+load a {\ttfamily mtx} matrix from file\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{M.load\_from\_file("matrix.mtx");}
+\end{DoxyCode}
+
+
+Note that the relative path should be from the directory where the binary is executed.
+
+Let\textquotesingle{}s see how the matrix is split between M\+PI processes in an impicit way\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{if (mpi\_runner.mpi\_rank == 0) \{}
+\DoxyCodeLine{  std::cout}
+\DoxyCodeLine{      << "=============== Testing file load and MPI split ==============="}
+\DoxyCodeLine{      << std::endl;}
+\DoxyCodeLine{  std::cout << "loaded full matrix:" << std::endl << M << std::endl;}
+\DoxyCodeLine{  std::cout << std::endl << std::endl;}
+\DoxyCodeLine{  std::cout << "split matrix over MPI processes:" << std::endl;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{M.show\_mpi\_split();}
+\end{DoxyCode}
+
+
+To modify or resize the matrix, the {\ttfamily operator()} and {\ttfamily resize()} method can be used\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{M(0, 0) = 10.0;}
+\DoxyCodeLine{M.resize(M.rows() + 1, M.cols() + 1);}
+\end{DoxyCode}
+
+
+If any changes are made to the matrix, remember to update the {\ttfamily M\+PI} configuration by calling\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{M.setup\_mpi();}
+\end{DoxyCode}
+
+
+as for efficiency reasons, the split is not called automatically at every single changes.
+
+We are ready to test a common linear algebra operation, the matrix vector multiplication. Let\textquotesingle{}s define a compatible vector type with the matrix type we are using, it can be retrieved automatically with\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{apsc::LinearAlgebra::Language::SparseMatrix<double>::VectorX b(size);}
+\end{DoxyCode}
+
+
+then\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{b.fill(1.0);}
+\DoxyCodeLine{auto matmul = M * b;}
+\end{DoxyCode}
+
+
+{\itshape {\bfseries{Note}}}\+: the vector must be allocated in all the {\ttfamily M\+PI} processes, this means that the vector size should be broadcasted to all the processes.
+
+One of the most common operations, Iterative linear solvers\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{auto x = M.solve\_iterative<apsc::LinearAlgebra::Language::IterativeSolverType::CONJUGATE\_GRADIENT>(b);}
+\DoxyCodeLine{x = M.solve\_iterative<apsc::LinearAlgebra::Language::IterativeSolverType::GMRES>(b);}
+\DoxyCodeLine{x = M.solve\_iterative<apsc::LinearAlgebra::Language::IterativeSolverType::BiCGSTAB>(b);}
+\DoxyCodeLine{x = M.solve\_iterative<apsc::LinearAlgebra::Language::IterativeSolverType::SPAI\_GMRES>(b);}
+\DoxyCodeLine{x = M.solve\_iterative<apsc::LinearAlgebra::Language::IterativeSolverType::SPAI\_BiCGSTAB>(b);}
+\end{DoxyCode}
+
+
+or direct solvers\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{x = M.solve\_direct(b);}
+\end{DoxyCode}
+
+
+The language user doesn\textquotesingle{}t have to think about {\ttfamily M\+PI} synchronisation processes while performing operations over {\ttfamily Full\+Matrix} and {\ttfamily Sparse\+Matrix}. All the operations between matrices and vectors are made in parallel while possible ({\ttfamily mpi\+\_\+size} $>$= 2). Iterative linear systems are solved in parallel too.
+
+The parallel speedup that can be achieved is dependent from the class type ({\ttfamily Full\+Matrix} vs {\ttfamily Sparse\+Matrix}). In particular when using a sparse format, the non zero elements and the matrix size are relevant information when choosing the parallelization setup.
+
+A few benchmarks can be found under {\ttfamily src/logs}.
+
+Please note that in some cases, only the master {\ttfamily mpi\+\_\+rank} will receive the correct vector or matrix hence do not take as exact any matrix or vector created by the library in non master ranks (please see {\ttfamily \mbox{\hyperlink{apsc__language_8hpp}{apsc\+\_\+language.\+hpp}}} documentation for more). If you need any information in a non master rank, manual data passing must be done.
+
+Now we are ready to compile and run\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd src/demo}
+\DoxyCodeLine{mkdir build}
+\DoxyCodeLine{cd build}
+\DoxyCodeLine{cmake ..}
+\DoxyCodeLine{make}
+\DoxyCodeLine{mpirun -\/n 1 main}
+\end{DoxyCode}
+\hypertarget{index_autotoc_md4}{}\doxysection{M\+P\+I docker errors}\label{index_autotoc_md4}
 You might experience a strange error when launching {\ttfamily M\+PI} inside the suggested docker container image\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{Read -\/1, expected <someNumber>, errno =1}
 \end{DoxyCode}
 
 
-Please refer to \href{https://github.com/feelpp/docker/issues/26}{\texttt{ this}}.\hypertarget{index_autotoc_md10}{}\doxysection{A note on Eigen usage}\label{index_autotoc_md10}
-In order to maintain back compability with the {\ttfamily Eigen} version inside the offical supported docker image ({\ttfamily pcafrica/mk}), {\ttfamily Eigen 3.\+4} or above features must not be used.\hypertarget{index_autotoc_md11}{}\doxysection{Valgrind}\label{index_autotoc_md11}
+Please refer to \href{https://github.com/feelpp/docker/issues/26}{\texttt{ this}}.\hypertarget{index_autotoc_md5}{}\doxysection{$<$tt$>$apsc\+::\+Linear\+Algebra\+::\+Language$<$/tt$>$}\label{index_autotoc_md5}
+Now let\textquotesingle{}s navigate inside this namespace to understand how the language is built.\hypertarget{index_autotoc_md6}{}\doxysubsection{$<$tt$>$apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Full\+Matrix$<$/tt$>$}\label{index_autotoc_md6}
+This implicit parallel full matrix implementation leverages two main components\+: {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix}{apsc\+::\+Linear\+Algebra\+::\+Full\+Matrix}}} and {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Full\+Matrix}}}. {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix}{apsc\+::\+Linear\+Algebra\+::\+Full\+Matrix}}} is initalized only in the master rank (hence only the master rank will have the matrix data) while {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Full\+Matrix}}} is initialised in each {\ttfamily M\+PI} process. By calling the {\ttfamily setup\+\_\+mpi()} method, the underlying classes will perform the required split.
 
+When a methd is called on the {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1FullMatrix}{apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Full\+Matrix}}}, it automatically choose if {\ttfamily M\+PI} is used or not hence the library undertands the right matrix to use in each case.
+
+At each matrix modification, by calling the same method as before, all the updates will be shared with all {\ttfamily M\+PI} processes (if used).
+
+This full matrix class offeres two linear solvers, one is with a direct method (by using QR factorisation) and the second one is an iterative Conjugate Gradient method. The first uses the solver mehtod of {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix}{apsc\+::\+Linear\+Algebra\+::\+Full\+Matrix}}} wich leverages {\ttfamily Eigen} library and no parallelisation are available. The latter uses a paralell Conjuagte Gradient method hence this enhancement is implicit by using the language library. Currently no parallel preconditioners are available.
+
+More specific information can be found inside the source file.\hypertarget{index_autotoc_md7}{}\doxysubsection{$<$tt$>$apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Sparse\+Matrix$<$/tt$>$}\label{index_autotoc_md7}
+This implicit parallel sparse matrix implementation leverages two main components\+: {\ttfamily Eigen\+::\+Sparse\+Matrix} and {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Sparse\+Matrix}}}. {\ttfamily Eigen\+::\+Sparse\+Matrix} is initalized only in the master rank (hence only the master rank will have the matrix data) while {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Sparse\+Matrix}}} is initialised in each {\ttfamily M\+PI} process. By calling the {\ttfamily setup\+\_\+mpi()} method, the underlying classes will perform the required split.
+
+When a methd is called on the {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Sparse\+Matrix}}}, it automatically choose if {\ttfamily M\+PI} is used or not hence the library undertands the right matrix to use in each case.
+
+At each matrix modification, by calling the same method as before, all the updates will be shared with all {\ttfamily M\+PI} processes (if used).
+
+This sparse matrix class offeres one direct linear solver\+:
+\begin{DoxyItemize}
+\item {\ttfamily Eigen\+::\+Solver\+QR$<$$>$} and five different types of iterative solvers\+:
+\item Conjugate Gradient
+\item G\+M\+R\+ES
+\item G\+M\+R\+ES + S\+P\+AI preconditioner
+\item Bi\+C\+G\+S\+T\+AB
+\item Bi\+C\+G\+S\+T\+AB + S\+P\+AI preconditioner
+\end{DoxyItemize}
+
+The {\ttfamily S\+P\+AI} preconditioner setup is not very trivial and we highly suggest to go through the source file in order to understand more.
+
+More specific information can be found inside the source file.\hypertarget{index_autotoc_md8}{}\doxysection{Benchmarks}\label{index_autotoc_md8}
+\hypertarget{index_autotoc_md9}{}\doxysubsection{M\+P\+I parallelisation}\label{index_autotoc_md9}
+The parallelisation speed up analysis for full and sparse matices can be found by running the python scripts under {\ttfamily src/logs}.
+
+The take home message is that while full matrices can leverage a multiprocess system in a very good way, sparse matrices operations deeply depends on the matix non zero elements. The number of processes, hence how big local data structures are as local C\+PU cache and communication prices are a few big actors in retrieving the speedup amount.\hypertarget{index_autotoc_md10}{}\doxysubsection{S\+P\+A\+I preconditioner}\label{index_autotoc_md10}
+Currently this preconditioner has been used by changing the original linear system from\+: \mbox{[} Ax = b \mbox{]} to \mbox{[} A\+My = b \mbox{]} \mbox{[} x = My \mbox{]}
+
+The preconditioner setup follow the work in (\href{https://epubs.siam.org/doi/10.1137/S1064827594276552}{\texttt{ https\+://epubs.\+siam.\+org/doi/10.\+1137/\+S1064827594276552}}).
+
+If {\ttfamily M\+PI} is used, the setup process is done in parallel by splitting the matrix column work.
+
+Below some benchmarks can be found by using different {\ttfamily epsilon} values and the G\+M\+R\+ES algorithm\+:
+
+{\ttfamily orsirr\+\_\+1} \tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ G\+M\+R\+ES  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ G\+M\+R\+ES  }\\\cline{1-2}
+\endhead
+0.\+6 &iter  \\\cline{1-2}
+0.\+3 &iters  \\\cline{1-2}
+0.\+1 &iters  \\\cline{1-2}
+\end{longtabu}
+
+
+{\ttfamily orsirr\+\_\+2} \tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ G\+M\+R\+ES  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ G\+M\+R\+ES  }\\\cline{1-2}
+\endhead
+0.\+6 &iter  \\\cline{1-2}
+0.\+3 &iters  \\\cline{1-2}
+0.\+1 &iters  \\\cline{1-2}
+\end{longtabu}
+
+
+{\ttfamily orsreg\+\_\+1} \tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ G\+M\+R\+ES  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ G\+M\+R\+ES  }\\\cline{1-2}
+\endhead
+0.\+6 &iter  \\\cline{1-2}
+0.\+3 &iters  \\\cline{1-2}
+0.\+1 &iters  \\\cline{1-2}
+\end{longtabu}
+\hypertarget{index_autotoc_md11}{}\doxysection{Section for library maintainers}\label{index_autotoc_md11}
+\hypertarget{index_autotoc_md12}{}\doxysubsection{File format}\label{index_autotoc_md12}
+In order to maintain a consistent format please format your files with 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{clang-\/format -\/style=Google -\/-\/sort-\/includes -\/i path/to/file}
+\end{DoxyCode}
+\hypertarget{index_autotoc_md13}{}\doxysubsection{A note on Eigen usage}\label{index_autotoc_md13}
+In order to maintain back compability with the {\ttfamily Eigen} version inside the offical supported docker image ({\ttfamily pcafrica/mk}), {\ttfamily Eigen 3.\+4} or above features must not be used.\hypertarget{index_autotoc_md14}{}\doxysubsection{Valgrind}\label{index_autotoc_md14}
+Compile the binary with the debug flag {\ttfamily -\/g3}, and then\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{valgrind -\/-\/leak-\/check=full -\/-\/show-\/leak-\/kinds=all -\/-\/track-\/origins=yes -\/-\/verbose -\/-\/log-\/file=valgrind-\/out.txt [your\_executable]}
 \end{DoxyCode}

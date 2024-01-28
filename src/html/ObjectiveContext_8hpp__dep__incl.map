@@ -1,8 +1,8 @@
 <map id="lib/ObjectiveContext.hpp" name="lib/ObjectiveContext.hpp">
-<area shape="rect" id="node1" title="Header file containing the objective context class for managing objective&#45;related information and rep..." alt="" coords="239,5,421,32"/>
-<area shape="rect" id="node2" href="$Utils_8hpp_source.html" title=" " alt="" coords="280,80,380,107"/>
-<area shape="rect" id="node3" href="$Vector_8hpp.html" title="Header file containing a full vector definiton." alt="" coords="211,155,321,181"/>
-<area shape="rect" id="node5" href="$apsc__language_8hpp.html" title="Header file defining apsc custom linear algebra language. It aims to ease the developer experience wh..." alt="" coords="189,304,343,345"/>
-<area shape="rect" id="node4" href="$MPIFullMatrix_8hpp.html" title="Header file containing a parallel full matrix definition." alt="" coords="5,229,164,256"/>
-<area shape="rect" id="node6" href="$MPISparseMatrix_8hpp.html" title="Header file containing a parallel sparse matrix definition." alt="" coords="240,229,420,256"/>
+<area shape="rect" id="node1" title="Header file containing the objective context class for managing objective&#45;related information and rep..." alt="" coords="5,5,188,32"/>
+<area shape="rect" id="node2" href="$Utils_8hpp_source.html" title=" " alt="" coords="47,80,147,107"/>
+<area shape="rect" id="node3" href="$apsc__language_8hpp.html" title="Header file defining apsc custom linear algebra language. It aims to ease the developer experience wh..." alt="" coords="76,304,243,331"/>
+<area shape="rect" id="node4" href="$Vector_8hpp.html" title="Header file containing a full vector definiton." alt="" coords="125,155,236,181"/>
+<area shape="rect" id="node5" href="$MPIFullMatrix_8hpp.html" title="Header file containing a parallel full matrix definition." alt="" coords="139,229,297,256"/>
+<area shape="rect" id="node6" href="$MPISparseMatrix_8hpp.html" title="Header file containing a parallel sparse matrix definition." alt="" coords="321,229,501,256"/>
 </map>
