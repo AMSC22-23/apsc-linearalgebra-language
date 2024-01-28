@@ -280,25 +280,39 @@ If `MPI` is used, the setup process is done in parallel by splitting the matrix 
 Below some benchmarks can be found by using different `epsilon` values and the GMRES algorithm:
 
 `orsirr_1`
-| Epsilon | GMRES |
-|---------|-------|
-| 0.6     | iter  |
-| 0.3     | iters |
-| 0.1     | iters |
+| Epsilon | GMRES | BiCGSTAB |
+|---------|-------|----------|
+| 0.6     | iter  | iter     |
+| 0.3     | iters | iters    |
+| 0.1     | iters | iters    |
 
 `orsirr_2`
-| Epsilon | GMRES |
-|---------|-------|
-| 0.6     | iter  |
-| 0.3     | iters |
-| 0.1     | iters |
+| Epsilon | GMRES | BiCGSTAB |
+|---------|-------|----------|
+| 0.6     | iter  | iter     |
+| 0.3     | iters | iters    |
+| 0.1     | iters | iters    |
 
 `orsreg_1`
-| Epsilon | GMRES |
-|---------|-------|
-| 0.6     | iter  |
-| 0.3     | iters |
-| 0.1     | iters |
+| Epsilon | GMRES | BiCGSTAB |
+|---------|-------|----------|
+| 0.6     | iter  | iter     |
+| 0.3     | iters | iters    |
+| 0.1     | iters | iters    |
+
+`saylr3`
+| Epsilon | GMRES | BiCGSTAB |
+|---------|-------|----------|
+| 0.6     | iter  | iter     |
+| 0.3     | iters | iters    |
+| 0.1     | iters | iters    |
+
+`saylr4`
+| Epsilon | GMRES | BiCGSTAB |
+|---------|-------|----------|
+| 0.6     | iter  | iter     |
+| 0.3     | iters | iters    |
+| 0.1     | iters | iters    |
 
 
 # Section for library maintainers
