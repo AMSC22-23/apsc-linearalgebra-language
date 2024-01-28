@@ -1,6 +1,7 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
+#include "bicgstab.hpp"
 #include <mpi.h>
 
 #include <MPIContext.hpp>
@@ -125,6 +126,189 @@ void MPI_matrix_show(MPIMatrix MPIMat, const int mpi_rank, const int mpi_size,
 }
 
 namespace Solvers {
+namespace BiCGSTAB
+{template <typename MPILhs, typename Rhs, typename Scalar, typename ExactSol,
+          int SHOW_ERROR_NORM = 1, typename... Preconditioner>
+int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e,
+          const MPIContext mpi_ctx, ObjectiveContext obj_ctx, bool produce_out_file = 1,
+          Preconditioner &...P) {
+  constexpr std::size_t P_size = sizeof...(P);
+  static_assert(P_size < 2, "Please specify max 1 preconditioner");
+
+#if PRODUCE_OUT_FILE == 0
+  (void)obj_ctx;
+#endif
+
+  const int size = b.size();
+
+  x.resize(size);
+  x.fill(0.0);
+  int max_iter = BiCGSTAB_MAX_ITER(size);
+  Scalar tol = BiCGSTAB_TOL;
+
+  if constexpr (P_size == 0) {
+    auto id = Eigen::IdentityPreconditioner();
+    std::chrono::high_resolution_clock::time_point begin =
+        std::chrono::high_resolution_clock::now();
+    auto result =
+        apsc::LinearAlgebra::LinearSolvers::Sequential::BiCGSTAB(A, x, b, id, max_iter, tol);
+    std::chrono::high_resolution_clock::time_point end =
+        std::chrono::high_resolution_clock::now();
+    long long diff =
+        std::chrono::duration_cast<std::chrono::microseconds>(end - begin)
+            .count();
+    if (mpi_ctx.mpi_rank() == 0) {
+      cout << "(Time spent: " << diff << "[us]" << endl;
+      cout << "Solution with BiCGSTAB:" << endl;
+      cout << "iterations performed:                      " << max_iter << endl;
+      cout << "tolerance achieved:                        " << tol << endl;
+      if constexpr (SHOW_ERROR_NORM)
+        cout << "Error norm:                                " << (x - e).norm()
+             << endl;
+      if (produce_out_file) {
+        obj_ctx.write(static_cast<long long>(size), ',',
+                      static_cast<long long>(diff), ',',
+                      static_cast<long long>(max_iter), ',',
+                      static_cast<long long>(result));
+      }
+#if DEBUG == 1
+      cout << "Result vector:                             " << x << endl;
+#endif
+    }
+    return result;
+  } else {
+    std::chrono::high_resolution_clock::time_point begin =
+        std::chrono::high_resolution_clock::now();
+    auto result = apsc::LinearAlgebra::LinearSolvers::Sequential::BiCGSTAB<
+        MPILhs, Rhs, Preconditioner...>(A, x, b, P..., max_iter, tol);
+    std::chrono::high_resolution_clock::time_point end =
+        std::chrono::high_resolution_clock::now();
+    long long diff =
+        std::chrono::duration_cast<std::chrono::microseconds>(end - begin)
+            .count();
+
+    if (mpi_ctx.mpi_rank() == 0) {
+      cout << "(Time spent: " << diff << "[us]" << endl;
+      cout << "Solution with BiCGSTAB:" << endl;
+      cout << "iterations performed:                      " << max_iter << endl;
+      cout << "tolerance achieved:                        " << tol << endl;
+      if constexpr (SHOW_ERROR_NORM)
+        cout << "Error norm:                                " << (x - e).norm()
+             << endl;
+      if (produce_out_file) {
+        obj_ctx.write(static_cast<long long>(size), ',',
+                      static_cast<long long>(diff), ',',
+                      static_cast<long long>(max_iter), ',',
+                      static_cast<long long>(result));
+      }
+#if DEBUG == 1
+      cout << "Result vector:                             " << x << endl;
+#endif
+    }
+    return result;
+  }
+}
+template <typename MPILhs, typename Rhs, typename Scalar, typename ExactSol,
+          int SHOW_ERROR_NORM = 1, typename... Preconditioner>
+int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e,
+              const MPIContext mpi_ctx, ObjectiveContext obj_ctx, bool produce_out_file = 1,
+              Preconditioner &...P) {
+  constexpr std::size_t P_size = sizeof...(P);
+  static_assert(P_size < 2, "Please specify max 1 preconditioner");
+
+#if PRODUCE_OUT_FILE == 0
+  (void)obj_ctx;
+#endif
+
+  const int size = b.size();
+
+  x.resize(size);
+  x.fill(0.0);
+  int max_iter = GMRES_MAX_ITER(size);
+  Scalar tol = GMRES_TOL;
+
+  if constexpr (P_size == 0) {
+    auto id = Eigen::IdentityPreconditioner();
+    std::chrono::high_resolution_clock::time_point begin =
+        std::chrono::high_resolution_clock::now();
+    auto result = apsc::LinearAlgebra::LinearSolvers::MPI::BiCGSTAB<MPILhs, Rhs, decltype(id)>(
+        A, x, b, id, max_iter, tol);
+    std::chrono::high_resolution_clock::time_point end =
+        std::chrono::high_resolution_clock::now();
+    long long diff =
+        std::chrono::duration_cast<std::chrono::microseconds>(end - begin)
+            .count();
+    decltype(diff) diff_sum = 0;
+
+    MPI_Reduce(&diff, &diff_sum, 1, MPI_LONG_LONG, MPI_SUM, 0,
+               mpi_ctx.mpi_comm());
+
+    if (mpi_ctx.mpi_rank() == 0) {
+      cout << "(Time spent by all processes: " << diff_sum
+           << ", total processes: " << mpi_ctx.mpi_size() << ")" << endl;
+      cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[us]"
+           << endl;
+      cout << "Solution with BiCGSTAB:" << endl;
+      cout << "iterations performed:                      " << max_iter << endl;
+      cout << "tolerance achieved:                        " << tol << endl;
+      if constexpr (SHOW_ERROR_NORM)
+        cout << "Error norm:                                " << (x - e).norm()
+             << endl;
+      if (produce_out_file) {
+        obj_ctx.write(static_cast<long long>(size), ',',
+                      static_cast<long long>(diff_sum / mpi_ctx.mpi_size()),
+                      ',', static_cast<long long>(max_iter), ',',
+                      static_cast<long long>(result));
+      }
+#if DEBUG == 1
+      cout << "Result vector:                             " << x << endl;
+#endif
+    }
+    return result;
+  } else {
+    std::chrono::high_resolution_clock::time_point begin =
+        std::chrono::high_resolution_clock::now();
+    auto result =
+        apsc::LinearAlgebra::LinearSolvers::MPI::BiCGSTAB<MPILhs, Rhs,
+                                                       Preconditioner...>(
+            A, x, b, P..., max_iter, tol);
+    std::chrono::high_resolution_clock::time_point end =
+        std::chrono::high_resolution_clock::now();
+    long long diff =
+        std::chrono::duration_cast<std::chrono::microseconds>(end - begin)
+            .count();
+    decltype(diff) diff_sum = 0;
+
+    MPI_Reduce(&diff, &diff_sum, 1, MPI_LONG_LONG, MPI_SUM, 0,
+               mpi_ctx.mpi_comm());
+
+    if (mpi_ctx.mpi_rank() == 0) {
+      cout << "(Time spent by all processes: " << diff_sum
+           << ", total processes: " << mpi_ctx.mpi_size() << ")" << endl;
+      cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[us]"
+           << endl;
+      cout << "Solution with BiCGSTAB:" << endl;
+      cout << "iterations performed:                      " << max_iter << endl;
+      cout << "tolerance achieved:                        " << tol << endl;
+      if constexpr (SHOW_ERROR_NORM)
+        cout << "Error norm:                                " << (x - e).norm()
+             << endl;
+      if (produce_out_file) {
+        obj_ctx.write(static_cast<long long>(size), ',',
+                      static_cast<long long>(diff_sum / mpi_ctx.mpi_size()),
+                      ',', static_cast<long long>(max_iter), ',',
+                      static_cast<long long>(result));
+      }
+#if DEBUG == 1
+      cout << "Result vector:                             " << x << endl;
+#endif
+    }
+    return result;
+  }
+}
+
+
+}
 namespace GMRES {
 template <typename MPILhs, typename Rhs, typename Scalar, typename ExactSol,
           int SHOW_ERROR_NORM = 1, typename... Preconditioner>
@@ -159,7 +343,7 @@ int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
         std::chrono::duration_cast<std::chrono::microseconds>(end - begin)
             .count();
     if (mpi_ctx.mpi_rank() == 0) {
-      cout << "(Time spent: " << diff << "[µs]" << endl;
+      cout << "(Time spent: " << diff << "[us]" << endl;
       cout << "Solution with GMRES:" << endl;
       cout << "iterations performed:                      " << max_iter << endl;
       cout << "tolerance achieved:                        " << tol << endl;
@@ -191,7 +375,7 @@ int solve(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
             .count();
 
     if (mpi_ctx.mpi_rank() == 0) {
-      cout << "(Time spent: " << diff << "[µs]" << endl;
+      cout << "(Time spent: " << diff << "[us]" << endl;
       cout << "Solution with GMRES:" << endl;
       cout << "iterations performed:                      " << max_iter << endl;
       cout << "tolerance achieved:                        " << tol << endl;
@@ -252,7 +436,7 @@ int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
     if (mpi_ctx.mpi_rank() == 0) {
       cout << "(Time spent by all processes: " << diff_sum
            << ", total processes: " << mpi_ctx.mpi_size() << ")" << endl;
-      cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[µs]"
+      cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[us]"
            << endl;
       cout << "Solution with GMRES:" << endl;
       cout << "iterations performed:                      " << max_iter << endl;
@@ -293,7 +477,7 @@ int solve_MPI(MPILhs &A, Rhs &b, Rhs &x, ExactSol &e, int restart,
     if (mpi_ctx.mpi_rank() == 0) {
       cout << "(Time spent by all processes: " << diff_sum
            << ", total processes: " << mpi_ctx.mpi_size() << ")" << endl;
-      cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[µs]"
+      cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[us]"
            << endl;
       cout << "Solution with GMRES:" << endl;
       cout << "iterations performed:                      " << max_iter << endl;
@@ -359,7 +543,7 @@ int solve_MPI(MPILhs &A, Rhs b, ExactSol &e, const MPIContext mpi_ctx,
     if (mpi_ctx.mpi_rank() == 0) {
       cout << "(Time spent by all processes: " << diff_sum
            << ", total processes: " << mpi_ctx.mpi_size() << ")" << std::endl;
-      cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[µs]"
+      cout << "Mean elapsed time = " << diff_sum / mpi_ctx.mpi_size() << "[us]"
            << endl;
       cout << "Solution with Conjugate Gradient:" << endl;
       cout << "iterations performed:                      " << max_iter << endl;

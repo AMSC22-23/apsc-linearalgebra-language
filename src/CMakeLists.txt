@@ -34,5 +34,8 @@ target_link_libraries(MPI_sparse_matrix_cg MPI::MPI_CXX)
 add_executable(MPI_sparse_matrix_gmres_spai demo/MPI_sparse_matrix_gmres_spai.cpp)
 target_link_libraries(MPI_sparse_matrix_gmres_spai MPI::MPI_CXX)
 
+add_executable(MPI_sparse_matrix_bicgstab_spai demo/MPI_sparse_matrix_bicgstab_spai.cpp)
+target_link_libraries(MPI_sparse_matrix_bicgstab_spai MPI::MPI_CXX)
+
 add_executable(apsc_language demo/linear_algebra.cpp)
 target_link_libraries(apsc_language MPI::MPI_CXX)
