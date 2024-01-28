@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12.0)
 # Enable this to compile with debug flags
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3")
-project(AMSC-matvet-iterative-solvers-MPI LANGUAGES CXX C)
+project(apsc-Linear-Algebra-Language LANGUAGES CXX C)
 
 include(./cmake_shared/cmake-common.cmake)
 
@@ -15,11 +15,10 @@ SET(EIGEN3_DIR_PCAFRICA $ENV{mkEigenInc})             #pcafrica/mk module
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/AMSC-CodeExamples/Examples/src/
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/ ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/
-  ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/cg/
-  ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/gmres/
-  ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/bicg/
-  ${CMAKE_CURRENT_SOURCE_DIR}/apsc_language/
-  ${CMAKE_CURRENT_SOURCE_DIR}/preconditioners/parallel/spai/
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/algorithms/cg/
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/algorithms/gmres/
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/algorithms/bicg/
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/preconditioners/parallel/spai/
   ${EIGEN3_DIR_LOCAL} ${EIGEN3_DIR_PCAFRICA})
 include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
