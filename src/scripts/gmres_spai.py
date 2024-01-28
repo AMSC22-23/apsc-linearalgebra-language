@@ -8,13 +8,14 @@ def list_files_with_extension(directory, extension):
 
 #modify this based on your machine
 process_num = [4]
-epsilon = [0.4, 0.2, 0.05, 0.001]
+epsilon = [0.6, 0.3, 0.1]
 directory_path = '../inputs/spai/'
 extension = 'mtx'
 mtx_files = list_files_with_extension(directory_path, extension)
-build_dir = "../build/"
+build_dir = "../build_local/"
+executable = "MPI_sparse_matrix_gmres_spai"
 
-os.system(f'cd {build_dir} && cmake .. && make -j 8')
+os.system(f'cd {build_dir} && cmake .. && make -j {process_num[-1]}')
 
 for f in mtx_files:
     print(f)
@@ -23,7 +24,7 @@ for p in process_num:
     for mat in mtx_files:
         for eps in epsilon:
             print(f'\nLaunching MPI with {p} process. Problem name: {mat}')
-            cmd = f'cd {build_dir} && mpirun -n {p} gmres_test {mat} {eps} 500'
+            cmd = f'cd {build_dir} && mpirun -n {p} {executable} {mat} {eps} 500'
             print("command: ", cmd)
             if os.system(cmd) != 0:
                 print(f'Failure: MPI with {p} process. Problem size: {mat}')
