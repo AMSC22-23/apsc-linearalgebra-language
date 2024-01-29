@@ -277,42 +277,49 @@ The preconditioner setup follow the work in (https://epubs.siam.org/doi/10.1137/
 
 If `MPI` is used, the setup process is done in parallel by splitting the matrix column work.
 
-Below some benchmarks can be found by using different `epsilon` values and the GMRES algorithm:
+Below some benchmarks can be found by using different `epsilon` values
+and the BiCGSTAB algorithm (`inf` values means that no preconditioner is
+applied, `x` means that the result is not available):
 
 `orsirr_1`
-| Epsilon | GMRES | BiCGSTAB |
-|---------|-------|----------|
-| 0.6     | iter  | iter     |
-| 0.3     | iters | iters    |
-| 0.1     | iters | iters    |
+| Epsilon | BiCGSTAB |
+|---------|----------|
+| inf     | 1877     |
+| 0.6     | 168      |
+| 0.4     | 44       |
+| 0.2     | 19       |
 
 `orsirr_2`
-| Epsilon | GMRES | BiCGSTAB |
-|---------|-------|----------|
-| 0.6     | iter  | iter     |
-| 0.3     | iters | iters    |
-| 0.1     | iters | iters    |
+| Epsilon | BiCGSTAB |
+|---------|----------|
+| inf     | 1129     |
+| 0.6     | 177      |
+| 0.4     | 45       |
+| 0.2     | 19       |
 
 `orsreg_1`
-| Epsilon | GMRES | BiCGSTAB |
-|---------|-------|----------|
-| 0.6     | iter  | iter     |
-| 0.3     | iters | iters    |
-| 0.1     | iters | iters    |
+| Epsilon | BiCGSTAB |
+|---------|----------|
+| inf     | 342      |
+| 0.6     | 125      |
+| 0.4     | 46       |
+| 0.2     | 24       |
 
 `saylr3`
-| Epsilon | GMRES | BiCGSTAB |
-|---------|-------|----------|
-| 0.6     | iter  | iter     |
-| 0.3     | iters | iters    |
-| 0.1     | iters | iters    |
+| Epsilon | BiCGSTAB |
+|---------|----------|
+| inf     | 371      |
+| 0.6     | 189      |
+| 0.4     | 64       |
+| 0.2     | 34       |
 
 `saylr4`
-| Epsilon | GMRES | BiCGSTAB |
-|---------|-------|----------|
-| 0.6     | iter  | iter     |
-| 0.3     | iters | iters    |
-| 0.1     | iters | iters    |
+| Epsilon | BiCGSTAB |
+|---------|----------|
+| inf     | 3574     |
+| 0.6     | 2455     |
+| 0.4     | x        |
+| 0.2     | x        |
 
 
 # Section for library maintainers

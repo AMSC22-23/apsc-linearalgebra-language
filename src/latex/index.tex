@@ -161,7 +161,7 @@ If any changes are made to the matrix, remember to update the {\ttfamily M\+PI} 
 \end{DoxyCode}
 
 
-as for efficiency reasons, the split is not called automatically at every single changes.
+as for efficiency reasons, the split is not called automatically at every single change.
 
 We are ready to test a common linear algebra operation, the matrix vector multiplication. Let\textquotesingle{}s define a compatible vector type with the matrix type we are using, it can be retrieved automatically with\+: 
 \begin{DoxyCode}{0}
@@ -218,8 +218,8 @@ You might experience a strange error when launching {\ttfamily M\+PI} inside the
 \end{DoxyCode}
 
 
-Please refer to \href{https://github.com/feelpp/docker/issues/26}{\texttt{ this}}.\hypertarget{index_autotoc_md5}{}\doxysection{$<$tt$>$apsc\+::\+Linear\+Algebra\+::\+Language$<$/tt$>$}\label{index_autotoc_md5}
-Now let\textquotesingle{}s navigate inside this namespace to understand how the language is built.\hypertarget{index_autotoc_md6}{}\doxysubsection{$<$tt$>$apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Full\+Matrix$<$/tt$>$}\label{index_autotoc_md6}
+Please refer to \href{https://github.com/feelpp/docker/issues/26}{\texttt{ this}}.\hypertarget{index_autotoc_md5}{}\doxysection{apsc\+::\+Linear\+Algebra\+::\+Language}\label{index_autotoc_md5}
+Now let\textquotesingle{}s navigate inside this namespace to understand how the language is built.\hypertarget{index_autotoc_md6}{}\doxysubsection{apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Full\+Matrix}\label{index_autotoc_md6}
 This implicit parallel full matrix implementation leverages two main components\+: {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix}{apsc\+::\+Linear\+Algebra\+::\+Full\+Matrix}}} and {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Full\+Matrix}}}. {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix}{apsc\+::\+Linear\+Algebra\+::\+Full\+Matrix}}} is initalized only in the master rank (hence only the master rank will have the matrix data) while {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPIFullMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Full\+Matrix}}} is initialised in each {\ttfamily M\+PI} process. By calling the {\ttfamily setup\+\_\+mpi()} method, the underlying classes will perform the required split.
 
 When a methd is called on the {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1FullMatrix}{apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Full\+Matrix}}}, it automatically choose if {\ttfamily M\+PI} is used or not hence the library undertands the right matrix to use in each case.
@@ -228,7 +228,7 @@ At each matrix modification, by calling the same method as before, all the updat
 
 This full matrix class offeres two linear solvers, one is with a direct method (by using QR factorisation) and the second one is an iterative Conjugate Gradient method. The first uses the solver mehtod of {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1FullMatrix}{apsc\+::\+Linear\+Algebra\+::\+Full\+Matrix}}} wich leverages {\ttfamily Eigen} library and no parallelisation are available. The latter uses a paralell Conjuagte Gradient method hence this enhancement is implicit by using the language library. Currently no parallel preconditioners are available.
 
-More specific information can be found inside the source file.\hypertarget{index_autotoc_md7}{}\doxysubsection{$<$tt$>$apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Sparse\+Matrix$<$/tt$>$}\label{index_autotoc_md7}
+More specific information can be found inside the source file.\hypertarget{index_autotoc_md7}{}\doxysubsection{apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Sparse\+Matrix}\label{index_autotoc_md7}
 This implicit parallel sparse matrix implementation leverages two main components\+: {\ttfamily Eigen\+::\+Sparse\+Matrix} and {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Sparse\+Matrix}}}. {\ttfamily Eigen\+::\+Sparse\+Matrix} is initalized only in the master rank (hence only the master rank will have the matrix data) while {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1MPISparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+M\+P\+I\+Sparse\+Matrix}}} is initialised in each {\ttfamily M\+PI} process. By calling the {\ttfamily setup\+\_\+mpi()} method, the underlying classes will perform the required split.
 
 When a methd is called on the {\ttfamily \mbox{\hyperlink{classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix}{apsc\+::\+Linear\+Algebra\+::\+Language\+::\+Sparse\+Matrix}}}, it automatically choose if {\ttfamily M\+PI} is used or not hence the library undertands the right matrix to use in each case.
@@ -258,53 +258,90 @@ The preconditioner setup follow the work in (\href{https://epubs.siam.org/doi/10
 
 If {\ttfamily M\+PI} is used, the setup process is done in parallel by splitting the matrix column work.
 
-Below some benchmarks can be found by using different {\ttfamily epsilon} values and the G\+M\+R\+ES algorithm\+:
+Below some benchmarks can be found by using different {\ttfamily epsilon} values and the Bi\+C\+G\+S\+T\+AB algorithm ({\ttfamily inf} values means that no preconditioner is applied, {\ttfamily x} means that the result is not available)\+:
 
 {\ttfamily orsirr\+\_\+1} \tabulinesep=1mm
 \begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
 \hline
-\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ G\+M\+R\+ES  }\\\cline{1-2}
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Bi\+C\+G\+S\+T\+AB  }\\\cline{1-2}
 \endfirsthead
 \hline
 \endfoot
 \hline
-\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ G\+M\+R\+ES  }\\\cline{1-2}
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Bi\+C\+G\+S\+T\+AB  }\\\cline{1-2}
 \endhead
-0.\+6 &iter  \\\cline{1-2}
-0.\+3 &iters  \\\cline{1-2}
-0.\+1 &iters  \\\cline{1-2}
+inf &1877  \\\cline{1-2}
+0.\+6 &168  \\\cline{1-2}
+0.\+4 &44  \\\cline{1-2}
+0.\+2 &19  \\\cline{1-2}
 \end{longtabu}
 
 
 {\ttfamily orsirr\+\_\+2} \tabulinesep=1mm
 \begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
 \hline
-\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ G\+M\+R\+ES  }\\\cline{1-2}
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Bi\+C\+G\+S\+T\+AB  }\\\cline{1-2}
 \endfirsthead
 \hline
 \endfoot
 \hline
-\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ G\+M\+R\+ES  }\\\cline{1-2}
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Bi\+C\+G\+S\+T\+AB  }\\\cline{1-2}
 \endhead
-0.\+6 &iter  \\\cline{1-2}
-0.\+3 &iters  \\\cline{1-2}
-0.\+1 &iters  \\\cline{1-2}
+inf &1129  \\\cline{1-2}
+0.\+6 &177  \\\cline{1-2}
+0.\+4 &45  \\\cline{1-2}
+0.\+2 &19  \\\cline{1-2}
 \end{longtabu}
 
 
 {\ttfamily orsreg\+\_\+1} \tabulinesep=1mm
 \begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
 \hline
-\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ G\+M\+R\+ES  }\\\cline{1-2}
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Bi\+C\+G\+S\+T\+AB  }\\\cline{1-2}
 \endfirsthead
 \hline
 \endfoot
 \hline
-\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ G\+M\+R\+ES  }\\\cline{1-2}
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Bi\+C\+G\+S\+T\+AB  }\\\cline{1-2}
 \endhead
-0.\+6 &iter  \\\cline{1-2}
-0.\+3 &iters  \\\cline{1-2}
-0.\+1 &iters  \\\cline{1-2}
+inf &342  \\\cline{1-2}
+0.\+6 &125  \\\cline{1-2}
+0.\+4 &46  \\\cline{1-2}
+0.\+2 &24  \\\cline{1-2}
+\end{longtabu}
+
+
+{\ttfamily saylr3} \tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Bi\+C\+G\+S\+T\+AB  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Bi\+C\+G\+S\+T\+AB  }\\\cline{1-2}
+\endhead
+inf &371  \\\cline{1-2}
+0.\+6 &189  \\\cline{1-2}
+0.\+4 &64  \\\cline{1-2}
+0.\+2 &34  \\\cline{1-2}
+\end{longtabu}
+
+
+{\ttfamily saylr4} \tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Bi\+C\+G\+S\+T\+AB  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Epsilon }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Bi\+C\+G\+S\+T\+AB  }\\\cline{1-2}
+\endhead
+inf &3574  \\\cline{1-2}
+0.\+6 &2455  \\\cline{1-2}
+0.\+4 &x  \\\cline{1-2}
+0.\+2 &x  \\\cline{1-2}
 \end{longtabu}
 \hypertarget{index_autotoc_md11}{}\doxysection{Section for library maintainers}\label{index_autotoc_md11}
 \hypertarget{index_autotoc_md12}{}\doxysubsection{File format}\label{index_autotoc_md12}

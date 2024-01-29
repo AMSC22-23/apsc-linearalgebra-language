@@ -166,7 +166,7 @@ Demo</h1>
 </div><!-- fragment --><p>To modify or resize the matrix, the <code>operator()</code> and <code>resize()</code> method can be used: </p><div class="fragment"><div class="line">M(0, 0) = 10.0;</div>
 <div class="line">M.resize(M.rows() + 1, M.cols() + 1);</div>
 </div><!-- fragment --><p>If any changes are made to the matrix, remember to update the <code>MPI</code> configuration by calling: </p><div class="fragment"><div class="line">M.setup_mpi();</div>
-</div><!-- fragment --><p>as for efficiency reasons, the split is not called automatically at every single changes.</p>
+</div><!-- fragment --><p>as for efficiency reasons, the split is not called automatically at every single change.</p>
 <p>We are ready to test a common linear algebra operation, the matrix vector multiplication. Let's define a compatible vector type with the matrix type we are using, it can be retrieved automatically with: </p><div class="fragment"><div class="line">apsc::LinearAlgebra::Language::SparseMatrix&lt;double&gt;::VectorX b(size);</div>
 </div><!-- fragment --><p>then: </p><div class="fragment"><div class="line">b.fill(1.0);</div>
 <div class="line">auto matmul = M * b;</div>
@@ -192,17 +192,17 @@ MPI docker errors</h1>
 <p>You might experience a strange error when launching <code>MPI</code> inside the suggested docker container image: </p><div class="fragment"><div class="line">Read -1, expected &lt;someNumber&gt;, errno =1</div>
 </div><!-- fragment --><p>Please refer to <a href="https://github.com/feelpp/docker/issues/26">this</a>.</p>
 <h1><a class="anchor" id="autotoc_md5"></a>
-&lt;tt&gt;apsc::LinearAlgebra::Language&lt;/tt&gt;</h1>
+apsc::LinearAlgebra::Language</h1>
 <p>Now let's navigate inside this namespace to understand how the language is built.</p>
 <h2><a class="anchor" id="autotoc_md6"></a>
-&lt;tt&gt;apsc::LinearAlgebra::Language::FullMatrix&lt;/tt&gt;</h2>
+apsc::LinearAlgebra::Language::FullMatrix</h2>
 <p>This implicit parallel full matrix implementation leverages two main components: <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1FullMatrix.html" title="A full matrix with vector multiplication support for custom Vector class.">apsc::LinearAlgebra::FullMatrix</a></code> and <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1MPIFullMatrix.html" title="A class for parallel matrix product.">apsc::LinearAlgebra::MPIFullMatrix</a></code>. <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1FullMatrix.html" title="A full matrix with vector multiplication support for custom Vector class.">apsc::LinearAlgebra::FullMatrix</a></code> is initalized only in the master rank (hence only the master rank will have the matrix data) while <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1MPIFullMatrix.html" title="A class for parallel matrix product.">apsc::LinearAlgebra::MPIFullMatrix</a></code> is initialised in each <code>MPI</code> process. By calling the <code>setup_mpi()</code> method, the underlying classes will perform the required split.</p>
 <p>When a methd is called on the <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1FullMatrix.html" title="A class representing a full matrix.">apsc::LinearAlgebra::Language::FullMatrix</a></code>, it automatically choose if <code>MPI</code> is used or not hence the library undertands the right matrix to use in each case.</p>
 <p>At each matrix modification, by calling the same method as before, all the updates will be shared with all <code>MPI</code> processes (if used).</p>
 <p>This full matrix class offeres two linear solvers, one is with a direct method (by using QR factorisation) and the second one is an iterative Conjugate Gradient method. The first uses the solver mehtod of <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1FullMatrix.html" title="A full matrix with vector multiplication support for custom Vector class.">apsc::LinearAlgebra::FullMatrix</a></code> wich leverages <code>Eigen</code> library and no parallelisation are available. The latter uses a paralell Conjuagte Gradient method hence this enhancement is implicit by using the language library. Currently no parallel preconditioners are available.</p>
 <p>More specific information can be found inside the source file.</p>
 <h2><a class="anchor" id="autotoc_md7"></a>
-&lt;tt&gt;apsc::LinearAlgebra::Language::SparseMatrix&lt;/tt&gt;</h2>
+apsc::LinearAlgebra::Language::SparseMatrix</h2>
 <p>This implicit parallel sparse matrix implementation leverages two main components: <code>Eigen::SparseMatrix</code> and <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1MPISparseMatrix.html" title="A class for parallel sparse matrix product.">apsc::LinearAlgebra::MPISparseMatrix</a></code>. <code>Eigen::SparseMatrix</code> is initalized only in the master rank (hence only the master rank will have the matrix data) while <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1MPISparseMatrix.html" title="A class for parallel sparse matrix product.">apsc::LinearAlgebra::MPISparseMatrix</a></code> is initialised in each <code>MPI</code> process. By calling the <code>setup_mpi()</code> method, the underlying classes will perform the required split.</p>
 <p>When a methd is called on the <code><a class="el" href="classapsc_1_1LinearAlgebra_1_1Language_1_1SparseMatrix.html" title="A class representing a sparse matrix.">apsc::LinearAlgebra::Language::SparseMatrix</a></code>, it automatically choose if <code>MPI</code> is used or not hence the library undertands the right matrix to use in each case.</p>
 <p>At each matrix modification, by calling the same method as before, all the updates will be shared with all <code>MPI</code> processes (if used).</p>
@@ -227,36 +227,66 @@ SPAI preconditioner</h2>
 <p>Currently this preconditioner has been used by changing the original linear system from: [ Ax = b ] to [ AMy = b ] [ x = My ]</p>
 <p>The preconditioner setup follow the work in (<a href="https://epubs.siam.org/doi/10.1137/S1064827594276552">https://epubs.siam.org/doi/10.1137/S1064827594276552</a>).</p>
 <p>If <code>MPI</code> is used, the setup process is done in parallel by splitting the matrix column work.</p>
-<p>Below some benchmarks can be found by using different <code>epsilon</code> values and the GMRES algorithm:</p>
+<p>Below some benchmarks can be found by using different <code>epsilon</code> values and the BiCGSTAB algorithm (<code>inf</code> values means that no preconditioner is applied, <code>x</code> means that the result is not available):</p>
 <p><code>orsirr_1</code> </p><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Epsilon </th><th class="markdownTableHeadNone">GMRES  </th></tr>
+<th class="markdownTableHeadNone">Epsilon </th><th class="markdownTableHeadNone">BiCGSTAB  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">0.6 </td><td class="markdownTableBodyNone">iter  </td></tr>
+<td class="markdownTableBodyNone">inf </td><td class="markdownTableBodyNone">1877  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">0.3 </td><td class="markdownTableBodyNone">iters  </td></tr>
+<td class="markdownTableBodyNone">0.6 </td><td class="markdownTableBodyNone">168  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">0.1 </td><td class="markdownTableBodyNone">iters  </td></tr>
+<td class="markdownTableBodyNone">0.4 </td><td class="markdownTableBodyNone">44  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">0.2 </td><td class="markdownTableBodyNone">19  </td></tr>
 </table>
 <p><code>orsirr_2</code> </p><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Epsilon </th><th class="markdownTableHeadNone">GMRES  </th></tr>
+<th class="markdownTableHeadNone">Epsilon </th><th class="markdownTableHeadNone">BiCGSTAB  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">0.6 </td><td class="markdownTableBodyNone">iter  </td></tr>
+<td class="markdownTableBodyNone">inf </td><td class="markdownTableBodyNone">1129  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">0.3 </td><td class="markdownTableBodyNone">iters  </td></tr>
+<td class="markdownTableBodyNone">0.6 </td><td class="markdownTableBodyNone">177  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">0.1 </td><td class="markdownTableBodyNone">iters  </td></tr>
+<td class="markdownTableBodyNone">0.4 </td><td class="markdownTableBodyNone">45  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">0.2 </td><td class="markdownTableBodyNone">19  </td></tr>
 </table>
 <p><code>orsreg_1</code> </p><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Epsilon </th><th class="markdownTableHeadNone">GMRES  </th></tr>
+<th class="markdownTableHeadNone">Epsilon </th><th class="markdownTableHeadNone">BiCGSTAB  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">0.6 </td><td class="markdownTableBodyNone">iter  </td></tr>
+<td class="markdownTableBodyNone">inf </td><td class="markdownTableBodyNone">342  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">0.3 </td><td class="markdownTableBodyNone">iters  </td></tr>
+<td class="markdownTableBodyNone">0.6 </td><td class="markdownTableBodyNone">125  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">0.1 </td><td class="markdownTableBodyNone">iters  </td></tr>
+<td class="markdownTableBodyNone">0.4 </td><td class="markdownTableBodyNone">46  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">0.2 </td><td class="markdownTableBodyNone">24  </td></tr>
+</table>
+<p><code>saylr3</code> </p><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Epsilon </th><th class="markdownTableHeadNone">BiCGSTAB  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">inf </td><td class="markdownTableBodyNone">371  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">0.6 </td><td class="markdownTableBodyNone">189  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">0.4 </td><td class="markdownTableBodyNone">64  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">0.2 </td><td class="markdownTableBodyNone">34  </td></tr>
+</table>
+<p><code>saylr4</code> </p><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Epsilon </th><th class="markdownTableHeadNone">BiCGSTAB  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">inf </td><td class="markdownTableBodyNone">3574  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">0.6 </td><td class="markdownTableBodyNone">2455  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">0.4 </td><td class="markdownTableBodyNone">x  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">0.2 </td><td class="markdownTableBodyNone">x  </td></tr>
 </table>
 <h1><a class="anchor" id="autotoc_md11"></a>
 Section for library maintainers</h1>

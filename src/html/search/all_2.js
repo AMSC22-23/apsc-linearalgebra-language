@@ -8,6 +8,5 @@ var searchData=
   ['create_5ffrom_5fdense_12',['create_from_dense',['../structapsc_1_1LinearAlgebra_1_1CSC.html#a450e65a77ef02da9bdf9eebe6138e4b9',1,'apsc::LinearAlgebra::CSC']]],
   ['create_5fmap_13',['create_map',['../classapsc_1_1LinearAlgebra_1_1EigenStructureMap.html#acfd76a4ef5755809fd8c30af2c47ee32',1,'apsc::LinearAlgebra::EigenStructureMap::create_map(MappedMatrix const &amp;m, const std::size_t size)'],['../classapsc_1_1LinearAlgebra_1_1EigenStructureMap.html#a145b4420c6968a021004b4b188ecd9ef',1,'apsc::LinearAlgebra::EigenStructureMap::create_map(MappedMatrix const &amp;m, const std::size_t rows, const std::size_t cols)'],['../classapsc_1_1LinearAlgebra_1_1EigenStructureMap.html#a472de699a15f30e7e7c637e582c71557',1,'apsc::LinearAlgebra::EigenStructureMap::create_map(const std::size_t rows, const std::size_t cols, std::size_t nnz, IndexType *outer_size_ptr, IndexType *inner_size_ptr, Scalar *value_ptr)']]],
   ['csc_14',['CSC',['../structapsc_1_1LinearAlgebra_1_1CSC.html',1,'apsc::LinearAlgebra::CSC&lt; Scalar &gt;'],['../structapsc_1_1LinearAlgebra_1_1CSC.html#add58962365e2bf84f5d191fa2a53fbeb',1,'apsc::LinearAlgebra::CSC::CSC()']]],
-  ['csc_2ehpp_15',['CSC.hpp',['../CSC_8hpp.html',1,'']]],
-  ['custom_20classes_20for_20linear_20algebra_20operations_16',['Custom Classes for Linear Algebra Operations',['../md_lib_README.html',1,'']]]
+  ['csc_2ehpp_15',['CSC.hpp',['../CSC_8hpp.html',1,'']]]
 ];

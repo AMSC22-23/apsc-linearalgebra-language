@@ -7,7 +7,7 @@ var indexSectionsWithContent =
   4: "cefgimnopsv",
   5: "s",
   6: "io",
-  7: "ac"
+  7: "a"
 };
 
 var indexSectionNames =
