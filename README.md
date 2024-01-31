@@ -33,12 +33,8 @@ The following iterative linear solvers are available for `SparseMatrix`
 - [x] BiCGSTAB (with no preconditioner)
 - [x] BiCGSTAB + SPAI preconditioner
 
-Currently, the following direct linear solvers (decompositions) are available for `SparseMatrix`
+The following direct linear solvers (decompositions) are available for `SparseMatrix`
 - [x] QR
-
-Let's introduce its usage by walking in an example! We will be using a sparse
-matrix to show case the language features, but the same concepts can be applied
-to full matrices too.
 
 ## Installation
 This library is based on the following external parties:
@@ -318,8 +314,8 @@ applied, `x` means that the result is not available):
 |---------|----------|
 | inf     | 3574     |
 | 0.6     | 2455     |
-| 0.4     | x        |
-| 0.2     | x        |
+| 0.4     | 1108     |
+| 0.2     | 661      |
 
 
 # Section for library maintainers
